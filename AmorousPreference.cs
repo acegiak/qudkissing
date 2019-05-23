@@ -19,7 +19,7 @@ namespace XRL.World.Parts
 
 
         public Tuple<float,string> attractionAmount(GameObject GO){
-            string explain = ((Amount>0)?"generally amorous":"is &rnot very amorous");
+            string explain = ((Amount>0)?"is generally amorous":"is &rnot very amorous");
             return new Tuple<float,string>(Amount,explain);
         }
 

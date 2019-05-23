@@ -113,9 +113,10 @@ namespace XRL.World.Parts
 				}
 				else
 				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "kisses you back") + ".");
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "&Mkisses you back") + ".");
 				}
 			}
+			ParentObject.Heartspray();
 			who.UseEnergy(1000, "Kissing");
 			ParentObject.FireEvent(Event.New("ObjectKissed", "Object", ParentObject, "Kisser", who));
 			return true;
