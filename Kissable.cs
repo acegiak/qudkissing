@@ -1,6 +1,10 @@
 using System;
 using XRL.Core;
 using XRL.UI;
+using System.Linq;
+using System.Collections.Generic;
+using System.Reflection;
+using Mono.CSharp;
 
 namespace XRL.World.Parts
 {
@@ -12,10 +16,16 @@ namespace XRL.World.Parts
 		public bool kissableIfPositiveFeeling;
 
 		private bool bOnlyAllowIfLiked = true;
+
+		private List<acegiak_RomancePreference> preferences = null;
+
+
+
 		public acegiak_Kissable()
 		{
 			base.Name = "acegiak_Kissable";
 			//DisplayName = "Kissable";
+			
 		}
 
 
@@ -81,7 +91,8 @@ namespace XRL.World.Parts
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y shies away from you.");
 				}
 				return true;
-			}else if(!isAttractedTo(who)){
+			}
+			if(!isAttractedTo(who)){
 				if (who.IsPlayer())
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
@@ -102,7 +113,7 @@ namespace XRL.World.Parts
 				}
 				else
 				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "allows you to kiss them") + ".");
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "kisses you back") + ".");
 				}
 			}
 			who.UseEnergy(1000, "Kissing");
@@ -110,8 +121,43 @@ namespace XRL.World.Parts
 			return true;
 		}
 
+		public void havePreference(){
+			if(preferences == null){
+				preferences = new List<acegiak_RomancePreference>();
+				Random random = new Random();
+				int count = random.Next(5);
+				for(int i = 0; i<count;i++){
+					switch (random.Next(3)){
+					case 0:
+						preferences.Add(new acegiak_PartPreference(ParentObject));
+						break;
+					case 1:
+						preferences.Add(new acegiak_AmorousPreference(ParentObject));
+						break;
+					case 2:
+						preferences.Add(new acegiak_StatPreference(ParentObject));
+						break;
+					}
+				}
+			}
+		}
+
+
         public bool isAttractedTo(GameObject kisser){
-            if(hasPart(kisser,"wings")){
+			havePreference();
+			float sum = 0; 
+			IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&c examines you.");
+			List<string> many = new List<string>();
+			foreach(acegiak_RomancePreference pref in preferences){
+				Tuple<float,string> output = pref.attractionAmount(kisser);
+				sum += output.Item1;
+				if(kisser.IsPlayer() && !many.Contains(output.Item2)){
+					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + " "+output.Item2+".");
+				}
+				many.Add(output.Item2);
+
+			}
+            if(sum > 0){
                 return true;
             }
             return false;
