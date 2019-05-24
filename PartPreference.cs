@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using XRL.Core;
 using XRL.UI;
 using Mono.CSharp;
+using System.Linq;
 
 namespace XRL.World.Parts
 {
@@ -25,7 +26,8 @@ namespace XRL.World.Parts
                 return;
             }
             Random random = new Random();
-            BodyPart part = bp.GetParts()[random.Next(bp.GetParts().Count-1)];
+            List<BodyPart> parts = bp.GetParts().Where(x => !x.Abstract && !x.Extrinsic).ToList();
+            BodyPart part = parts[random.Next(parts.Count-1)];
 
 
             this.BodyPart = part.Name;

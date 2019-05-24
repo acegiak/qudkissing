@@ -171,21 +171,22 @@ namespace XRL.World.Parts
 				return false;
             }
 
-			BodyPart bpart = part.GetPartByName(partname);
+			BodyPart bpart = part.GetBody();
+
 			return bpart != null;
         }
 
-		// private bool partHasPart(XRL.World.BodyPart part, string partname){
-		// 	if(part.Type == "partname"){
-		// 		return true;
-		// 	}
-		// 	foreach(XRL.World.BodyPart subpart in part.GetParts()){
-		// 		if(subpart != part && partHasPart(subpart,partname)){
-		// 			return true;
-		// 		}
-		// 	}
-		// 	return false;
-		// }
+		private bool partHasPart(XRL.World.BodyPart part, string partname){
+			if(part.Type == partname){
+				return true;
+			}
+			foreach(XRL.World.BodyPart subpart in part.Parts){
+				if(subpart != part && partHasPart(subpart,partname)){
+					return true;
+				}
+			}
+			return false;
+		}
 
 
 		public override bool FireEvent(Event E){
