@@ -2,6 +2,7 @@
 <objects>
     <object Name="Creature"  Load="Merge">
             <part Name="acegiak_Kissable" />
+            <part Name="acegiak_Romancable" />
     </object>
 
 </objects>

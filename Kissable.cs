@@ -71,12 +71,14 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
 				}
+				ParentObject.pBrain.AdjustFeeling(who,-1);
 				return true;
 			}
 			if (useFactionForFeelingFloor == null)
 			{
 				if (bOnlyAllowIfLiked && who != null && ParentObject.pBrain.GetFeeling(who) < 50)
 				{
+					ParentObject.pBrain.AdjustFeeling(who,-1);
 					if (who.IsPlayer())
 					{
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
@@ -90,6 +92,7 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y shies away from you.");
 				}
+				ParentObject.pBrain.AdjustFeeling(who,-1);
 				return true;
 			}
 			if(!isAttractedTo(who)){
@@ -97,6 +100,7 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
 				}
+				ParentObject.pBrain.AdjustFeeling(who,-2);
 				return true;
             }
 
@@ -188,6 +192,34 @@ namespace XRL.World.Parts
 			return false;
 		}
 
+		// public Conversation InjectRomance(Conversation conversation){
+
+		// 	if(conversation == null
+		// 		|| conversation.NodesByID == null
+		// 		|| ! conversation.NodesByID.ContainsKey("Start")
+		// 		|| conversation.NodesByID["Start"].Choices == null){
+		// 			return conversation;
+		// 	}
+			
+		// 	ConversationChoice returntostart = new ConversationChoice();
+		// 	returntostart.Text = "Ok.";
+		// 	returntostart.GotoID = "Start";
+
+		// 	ConversationNode aboutme = new ConversationNode();
+		// 	aboutme.ID = "acegiak_aboutme";
+		// 	aboutme.Text = "I like long walks on the beach where sometimes I look back and there's only one set of footprints";
+		// 	aboutme.Choices.Add(returntostart);
+
+		// 	ConversationChoice romanticEnquiry = new ConversationChoice();
+		// 	romanticEnquiry.Text = "Tell me a little about yourself.";
+		// 	romanticEnquiry.GotoID = "acegiak_about";
+			
+		// 	conversation.NodesByID["Start"].Choices.Add(romanticEnquiry);
+		// 	conversation.AddNode(aboutme);
+
+		// 	return conversation;
+		// }
+
 
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
@@ -197,7 +229,9 @@ namespace XRL.World.Parts
 			if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner"), FromDialog: true))
 			{
 				E.RequestInterfaceExit();
+			
 			}
+
 			return base.FireEvent(E);
 		}
 	}
