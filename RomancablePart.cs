@@ -126,9 +126,15 @@ namespace XRL.World.Parts
 		}
 		
 
-		public string DescribePreference(){
-			string preference = "";
+		public string DescribePreference(GameObject who){
+			
+
+			string preference = ParentObject.pBrain.GetFeeling(who) > 50 ?"Oh yes ok! ":"Hmmm... ";
+			int max = (int)Math.Max(1,Math.Floor((double)(ParentObject.pBrain.GetFeeling(who)/10)));
 			foreach(string thing in FavoriteThings.Keys.ToList()){
+				if(max <= 0){
+					break;
+				}
 				string[] list2 = new string[]
 						{
 							"Once, I saw a =item=! ",
@@ -143,7 +149,8 @@ namespace XRL.World.Parts
 							"I don't think you know what a =item= is. ",
 							"I had a dream about a =item=. "
 						};
-						preference += "&y"+list2.GetRandomElement().Replace("=item=",thing);
+						preference += "&y"+list2.GetRandomElement().Replace("=item=",thing+"&y");
+						max--;
 			}
 			return preference;
 		}
@@ -162,7 +169,8 @@ namespace XRL.World.Parts
 				if(E.GetParameter<Conversation>("Conversation").NodesByID != null
 				&& E.GetParameter<Conversation>("Conversation").NodesByID.Count >0
 				&& !E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("acegiak_aboutme")
-				&& E.GetParameter<GameObject>("Speaker").HasPart("acegiak_Romancable")){
+				&& E.GetParameter<GameObject>("Speaker") != null
+				&& E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>() != null){
 
 					string StartID = E.GetParameter<Conversation>("Conversation").NodesByID.Keys.ToArray()[0];
 					if(E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("Start")){
@@ -172,7 +180,7 @@ namespace XRL.World.Parts
 
 					ConversationNode aboutme = new ConversationNode();
 					aboutme.ID = "acegiak_aboutme";
-					aboutme.Text = E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().DescribePreference();
+					aboutme.Text = E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().DescribePreference(ParentObject);
 
 
 					ConversationChoice returntostart = new ConversationChoice();
