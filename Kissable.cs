@@ -71,14 +71,14 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
 				}
-				ParentObject.pBrain.AdjustFeeling(who,-1);
+				ParentObject.pBrain.AdjustFeeling(who,-5);
 				return true;
 			}
 			if (useFactionForFeelingFloor == null)
 			{
 				if (bOnlyAllowIfLiked && who != null && ParentObject.pBrain.GetFeeling(who) < 50)
 				{
-					ParentObject.pBrain.AdjustFeeling(who,-1);
+					ParentObject.pBrain.AdjustFeeling(who,-5);
 					if (who.IsPlayer())
 					{
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
@@ -92,7 +92,7 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y shies away from you.");
 				}
-				ParentObject.pBrain.AdjustFeeling(who,-1);
+				ParentObject.pBrain.AdjustFeeling(who,-5);
 				return true;
 			}
 			if(!isAttractedTo(who)){
@@ -100,7 +100,7 @@ namespace XRL.World.Parts
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
 				}
-				ParentObject.pBrain.AdjustFeeling(who,-2);
+				ParentObject.pBrain.AdjustFeeling(who,-10);
 				return true;
             }
 

@@ -51,7 +51,7 @@ namespace XRL.World.Parts
         public bool Gift(GameObject who, bool FromDialog){
 
 			haveFavoriteThings();
-                Popup.Show(FavoriteThings.Keys.ToString());
+            //    Popup.Show(FavoriteThings.Keys.Aggregate(  "",   (current, next) => current + ", " + next));
 
 
             Inventory part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>();
@@ -107,7 +107,7 @@ namespace XRL.World.Parts
 			}else{
 				value -= 1;
 			}
-            return value;
+            return value*10;
         }
 
 
@@ -129,7 +129,7 @@ namespace XRL.World.Parts
 		public string DescribePreference(){
 			string preference = "";
 			foreach(string thing in FavoriteThings.Keys.ToList()){
-			string[] list2 = new string[]
+				string[] list2 = new string[]
 						{
 							"Once, I saw a =item=! ",
 							"I wonder what the perfect =item= would be like? ",
@@ -157,22 +157,23 @@ namespace XRL.World.Parts
 			{
 				E.RequestInterfaceExit();
 			}
-			if (E.ID == "PlayerBeginConversation" )
+			if (E.ID == "PlayerBeginConversation")
 			{
 				if(E.GetParameter<Conversation>("Conversation").NodesByID != null
 				&& E.GetParameter<Conversation>("Conversation").NodesByID.Count >0
-				&& !E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("acegiak_aboutme")){
+				&& !E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("acegiak_aboutme")
+				&& E.GetParameter<GameObject>("Speaker").HasPart("acegiak_Romancable")){
 
 					string StartID = E.GetParameter<Conversation>("Conversation").NodesByID.Keys.ToArray()[0];
 					if(E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("Start")){
 						StartID = "Start";
 					}
-					
-					haveFavoriteThings();
+					E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().haveFavoriteThings();
 
 					ConversationNode aboutme = new ConversationNode();
 					aboutme.ID = "acegiak_aboutme";
-					aboutme.Text = DescribePreference();
+					aboutme.Text = E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().DescribePreference();
+
 
 					ConversationChoice returntostart = new ConversationChoice();
 					returntostart.Text = "Ok.";
