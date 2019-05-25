@@ -65,32 +65,11 @@ namespace XRL.World.Parts
                 }
 
                 
-			if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 0)
+			if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 50)
 			{
 				if (who.IsPlayer())
 				{
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
-				}
-				ParentObject.pBrain.AdjustFeeling(who,-5);
-				return true;
-			}
-			if (useFactionForFeelingFloor == null)
-			{
-				if (bOnlyAllowIfLiked && who != null && ParentObject.pBrain.GetFeeling(who) < 50)
-				{
-					ParentObject.pBrain.AdjustFeeling(who,-5);
-					if (who.IsPlayer())
-					{
-						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
-					}
-					return true;
-				}
-			}
-			else if (!kissableIfPositiveFeeling && (ParentObject.pBrain.GetFeeling(who) < 0 || (who.IsPlayer() && Math.Max(XRLCore.Core.Game.PlayerReputation.getFeeling(useFactionForFeelingFloor), ParentObject.pBrain.GetFeeling(who)) < 50)))
-			{
-				if (who.IsPlayer())
-				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y shies away from you.");
 				}
 				ParentObject.pBrain.AdjustFeeling(who,-5);
 				return true;

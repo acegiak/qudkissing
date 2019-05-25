@@ -130,11 +130,10 @@ namespace XRL.World.Parts
 			
 
 			string preference = ParentObject.pBrain.GetFeeling(who) > 50 ?"Oh yes ok! ":"Hmmm... ";
-			int max = (int)Math.Max(1,Math.Floor((double)(ParentObject.pBrain.GetFeeling(who)/10)));
+			int max = ParentObject.pBrain.GetFeeling(who);
+			
 			foreach(string thing in FavoriteThings.Keys.ToList()){
-				if(max <= 0){
-					break;
-				}
+
 				string[] list2 = new string[]
 						{
 							"Once, I saw a =item=! ",
@@ -150,10 +149,65 @@ namespace XRL.World.Parts
 							"I had a dream about a =item=. "
 						};
 						preference += "&y"+list2.GetRandomElement().Replace("=item=",thing+"&y");
-						max--;
+						max -= 10;
+						if(max <= 0){
+							break;
+						}
 			}
 			return preference;
 		}
+
+		public void HandleBeginConversation(Conversation conversation, GameObject speaker){
+			if(conversation.NodesByID != null
+				&& conversation.NodesByID.Count >0
+				&& speaker != null
+				&& speaker.GetPart<acegiak_Romancable>() != null){
+					if(conversation.NodesByID.ContainsKey("acegiak_aboutme"))
+					{
+						conversation.NodesByID.Remove("acegiak_aboutme");
+					}
+
+					string StartID = conversation.NodesByID.Keys.ToArray()[0];
+					if(conversation.NodesByID.ContainsKey("Start")){
+						StartID = "Start";
+					}
+					speaker.GetPart<acegiak_Romancable>().haveFavoriteThings();
+
+					ConversationNode aboutme = new ConversationNode();
+					aboutme.ID = "acegiak_aboutme";
+					aboutme.Text = speaker.GetPart<acegiak_Romancable>().DescribePreference(speaker.ThePlayer);
+
+
+					ConversationChoice returntostart = new ConversationChoice();
+					returntostart.Text = "Ok.";
+					returntostart.GotoID = "End";
+					returntostart.ParentNode = aboutme;
+
+					aboutme.Choices.Add(returntostart);
+
+					ConversationChoice romanticEnquiry = new ConversationChoice();
+					romanticEnquiry.ParentNode = conversation.NodesByID[StartID];
+					romanticEnquiry.ID = "acegiak_askaboutme";
+					romanticEnquiry.Text = "Tell me a little about yourself.";
+					romanticEnquiry.GotoID = "acegiak_aboutme";
+					
+					
+					conversation.AddNode(aboutme);
+					foreach(ConversationNode node in conversation.StartNodes){
+						bool hasChoice = false;
+						foreach(ConversationChoice choice in node.Choices){
+							if(choice.ID == "acegiak_askaboutme"){
+								hasChoice = true;
+							}
+						}
+						if(!hasChoice){
+							node.Choices.Add(romanticEnquiry);
+						}
+					}
+					//E.GetParameter<Conversation>("Conversation").NodesByID[StartID].Choices.Add(romanticEnquiry);
+				}
+		}
+
 
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
@@ -166,43 +220,7 @@ namespace XRL.World.Parts
 			}
 			if (E.ID == "PlayerBeginConversation")
 			{
-				if(E.GetParameter<Conversation>("Conversation").NodesByID != null
-				&& E.GetParameter<Conversation>("Conversation").NodesByID.Count >0
-				&& !E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("acegiak_aboutme")
-				&& E.GetParameter<GameObject>("Speaker") != null
-				&& E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>() != null){
-
-					string StartID = E.GetParameter<Conversation>("Conversation").NodesByID.Keys.ToArray()[0];
-					if(E.GetParameter<Conversation>("Conversation").NodesByID.ContainsKey("Start")){
-						StartID = "Start";
-					}
-					E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().haveFavoriteThings();
-
-					ConversationNode aboutme = new ConversationNode();
-					aboutme.ID = "acegiak_aboutme";
-					aboutme.Text = E.GetParameter<GameObject>("Speaker").GetPart<acegiak_Romancable>().DescribePreference(ParentObject);
-
-
-					ConversationChoice returntostart = new ConversationChoice();
-					returntostart.Text = "Ok.";
-					returntostart.GotoID = "End";
-					returntostart.ParentNode = aboutme;
-
-					aboutme.Choices.Add(returntostart);
-
-					ConversationChoice romanticEnquiry = new ConversationChoice();
-					romanticEnquiry.ParentNode = E.GetParameter<Conversation>("Conversation").NodesByID[StartID];
-					romanticEnquiry.ID = "acegiak_askaboutme";
-					romanticEnquiry.Text = "Tell me a little about yourself.";
-					romanticEnquiry.GotoID = "acegiak_aboutme";
-					
-					
-					E.GetParameter<Conversation>("Conversation").AddNode(aboutme);
-					foreach(ConversationNode node in E.GetParameter<Conversation>("Conversation").StartNodes){
-						node.Choices.Add(romanticEnquiry);
-					}
-					//E.GetParameter<Conversation>("Conversation").NodesByID[StartID].Choices.Add(romanticEnquiry);
-				}
+				HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
 			}
 
 			return base.FireEvent(E);
