@@ -38,7 +38,7 @@ namespace XRL.World.Parts
             this.Amount = amount;
         }
 
-        public Tuple<float,string> attractionAmount(GameObject GO){
+        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
             bool has = false;
             Body part = GO.GetPart<Body>();
 
@@ -61,7 +61,7 @@ namespace XRL.World.Parts
 
             float result = Amount * (has?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((has)?"":"&rlack of ")+BodyPart;
-            return new Tuple<float,string>(result,explain);
+            return new acegiak_RomancePreferenceResult(result,explain);
         }
 
     }

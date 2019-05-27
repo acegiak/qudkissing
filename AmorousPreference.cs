@@ -18,9 +18,9 @@ namespace XRL.World.Parts
         }
 
 
-        public Tuple<float,string> attractionAmount(GameObject GO){
+        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
             string explain = ((Amount>0)?"is generally amorous":"is &rnot very amorous");
-            return new Tuple<float,string>(Amount,explain);
+            return new acegiak_RomancePreferenceResult(Amount,explain);
         }
 
     }

@@ -4,7 +4,6 @@ using XRL.UI;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using Mono.CSharp;
 
 namespace XRL.World.Parts
 {
@@ -133,12 +132,12 @@ namespace XRL.World.Parts
 			IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&c examines you.");
 			List<string> many = new List<string>();
 			foreach(acegiak_RomancePreference pref in preferences){
-				Tuple<float,string> output = pref.attractionAmount(kisser);
-				sum += output.Item1;
-				if(kisser.IsPlayer() && !many.Contains(output.Item2)){
-					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + " "+output.Item2+".");
+				acegiak_RomancePreferenceResult output = pref.attractionAmount(kisser);
+				sum += output.amount;
+				if(kisser.IsPlayer() && !many.Contains(output.explanation)){
+					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + " "+output.explanation+".");
 				}
-				many.Add(output.Item2);
+				many.Add(output.explanation);
 
 			}
             if(sum > 0){

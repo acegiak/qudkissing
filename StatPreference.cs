@@ -25,7 +25,7 @@ namespace XRL.World.Parts
             this.Needs =  random.Next(-3,5);
         }
 
-        public Tuple<float,string> attractionAmount(GameObject GO){
+        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
             //             IPart.AddPlayerMessage("They "+(Amount>0?"like ":"dislike ")+this.Stat+" over "+this.Needs.ToString());
 
             // IPart.AddPlayerMessage("Your "+Stat+(GO.StatMod(Stat)>=Needs?" meets ":" does not meet ")+this.Needs.ToString());
@@ -33,7 +33,8 @@ namespace XRL.World.Parts
 
             float result = Amount * (GO.StatMod(Stat)>=Needs?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((GO.StatMod(Stat)>=Needs)?"high ":"low ")+Stat;
-            return new Tuple<float,string>(result,explain);
+
+            return new acegiak_RomancePreferenceResult(result,explain);
         }
 
     }
