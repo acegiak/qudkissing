@@ -162,10 +162,14 @@ namespace XRL.World.Parts
 				&& conversation.NodesByID.Count >0
 				&& speaker != null
 				&& speaker.GetPart<acegiak_Romancable>() != null){
-					if(conversation.NodesByID.ContainsKey("acegiak_aboutme"))
-					{
-						conversation.NodesByID.Remove("acegiak_aboutme");
-					}
+
+
+					//conversation.NodesByID.Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToArray().Apply(pair => conversation.NodesByID.Remove(pair.Key)).Apply();
+					conversation.NodesByID.ToList().Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToList().ForEach(pair => conversation.NodesByID.Remove(pair.Key));
+					// if(conversation.NodesByID.ContainsKey("acegiak_aboutme"))
+					// {
+					// 	conversation.NodesByID.Remove("acegiak_aboutme");
+					// }
 
 					string StartID = conversation.NodesByID.Keys.ToArray()[0];
 					if(conversation.NodesByID.ContainsKey("Start")){
@@ -174,7 +178,7 @@ namespace XRL.World.Parts
 					speaker.GetPart<acegiak_Romancable>().haveFavoriteThings();
 
 					ConversationNode aboutme = new ConversationNode();
-					aboutme.ID = "acegiak_aboutme";
+					aboutme.ID = "acegiak_romance_aboutme";
 					aboutme.Text = speaker.GetPart<acegiak_Romancable>().DescribePreference(speaker.ThePlayer);
 
 
@@ -187,22 +191,17 @@ namespace XRL.World.Parts
 
 					ConversationChoice romanticEnquiry = new ConversationChoice();
 					romanticEnquiry.ParentNode = conversation.NodesByID[StartID];
-					romanticEnquiry.ID = "acegiak_askaboutme";
+					romanticEnquiry.ID = "acegiak_romance_askaboutme";
 					romanticEnquiry.Text = "Tell me a little about yourself.";
-					romanticEnquiry.GotoID = "acegiak_aboutme";
+					romanticEnquiry.GotoID = "acegiak_romance_aboutme";
 					
 					
 					conversation.AddNode(aboutme);
 					foreach(ConversationNode node in conversation.StartNodes){
-						bool hasChoice = false;
-						foreach(ConversationChoice choice in node.Choices){
-							if(choice.ID == "acegiak_askaboutme"){
-								hasChoice = true;
-							}
-						}
-						if(!hasChoice){
-							node.Choices.Add(romanticEnquiry);
-						}
+
+						node.Choices.RemoveAll(choice => choice.ID.StartsWith("acegiak_romance_"));
+						node.Choices.Add(romanticEnquiry);
+						
 					}
 					//E.GetParameter<Conversation>("Conversation").NodesByID[StartID].Choices.Add(romanticEnquiry);
 				}
