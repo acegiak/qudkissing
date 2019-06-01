@@ -19,6 +19,9 @@ namespace XRL.World.Parts
 
 		private Dictionary<string,int> FavoriteThings = null;
 
+		private List<acegiak_RomancePreference> preferences = null;
+
+
 
 		private static Random rng = new Random();  
 		public acegiak_Romancable()
@@ -26,6 +29,21 @@ namespace XRL.World.Parts
 			base.Name = "acegiak_Romancable";
 			//DisplayName = "Kissable";
 			
+		}
+
+		public void havePreference(){
+			if(preferences == null){
+				preferences = new List<acegiak_RomancePreference>();
+				Random random = new Random();
+				int count = random.Next(2)+1;
+				for(int i = 0; i<count;i++){
+					switch (random.Next(0)){
+					case 0:
+						preferences.Add(new acegiak_WeaponPreference());
+						break;
+					}
+				}
+			}
 		}
 
 
@@ -44,12 +62,13 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "GetInventoryActions");
 			Object.RegisterPartEvent(this, "InvCommandGift");
 			Object.RegisterPartEvent(this, "PlayerBeginConversation");
+			Object.RegisterPartEvent(this, "ShowConversationChoices");
 			base.Register(Object);
 		}
 
         public bool Gift(GameObject who, bool FromDialog){
 
-			haveFavoriteThings();
+			havePreference();
             //    Popup.Show(FavoriteThings.Keys.Aggregate(  "",   (current, next) => current + ", " + next));
 
 
@@ -98,7 +117,7 @@ namespace XRL.World.Parts
         }
 
         public int assessGift(GameObject GO){
-			haveFavoriteThings();
+			havePreference();
             int value = (rng.Next(1,6) -3);
 			if(FavoriteThings.ContainsKey(GO.pRender.DisplayName)){
 				value += 2*FavoriteThings[GO.pRender.DisplayName];
@@ -108,53 +127,6 @@ namespace XRL.World.Parts
 			}
             return value*10;
         }
-
-
-		public void haveFavoriteThings(){
-			if(FavoriteThings != null){
-				return;
-			}
-			FavoriteThings = new Dictionary<string, int>();
-			int howmany = rng.Next(1,10);
-			for(int i= 0;i<howmany;i++){
-				GameObject gameObject = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-				int amount = rng.Next(1,3);
-				FavoriteThings[gameObject.pRender.DisplayName] = amount;
-			}
-
-		}
-		
-
-		public string DescribePreference(GameObject who){
-			
-
-			string preference = ParentObject.pBrain.GetFeeling(who) > 50 ?"Oh yes ok! ":"Hmmm... ";
-			int max = ParentObject.pBrain.GetFeeling(who);
-			
-			foreach(string thing in FavoriteThings.Keys.ToList()){
-
-				string[] list2 = new string[]
-						{
-							"Once, I saw a =item=! ",
-							"I wonder what the perfect =item= would be like? ",
-							"Have you ever seen a =item=? ",
-							"You should get a =item=. ",
-							"Would you like a =item=? ",
-							"Have you got a =item=? ",
-							"I think I'd like a =item=. ",
-							"Perhaps I could make a =item=. ",
-							"What does a =item= look like? ",
-							"I don't think you know what a =item= is. ",
-							"I had a dream about a =item=. "
-						};
-						preference += "&y"+list2.GetRandomElement().Replace("=item=",thing+"&y");
-						max -= 10;
-						if(max <= 0){
-							break;
-						}
-			}
-			return preference;
-		}
 
 		public void HandleBeginConversation(Conversation conversation, GameObject speaker){
 			if(conversation.NodesByID != null
@@ -174,11 +146,11 @@ namespace XRL.World.Parts
 					if(conversation.NodesByID.ContainsKey("Start")){
 						StartID = "Start";
 					}
-					speaker.GetPart<acegiak_Romancable>().haveFavoriteThings();
+					speaker.GetPart<acegiak_Romancable>().havePreference();
 
-					ConversationNode aboutme = new ConversationNode();
+					acegiak_RomanceChatNode aboutme = new acegiak_RomanceChatNode();
 					aboutme.ID = "acegiak_romance_aboutme";
-					aboutme.Text = speaker.GetPart<acegiak_Romancable>().DescribePreference(speaker.ThePlayer);
+					aboutme.Text = "==conversation.continue==";
 
 
 					ConversationChoice returntostart = new ConversationChoice();
@@ -206,6 +178,21 @@ namespace XRL.World.Parts
 				}
 		}
 
+		public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+			node.Choices.Clear();
+			Random r = new Random();
+			node = preferences[r.Next(0,preferences.Count-1)].BuildNode(node);
+
+
+			ConversationChoice returntostart = new ConversationChoice();
+			returntostart.Ordinal = 99999;
+			returntostart.Text = "Live and drink.";
+			returntostart.GotoID = "End";
+			returntostart.ParentNode = node;
+			node.Choices.Add(returntostart);
+			return node;
+		}
+
 
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
@@ -220,6 +207,13 @@ namespace XRL.World.Parts
 			{
 				HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
 			}
+			// if (E.ID == "ShowConversationChoices")
+			// {
+			// 	if(E.GetParameter<ConversationNode>("CurrentNode") is acegiak_RomanceChatNode){
+			// 		List<ConversationChoice> choices = GenerateChoices(E.GetParameter<List<ConversationChoice>>("Choices"),E.GetParameter<ConversationNode>("CurrentNode"));
+			// 		E.SetParameter("Choices", choices);
+			// 	}
+			// }
 
 			return base.FireEvent(E);
 		}

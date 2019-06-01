@@ -6,7 +6,7 @@ using XRL.UI;
 namespace XRL.World.Parts
 {
 	[Serializable]
-	public class acegiak_AmorousPreference : acegiak_RomancePreference
+	public class acegiak_AmorousPreference : acegiak_KissingPreference
 	{
         float Amount = 0.1f;
 
@@ -17,9 +17,9 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
+        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             string explain = ((Amount>0)?"is generally amorous":"is &rnot very amorous");
-            return new acegiak_RomancePreferenceResult(Amount,explain);
+            return new acegiak_KissingPreferenceResult(Amount,explain);
         }
 
     }

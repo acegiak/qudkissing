@@ -6,7 +6,7 @@ using XRL.UI;
 namespace XRL.World.Parts
 {
 	[Serializable]
-	public class acegiak_StatPreference : acegiak_RomancePreference
+	public class acegiak_StatPreference : acegiak_KissingPreference
 	{
         string Stat = "Ego";
         float Amount = 0.1f;
@@ -24,7 +24,7 @@ namespace XRL.World.Parts
             this.Needs =  random.Next(-3,5);
         }
 
-        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
+        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             //             IPart.AddPlayerMessage("They "+(Amount>0?"like ":"dislike ")+this.Stat+" over "+this.Needs.ToString());
 
             // IPart.AddPlayerMessage("Your "+Stat+(GO.StatMod(Stat)>=Needs?" meets ":" does not meet ")+this.Needs.ToString());
@@ -33,7 +33,7 @@ namespace XRL.World.Parts
             float result = Amount * (GO.StatMod(Stat)>=Needs?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((GO.StatMod(Stat)>=Needs)?"high ":"low ")+Stat;
 
-            return new acegiak_RomancePreferenceResult(result,explain);
+            return new acegiak_KissingPreferenceResult(result,explain);
         }
 
     }

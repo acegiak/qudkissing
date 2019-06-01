@@ -16,7 +16,7 @@ namespace XRL.World.Parts
 
 		private bool bOnlyAllowIfLiked = true;
 
-		private List<acegiak_RomancePreference> preferences = null;
+		private List<acegiak_KissingPreference> preferences = null;
 
 
 
@@ -45,7 +45,7 @@ namespace XRL.World.Parts
 			base.Register(Object);
 		}
 
-		public bool Kiss(GameObject who, bool FromDialog)
+		public bool Kiss(GameObject who)
 		{
             
                 if (!hasPart(ParentObject,"face")){
@@ -71,6 +71,10 @@ namespace XRL.World.Parts
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
 				}
 				ParentObject.pBrain.AdjustFeeling(who,-5);
+
+				if(ParentObject.pBrain.GetFeeling(who) < 0){
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+				}
 				return true;
 			}
 			if(!isAttractedTo(who)){
@@ -79,14 +83,17 @@ namespace XRL.World.Parts
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
 				}
 				ParentObject.pBrain.AdjustFeeling(who,-10);
+
+				if(ParentObject.pBrain.GetFeeling(who) < 0){
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+				}
 				return true;
             }
 
             
 			string verb = "kiss";
 			GameObject parentObject = ParentObject;
-			bool fromDialog = FromDialog;
-			IPart.XDidYToZ(who, verb, parentObject, null, null, fromDialog);
+			IPart.XDidYToZ(who, verb, parentObject, null, null, true);
 			if (who.IsPlayer())
 			{
 				if (ParentObject.HasPropertyOrTag("SpecialKissResponse"))
@@ -106,11 +113,11 @@ namespace XRL.World.Parts
 
 		public void havePreference(){
 			if(preferences == null){
-				preferences = new List<acegiak_RomancePreference>();
+				preferences = new List<acegiak_KissingPreference>();
 				Random random = new Random();
 				int count = random.Next(5);
 				for(int i = 0; i<count;i++){
-					switch (random.Next(3)){
+					switch (random.Next(4)){
 					case 0:
 						preferences.Add(new acegiak_PartPreference(ParentObject));
 						break;
@@ -119,6 +126,9 @@ namespace XRL.World.Parts
 						break;
 					case 2:
 						preferences.Add(new acegiak_StatPreference(ParentObject));
+						break;
+					case 3:
+						preferences.Add(new acegiak_RelationshipPreference(ParentObject));
 						break;
 					}
 				}
@@ -131,8 +141,8 @@ namespace XRL.World.Parts
 			float sum = 0; 
 			IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&c examines you.");
 			List<string> many = new List<string>();
-			foreach(acegiak_RomancePreference pref in preferences){
-				acegiak_RomancePreferenceResult output = pref.attractionAmount(kisser);
+			foreach(acegiak_KissingPreference pref in preferences){
+				acegiak_KissingPreferenceResult output = pref.attractionAmount(ParentObject,kisser);
 				sum += output.amount;
 				if(kisser.IsPlayer() && !many.Contains(output.explanation)){
 					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + " "+output.explanation+".");
@@ -202,12 +212,15 @@ namespace XRL.World.Parts
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
 			{
-				E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss", 10);
+				if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss", 10);
+				}
 			}
-			if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner"), FromDialog: true))
+			if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner")))
 			{
-				E.RequestInterfaceExit();
-			
+				if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
+					E.RequestInterfaceExit();
+				}
 			}
 
 			return base.FireEvent(E);

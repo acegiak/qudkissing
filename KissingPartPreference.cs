@@ -7,7 +7,7 @@ using System.Linq;
 namespace XRL.World.Parts
 {
 	[Serializable]
-	public class acegiak_PartPreference : acegiak_RomancePreference
+	public class acegiak_PartPreference : acegiak_KissingPreference
 	{
         string BodyPart = "face";
         float Amount = 0.1f;
@@ -37,7 +37,7 @@ namespace XRL.World.Parts
             this.Amount = amount;
         }
 
-        public acegiak_RomancePreferenceResult attractionAmount(GameObject GO){
+        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             bool has = false;
             Body part = GO.GetPart<Body>();
 
@@ -60,7 +60,7 @@ namespace XRL.World.Parts
 
             float result = Amount * (has?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((has)?"":"&rlack of ")+BodyPart;
-            return new acegiak_RomancePreferenceResult(result,explain);
+            return new acegiak_KissingPreferenceResult(result,explain);
         }
 
     }
