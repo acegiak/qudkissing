@@ -17,8 +17,8 @@ namespace XRL.World.Parts
         Dictionary<string, string> verbs = new Dictionary<string, string>()
         {
             { "Cudgel", "bashing" },
-            { "Short Blade", "stabbing" },
-            { "Long Blade", "slashing" },
+            { "ShortBlades", "stabbing" },
+            { "LongBlades", "slashing" },
             { "Axe", "slashing" }
         };
 
@@ -51,13 +51,12 @@ namespace XRL.World.Parts
                 node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);
             }else{
                 bodytext = "How do you like to slay your enemies?";
-                node.AddChoice("yeahcleave","Oh yes, quite often.",amount>0?"Oh good. I thought I was the only one.":"Really? That's very troubling.",amount>0?1:-1);
-                node.AddChoice("notmelee","I like "+verbs[wantedType]+" them with a "+wantedType+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
+                node.AddChoice(wantedType,"I like killing with a "+wantedType+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                 node.AddChoice("notmelee","I prefer to keep them at a distance.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
             }
 
 
-            node.Text.Replace("==conversation.continue==",bodytext);
+            node.Text = node.Text+"\n\n"+bodytext;
 
             return node;
         }

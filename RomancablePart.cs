@@ -63,6 +63,7 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "InvCommandGift");
 			Object.RegisterPartEvent(this, "PlayerBeginConversation");
 			Object.RegisterPartEvent(this, "ShowConversationChoices");
+			Object.RegisterPartEvent(this, "VisitConversationNode");
 			base.Register(Object);
 		}
 
@@ -134,6 +135,8 @@ namespace XRL.World.Parts
 				&& speaker != null
 				&& speaker.GetPart<acegiak_Romancable>() != null){
 
+					//IPart.AddPlayerMessage("Begin Conversation!");
+
 
 					//conversation.NodesByID.Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToArray().Apply(pair => conversation.NodesByID.Remove(pair.Key)).Apply();
 					conversation.NodesByID.ToList().Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToList().ForEach(pair => conversation.NodesByID.Remove(pair.Key));
@@ -150,7 +153,8 @@ namespace XRL.World.Parts
 
 					acegiak_RomanceChatNode aboutme = new acegiak_RomanceChatNode();
 					aboutme.ID = "acegiak_romance_aboutme";
-					aboutme.Text = "==conversation.continue==";
+					aboutme.Text = ParentObject.pBrain..GetFeeling(XRLCore.Core.Game.Player.Body)>=50?"Oh, yes ok!":"Hmm...";
+					aboutme.ParentConversation = conversation;
 
 
 					ConversationChoice returntostart = new ConversationChoice();
@@ -163,7 +167,7 @@ namespace XRL.World.Parts
 					ConversationChoice romanticEnquiry = new ConversationChoice();
 					romanticEnquiry.ParentNode = conversation.NodesByID[StartID];
 					romanticEnquiry.ID = "acegiak_romance_askaboutme";
-					romanticEnquiry.Text = "Tell me a little about yourself.";
+					romanticEnquiry.Text = "Let's chat.";
 					romanticEnquiry.GotoID = "acegiak_romance_aboutme";
 					
 					
@@ -179,6 +183,8 @@ namespace XRL.World.Parts
 		}
 
 		public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+			havePreference();
+			//IPart.AddPlayerMessage("BUILDING NODE");
 			node.Choices.Clear();
 			Random r = new Random();
 			node = preferences[r.Next(0,preferences.Count-1)].BuildNode(node);
@@ -207,13 +213,18 @@ namespace XRL.World.Parts
 			{
 				HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
 			}
-			// if (E.ID == "ShowConversationChoices")
-			// {
-			// 	if(E.GetParameter<ConversationNode>("CurrentNode") is acegiak_RomanceChatNode){
-			// 		List<ConversationChoice> choices = GenerateChoices(E.GetParameter<List<ConversationChoice>>("Choices"),E.GetParameter<ConversationNode>("CurrentNode"));
-			// 		E.SetParameter("Choices", choices);
-			// 	}
-			// }
+			if (E.ID == "VisitConversationNode")
+			{
+				if(E.GetParameter<ConversationNode>("CurrentNode") != null && E.GetParameter<ConversationNode>("CurrentNode") is acegiak_RomanceChatNode){
+					E.SetParameter("CurrentNode",BuildNode((acegiak_RomanceChatNode)E.GetParameter<ConversationNode>("CurrentNode")));
+				}
+			}
+
+
+
+
+
+
 
 			return base.FireEvent(E);
 		}

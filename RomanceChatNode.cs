@@ -5,6 +5,7 @@ using System.Reflection;
 using XRL.Core;
 using XRL.UI;
 using XRL.World.Parts;
+using XRL.World;
 
 namespace XRL.World
 {
@@ -32,22 +33,12 @@ namespace XRL.World
                 choice.ResponseText = response;
                 choice.OpinionAmount = opinionchange;
                 choice.GotoID = "acegiak_romance_aboutme";
+                choice.ParentNode = this;
                 this.Choices.Add(choice);
         }
 
 
-		public void Visit(GameObject speaker, GameObject player){
-            base.Visit(speaker,player);
 
-
-            if(speaker.GetPart<acegiak_Romancable>() !=null){
-               acegiak_RomanceChatNode temp = speaker.GetPart<acegiak_Romancable>().BuildNode(this);
-               this.Text = temp.Text;
-               this.Choices = temp.Choices;
-
-            }
-
-        }
 
 
         

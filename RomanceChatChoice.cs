@@ -16,12 +16,12 @@ namespace XRL.World
         public string ResponseText = "huh?";
 
 
-		public ConversationNode Goto(GameObject Speaker, bool peekOnly = false)
+		public override ConversationNode Goto(GameObject Speaker, bool peekOnly = false)
 		{
             Speaker.pBrain.AdjustFeeling(XRLCore.Core.Game.Player.Body,(int)Math.Floor(this.OpinionAmount));
             ConversationNode goingto = base.Goto(Speaker,peekOnly);
 			if(goingto != null && goingto is acegiak_RomanceChatNode){
-                goingto.Text = this.ResponseText+"~~==conversation.continue==";
+                goingto.Text = this.ResponseText;
             }
             return goingto;
 		}
