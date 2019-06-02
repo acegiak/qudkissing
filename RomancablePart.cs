@@ -153,7 +153,7 @@ namespace XRL.World.Parts
 
 					acegiak_RomanceChatNode aboutme = new acegiak_RomanceChatNode();
 					aboutme.ID = "acegiak_romance_aboutme";
-					aboutme.Text = ParentObject.pBrain..GetFeeling(XRLCore.Core.Game.Player.Body)>=50?"Oh, yes ok!":"Hmm...";
+					aboutme.Text = ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50?"Oh, yes ok!":"Hmm...";
 					aboutme.ParentConversation = conversation;
 
 
