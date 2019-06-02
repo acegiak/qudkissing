@@ -21,13 +21,15 @@ namespace XRL.World.Parts
 
 		private List<acegiak_RomancePreference> preferences = null;
 
+		private int lastseen = 0;
+		private int patience = 5;
+
 
 
 		private static Random rng = new Random();  
 		public acegiak_Romancable()
 		{
 			base.Name = "acegiak_Romancable";
-			//DisplayName = "Kissable";
 			
 		}
 
@@ -35,11 +37,14 @@ namespace XRL.World.Parts
 			if(preferences == null){
 				preferences = new List<acegiak_RomancePreference>();
 				Random random = new Random();
-				int count = random.Next(2)+1;
+				int count = random.Next(4)+1;
 				for(int i = 0; i<count;i++){
-					switch (random.Next(0)){
+					switch (random.Next(2)){
 					case 0:
-						preferences.Add(new acegiak_WeaponPreference());
+						preferences.Add(new acegiak_WeaponPreference(this));
+						break;
+					case 1:
+						preferences.Add(new acegiak_MissilePreference(this));
 						break;
 					}
 				}
@@ -70,7 +75,6 @@ namespace XRL.World.Parts
         public bool Gift(GameObject who, bool FromDialog){
 
 			havePreference();
-            //    Popup.Show(FavoriteThings.Keys.Aggregate(  "",   (current, next) => current + ", " + next));
 
 
             Inventory part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>();
@@ -80,13 +84,11 @@ namespace XRL.World.Parts
             char ch = 'a';
             part2.ForeachObject(delegate(XRL.World.GameObject GO)
             {
-                // if (GO.HasPart("Examiner") && GO.HasPart("TinkerItem") && GO.GetPart<Examiner>().Complexity > 0)
-                // {
+
                     ObjectChoices.Add(GO);
                     HotkeyList.Add(ch);
                     ChoiceList.Add(GO.DisplayName);
                     ch = (char)(ch + 1);
-                // }
             });
             if (ObjectChoices.Count == 0)
             {
@@ -98,7 +100,8 @@ namespace XRL.World.Parts
             {
                 return false;
             }
-			int result = assessGift(ObjectChoices[num12]);
+			int result = assessGift(ObjectChoices[num12],who);
+			
 
             XRL.World.Event event2 = XRL.World.Event.New("SplitStack", "Number", 1);
             event2.AddParameter("OwningObject", XRLCore.Core.Game.Player.Body);
@@ -108,7 +111,6 @@ namespace XRL.World.Parts
                 Popup.Show("You can't give that object.");
                 return false;
             }
-
             ParentObject.pBrain.AdjustFeeling(who,result);
 				if (who.IsPlayer())
 				{
@@ -117,16 +119,18 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public int assessGift(GameObject GO){
+        public int assessGift(GameObject GO,GameObject who){
 			havePreference();
-            int value = (rng.Next(1,6) -3);
-			if(FavoriteThings.ContainsKey(GO.pRender.DisplayName)){
-				value += 2*FavoriteThings[GO.pRender.DisplayName];
-				FavoriteThings[GO.pRender.DisplayName] -= 1;
-			}else{
-				value -= 1;
+            float value = (rng.Next(1,4) -2);
+
+			foreach(acegiak_RomancePreference preferece in preferences){
+				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(GO,who);
+				if(result != null){
+					value += result.amount;
+					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
+				}
 			}
-            return value*10;
+            return (int)(value*10);
         }
 
 		public void HandleBeginConversation(Conversation conversation, GameObject speaker){
@@ -135,15 +139,10 @@ namespace XRL.World.Parts
 				&& speaker != null
 				&& speaker.GetPart<acegiak_Romancable>() != null){
 
-					//IPart.AddPlayerMessage("Begin Conversation!");
 
 
-					//conversation.NodesByID.Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToArray().Apply(pair => conversation.NodesByID.Remove(pair.Key)).Apply();
 					conversation.NodesByID.ToList().Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToList().ForEach(pair => conversation.NodesByID.Remove(pair.Key));
-					// if(conversation.NodesByID.ContainsKey("acegiak_aboutme"))
-					// {
-					// 	conversation.NodesByID.Remove("acegiak_aboutme");
-					// }
+
 
 					string StartID = conversation.NodesByID.Keys.ToArray()[0];
 					if(conversation.NodesByID.ContainsKey("Start")){
@@ -169,6 +168,7 @@ namespace XRL.World.Parts
 					romanticEnquiry.ID = "acegiak_romance_askaboutme";
 					romanticEnquiry.Text = "Let's chat.";
 					romanticEnquiry.GotoID = "acegiak_romance_aboutme";
+					romanticEnquiry.Ordinal = 800;
 					
 					
 					conversation.AddNode(aboutme);
@@ -178,32 +178,64 @@ namespace XRL.World.Parts
 						node.Choices.Add(romanticEnquiry);
 						
 					}
-					//E.GetParameter<Conversation>("Conversation").NodesByID[StartID].Choices.Add(romanticEnquiry);
 				}
 		}
 
 		public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
 			havePreference();
-			//IPart.AddPlayerMessage("BUILDING NODE");
 			node.Choices.Clear();
 			Random r = new Random();
-			node = preferences[r.Next(0,preferences.Count-1)].BuildNode(node);
+			IPart.AddPlayerMessage("They are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString());
+			
+			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 && patience > 0){
+					ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
+			}
 
+			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 || patience <= 0){
+					List<string> Stories = new List<string>(new string[] {
+                        "Sorry, I have other things to do.",
+                        "Anyway, I'm very busy.",
+                        "Maybe we could talk some more another time?"
+                    });
+					node.Text = node.Text + "\n\n"+ Stories[r.Next(0,Stories.Count-1)];
 
-			ConversationChoice returntostart = new ConversationChoice();
-			returntostart.Ordinal = 99999;
-			returntostart.Text = "Live and drink.";
-			returntostart.GotoID = "End";
-			returntostart.ParentNode = node;
-			node.Choices.Add(returntostart);
+					ConversationChoice returntostart = new ConversationChoice();
+					returntostart.Ordinal = 800;
+					returntostart.Text = "Ok.";
+					returntostart.GotoID = node.ParentConversation.StartNodes[0].ID;
+					returntostart.ParentNode = node;
+					node.Choices.Add(returntostart);
+			}else{
+				node = preferences[r.Next(0,preferences.Count-1)].BuildNode(node);
+			}
+			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
+				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
+			}
+
+			patience--;
+
+			ConversationChoice liveanddrink = new ConversationChoice();
+			liveanddrink.Ordinal = 99999;
+			liveanddrink.Text = "Live and drink.";
+			liveanddrink.GotoID = "End";
+			liveanddrink.ParentNode = node;
+			node.Choices.Add(liveanddrink);
 			return node;
+		}
+
+		public string GetStory(){
+			Random r = new Random();
+			string story = preferences[r.Next(0,preferences.Count-1)].GetStory();
+			return story;
 		}
 
 
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
 			{
-				E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Gift", 'G',  false, "&Wg&yift", "InvCommandGift", 10);
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>10){
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Gift", 'G',  false, "&Wg&yift", "InvCommandGift", 10);
+				}
 			}
 			if (E.ID == "InvCommandGift" && Gift(E.GetGameObjectParameter("Owner"), FromDialog: true))
 			{
@@ -211,7 +243,18 @@ namespace XRL.World.Parts
 			}
 			if (E.ID == "PlayerBeginConversation")
 			{
-				HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
+					HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
+					int newPatience = (int)Math.Floor((float)(XRLCore.Core.Game.TimeTicks - lastseen)/1200);
+					if(lastseen == 0){
+						newPatience = 0;
+					}
+					lastseen = (int)XRLCore.Core.Game.TimeTicks;
+					patience += newPatience;
+					// if(patience > 5 && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0 && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)<5){
+					// 	ParentObject.pBrain.AdjustFeeling(XRLCore.Core.Game.Player.Body,(int)Math.Min(5,patience-5));
+					// }
+				}
 			}
 			if (E.ID == "VisitConversationNode")
 			{
@@ -219,12 +262,6 @@ namespace XRL.World.Parts
 					E.SetParameter("CurrentNode",BuildNode((acegiak_RomanceChatNode)E.GetParameter<ConversationNode>("CurrentNode")));
 				}
 			}
-
-
-
-
-
-
 
 			return base.FireEvent(E);
 		}
