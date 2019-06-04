@@ -1,10 +1,12 @@
 using System;
 using XRL.Core;
 using XRL.UI;
+using XRL.Rules;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
+using System.Text.RegularExpressions;
 
 namespace XRL.World.Parts
 {
@@ -22,29 +24,44 @@ namespace XRL.World.Parts
 		private List<acegiak_RomancePreference> preferences = null;
 
 		private int lastseen = 0;
-		private int patience = 5;
+		public float patience = 5;
+
+		public bool lockout = true;
 
 
 
-		private static Random rng = new Random();  
 		public acegiak_Romancable()
 		{
 			base.Name = "acegiak_Romancable";
 			
 		}
 
+		public static string FilterRandom(string s)
+    {
+			return Regex.Replace(s, @"\[(.*?)\]", delegate(Match match)
+			{
+				string[] v = match.Groups[0].ToString().Split('|');
+				return v[Stat.Rnd2.Next(v.Length)].Replace("[","").Replace("]","");
+			});
+		}
+
 		public void havePreference(){
 			if(preferences == null){
 				preferences = new List<acegiak_RomancePreference>();
-				Random random = new Random();
-				int count = random.Next(4)+1;
+				int count = Stat.Rnd2.Next(4)+2;
 				for(int i = 0; i<count;i++){
-					switch (random.Next(2)){
+					switch (Stat.Rnd2.Next(4)){
 					case 0:
 						preferences.Add(new acegiak_WeaponPreference(this));
 						break;
+					// case 1:
+					// 	preferences.Add(new acegiak_MissilePreference(this));
+					// 	break;
 					case 1:
-						preferences.Add(new acegiak_MissilePreference(this));
+						preferences.Add(new acegiak_FoodPreference(this));
+						break;
+					case 2:
+						preferences.Add(new acegiak_FactionInterestPreference(this));
 						break;
 					}
 				}
@@ -84,7 +101,6 @@ namespace XRL.World.Parts
             char ch = 'a';
             part2.ForeachObject(delegate(XRL.World.GameObject GO)
             {
-
                     ObjectChoices.Add(GO);
                     HotkeyList.Add(ch);
                     ChoiceList.Add(GO.DisplayName);
@@ -121,11 +137,15 @@ namespace XRL.World.Parts
 
         public int assessGift(GameObject GO,GameObject who){
 			havePreference();
-            float value = (rng.Next(1,4) -2);
+            float value = (Stat.Rnd2.Next(1,4) -2);
 
 			foreach(acegiak_RomancePreference preferece in preferences){
 				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(GO,who);
+
 				if(result != null){
+					if(GO.GetPart<Commerce>() != null && GO.GetPart<Commerce>().Value >1){
+						result.amount = ((float)result.amount)*((float)GO.GetPart<Commerce>().Value);
+					}
 					value += result.amount;
 					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
 				}
@@ -152,7 +172,7 @@ namespace XRL.World.Parts
 
 					acegiak_RomanceChatNode aboutme = new acegiak_RomanceChatNode();
 					aboutme.ID = "acegiak_romance_aboutme";
-					aboutme.Text = ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50?"Oh, yes ok!":"Hmm...";
+					aboutme.Text = "Very well.";
 					aboutme.ParentConversation = conversation;
 
 
@@ -183,8 +203,8 @@ namespace XRL.World.Parts
 
 		public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
 			havePreference();
+			this.lockout = false;
 			node.Choices.Clear();
-			Random r = new Random();
 			IPart.AddPlayerMessage("They are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString());
 			
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 && patience > 0){
@@ -197,7 +217,7 @@ namespace XRL.World.Parts
                         "Anyway, I'm very busy.",
                         "Maybe we could talk some more another time?"
                     });
-					node.Text = node.Text + "\n\n"+ Stories[r.Next(0,Stories.Count-1)];
+					node.Text = node.Text + "\n\n"+ Stories[Stat.Rnd2.Next(0,Stories.Count-1)];
 
 					ConversationChoice returntostart = new ConversationChoice();
 					returntostart.Ordinal = 800;
@@ -206,13 +226,38 @@ namespace XRL.World.Parts
 					returntostart.ParentNode = node;
 					node.Choices.Add(returntostart);
 			}else{
-				node = preferences[r.Next(0,preferences.Count-1)].BuildNode(node);
+				node = preferences[Stat.Rnd2.Next(0,preferences.Count)].BuildNode(node);
+				node.Text = FilterRandom(node.Text);
+				foreach(ConversationChoice choice in node.Choices){
+					choice.Text = FilterRandom(choice.Text);
+				}
 			}
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
 				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
+
+
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
+					acegiak_RomanceChatChoice giftoption = new acegiak_RomanceChatChoice();
+					giftoption.Ordinal = 900;
+					giftoption.Text = "[Offer A Gift]";
+					giftoption.action = "*Gift";
+					giftoption.ParentNode = node;
+					giftoption.GotoID = "End";
+					node.Choices.Add(giftoption);
+				}
+				if(ParentObject.GetPart<acegiak_Kissable>() != null && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50){
+					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
+					kissoption.Ordinal = 910;
+					kissoption.Text = "[Attempt to Kiss]";
+					kissoption.action = "*Kiss";
+					kissoption.ParentNode = node;
+					kissoption.GotoID = "End";
+					node.Choices.Add(kissoption);
+				}
 			}
 
 			patience--;
+
 
 			ConversationChoice liveanddrink = new ConversationChoice();
 			liveanddrink.Ordinal = 99999;
@@ -220,12 +265,13 @@ namespace XRL.World.Parts
 			liveanddrink.GotoID = "End";
 			liveanddrink.ParentNode = node;
 			node.Choices.Add(liveanddrink);
+
+
 			return node;
 		}
 
 		public string GetStory(){
-			Random r = new Random();
-			string story = preferences[r.Next(0,preferences.Count-1)].GetStory();
+			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)].GetStory();
 			return story;
 		}
 
@@ -233,7 +279,7 @@ namespace XRL.World.Parts
 		public override bool FireEvent(Event E){
             if (E.ID == "GetInventoryActions")
 			{
-				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>10){
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
 					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Gift", 'G',  false, "&Wg&yift", "InvCommandGift", 10);
 				}
 			}
@@ -245,12 +291,20 @@ namespace XRL.World.Parts
 			{
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
 					HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
-					int newPatience = (int)Math.Floor((float)(XRLCore.Core.Game.TimeTicks - lastseen)/1200);
-					if(lastseen == 0){
-						newPatience = 0;
+					GameObject speaker = E.GetParameter<GameObject>("Speaker");
+					if(speaker.GetPart<acegiak_Romancable>() != null){
+							
+						IPart.AddPlayerMessage("Ticks passed:"+(XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen).ToString());
+						int newPatience = (int)Math.Floor((float)(XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen)/1200);
+
+						IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
+						if(speaker.GetPart<acegiak_Romancable>().lastseen == 0){
+							newPatience = 0;
+						}
+						if(newPatience>7){newPatience = 7;}
+						speaker.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
+						speaker.GetPart<acegiak_Romancable>().patience = speaker.GetPart<acegiak_Romancable>().patience+newPatience;
 					}
-					lastseen = (int)XRLCore.Core.Game.TimeTicks;
-					patience += newPatience;
 					// if(patience > 5 && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0 && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)<5){
 					// 	ParentObject.pBrain.AdjustFeeling(XRLCore.Core.Game.Player.Body,(int)Math.Min(5,patience-5));
 					// }
@@ -265,5 +319,7 @@ namespace XRL.World.Parts
 
 			return base.FireEvent(E);
 		}
+
+
 	}
 }
