@@ -147,7 +147,7 @@ namespace XRL.World.Parts
 						result.amount = ((float)result.amount)*((float)GO.GetPart<Commerce>().Value);
 					}
 					value += result.amount;
-					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
+					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
 				}
 			}
             return (int)(value*10);
@@ -205,7 +205,7 @@ namespace XRL.World.Parts
 			havePreference();
 			this.lockout = false;
 			node.Choices.Clear();
-			IPart.AddPlayerMessage("They are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString());
+			//IPart.AddPlayerMessage("They are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString());
 			
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 && patience > 0){
 					ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
@@ -294,10 +294,10 @@ namespace XRL.World.Parts
 					GameObject speaker = E.GetParameter<GameObject>("Speaker");
 					if(speaker.GetPart<acegiak_Romancable>() != null){
 							
-						IPart.AddPlayerMessage("Ticks passed:"+(XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen).ToString());
+						//IPart.AddPlayerMessage("Ticks passed:"+(XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen).ToString());
 						int newPatience = (int)Math.Floor((float)(XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen)/1200);
 
-						IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
+						//IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
 						if(speaker.GetPart<acegiak_Romancable>().lastseen == 0){
 							newPatience = 0;
 						}
