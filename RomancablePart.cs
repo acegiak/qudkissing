@@ -237,9 +237,6 @@ namespace XRL.World.Parts
 				foreach(ConversationChoice choice in node.Choices){
 					choice.Text = FilterRandom(choice.Text);
 				}
-			}
-			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
-				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
 
 
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
@@ -251,6 +248,15 @@ namespace XRL.World.Parts
 					giftoption.GotoID = "End";
 					node.Choices.Add(giftoption);
 				}
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=25){
+					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
+					kissoption.Ordinal = 910;
+					kissoption.Text = "[Propose a Date]";
+					kissoption.action = "*Date";
+					kissoption.ParentNode = node;
+					kissoption.GotoID = "End";
+					node.Choices.Add(kissoption);
+				}
 				if(ParentObject.GetPart<acegiak_Kissable>() != null && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50){
 					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
 					kissoption.Ordinal = 910;
@@ -260,7 +266,15 @@ namespace XRL.World.Parts
 					kissoption.GotoID = "End";
 					node.Choices.Add(kissoption);
 				}
+
+
+
 			}
+			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
+				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
+			}
+
+			
 
 			patience--;
 
@@ -330,7 +344,7 @@ namespace XRL.World.Parts
 				acegiak_Romancable romancable = gameObjectParameter2.GetPart<acegiak_Romancable>();
 				if (romancable != null && gameObjectParameter2.pBrain.GetFeeling(ParentObject) > 25)
 				{
-					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("ArrangeDate", 'i',  true, "&WA&yrrange a Date", "InvCommandArrangeDate");
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("ArrangeDate", 'r',  true, "A&Wr&yrange a Date", "InvCommandArrangeDate");
 				}
 			}
             if (E.ID == "InvCommandArrangeDate")
@@ -349,7 +363,7 @@ namespace XRL.World.Parts
 				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
 				if (date != null && date.pBrain.GetFeeling(ParentObject) > 25)
 				{
-					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("BeginDate", 'i',  true, "&WI&ynvite "+this.date.ShortDisplayName+" to join you.", "InvCommandBeginDate");
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("BeginDate", 'j',  true, "Invite "+this.date.ShortDisplayName+" to &Wj&yoin you", "InvCommandBeginDate");
 				}
 			}
             if (E.ID == "InvCommandBeginDate")

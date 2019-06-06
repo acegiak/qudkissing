@@ -31,6 +31,11 @@ namespace XRL.World
                     Speaker.FireEvent(Event.New("InvCommandGift", "Owner", XRLCore.Core.Game.Player.Body));
                     return null;
                 }
+                if (action == "*Date")
+                {
+                    XRLCore.Core.Game.Player.Body.FireEvent(Event.New("InvCommandArrangeDate", "Object", Speaker));
+                    return null;
+                }
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 10 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) >= 10){
                     this.ResponseText = this.ResponseText+"\n\n *"+Speaker.ShortDisplayName+" smiles.*";
                 }else
