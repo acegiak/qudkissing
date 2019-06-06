@@ -16,8 +16,9 @@ namespace XRL.World.Parts
 	public interface acegiak_RomancePreference
 	{
         acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift);
-
         acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node);
         string GetStory();
+        acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject);
+
     }
 }

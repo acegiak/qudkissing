@@ -189,6 +189,14 @@ namespace XRL.World.Parts
         }
 
 
+        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+            return null;
+        }
+
+        void FireEvent(Event E){
+            
+        }
+
         public string GetStory(){
                 List<string> Stories = null;
                 if(amount>0){
@@ -212,9 +220,8 @@ namespace XRL.World.Parts
                 }
                 return Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==typeverb==",verbsc(wantedType)).Replace("==sample==",exampleObjectName());
             
-
-
         }
+
 
         string presentablec(string key){
             if(!presentable.ContainsKey(key)){

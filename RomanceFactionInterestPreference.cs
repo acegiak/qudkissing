@@ -79,6 +79,14 @@ namespace XRL.World.Parts
         }
 
 
+        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+            return null;
+        }
+
+        void FireEvent(Event E){
+            
+        }
+
         public string GetStory(){
 
             

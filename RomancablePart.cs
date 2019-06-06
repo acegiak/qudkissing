@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
 using System.Text.RegularExpressions;
+using XRL.World.AI.GoalHandlers;
 
 namespace XRL.World.Parts
 {
@@ -27,7 +28,9 @@ namespace XRL.World.Parts
 		public float patience = 5;
 
 		public bool lockout = true;
+		public GameObject date = null;
 
+		public Cell origin;
 
 
 		public acegiak_Romancable()
@@ -86,6 +89,9 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "PlayerBeginConversation");
 			Object.RegisterPartEvent(this, "ShowConversationChoices");
 			Object.RegisterPartEvent(this, "VisitConversationNode");
+			Object.RegisterPartEvent(this, "OwnerGetInventoryActions");
+			Object.RegisterPartEvent(this, "InvCommandArrangeDate");
+			Object.RegisterPartEvent(this, "InvCommandBeginDate");
 			base.Register(Object);
 		}
 
@@ -317,9 +323,73 @@ namespace XRL.World.Parts
 				}
 			}
 
+
+            if (E.ID == "OwnerGetInventoryActions")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = gameObjectParameter2.GetPart<acegiak_Romancable>();
+				if (romancable != null && gameObjectParameter2.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("ArrangeDate", 'i',  true, "&WA&yrrange a Date", "InvCommandArrangeDate");
+				}
+			}
+            if (E.ID == "InvCommandArrangeDate")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = gameObjectParameter2.GetPart<acegiak_Romancable>();
+				if (romancable != null && gameObjectParameter2.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					this.date = gameObjectParameter2;
+					Popup.Show(gameObjectParameter2.ShortDisplayName+" seems amenable to the idea.");
+				}
+			}
+
+            if (E.ID == "OwnerGetInventoryActions")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				if (date != null && date.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("BeginDate", 'i',  true, "&WI&ynvite "+this.date.ShortDisplayName+" to join you.", "InvCommandBeginDate");
+				}
+			}
+            if (E.ID == "InvCommandBeginDate")
+			{
+				GameObject GO = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = this.date.GetPart<acegiak_Romancable>();
+				if (romancable != null && date.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					
+					this.date.pBrain.PushGoal(new acegiak_Wait(10));
+					this.date.pBrain.PushGoal(new acegiak_DateAssess(ParentObject,GO));
+					this.date.pBrain.PushGoal(new acegiak_MoveTo(GO,true));
+					E.RequestInterfaceExit();
+
+					IPart.AddPlayerMessage(date.ShortDisplayName+" comes to join you at "+GO.the+GO.ShortDisplayName);
+
+				}
+			}
+			
+
+
 			return base.FireEvent(E);
 		}
+		public void AssessDate(GameObject Date,GameObject DateObject){
+			havePreference();
+            float value = (Stat.Rnd2.Next(1,4) -2);
+			string output = ParentObject.The+ParentObject.ShortDisplayName+" joins you at "+DateObject.the+DateObject.ShortDisplayName;
 
+			foreach(acegiak_RomancePreference preferece in preferences){
+				acegiak_RomancePreferenceResult result = preferece.DateAssess(Date,DateObject);
+
+				if(result != null){
+					value += result.amount;
+					output += "\n"+result.explanation;
+					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
+				}
+			}
+			Popup.Show(output);
+            ParentObject.pBrain.AdjustFeeling(Date,(int)(value*10));
+		}
 
 	}
 }

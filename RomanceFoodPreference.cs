@@ -7,6 +7,8 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using XRL.World.Parts.Effects;
+using System.Text.RegularExpressions;
 
 namespace XRL.World.Parts
 {
@@ -42,13 +44,13 @@ namespace XRL.World.Parts
             this.ExampleName = sample.ShortDisplayName;
             Romancable = romancable;
             amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
-            //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
+            IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
         }
         string normalisename(string name){
             if(name == null){
                 name = "";
             }
-            return name.Replace("elder","").Replace("LowTier","").Replace("Minor","").Replace("HighTier","");
+            return Regex.Replace(name.ToLower().Replace("elder","").Replace("less","").Replace("lowtier","").Replace("minor","").Replace("hightier","").Replace("cookingdomain","").Replace(" ",""),"_[^_]*$","");
         }
 
         string getType(GameObject sample){
@@ -181,6 +183,36 @@ namespace XRL.World.Parts
         }
 
 
+        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+            if(DateObject.GetPart<Campfire>() != null && DateObject.GetPart<Campfire>().Cook()){
+                float count = 0.25f;
+                foreach(Effect effect in XRLCore.Core.Game.Player.Body.Effects){
+                    if(effect is ProceduralCookingEffect){
+                        foreach(ProceduralCookingEffectUnit unit in ((ProceduralCookingEffect)effect).units){
+                            //classname += normalisename(unit.GetType().Name)+"\n";
+                            if(normalisename(unit.GetType().Name) == this.wantedType){
+                                count += this.amount;
+                            }
+                        }
+                    }
+                }
+                string message = "";
+                if(amount >0.3){
+                    message = Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+" greatly"+Romancable.ParentObject.GetVerb("enjoy")+" your cooking.";
+                }else
+                if(amount >0.1){
+                    message = Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("appreciate")+" your cooking.";
+                }else
+                if(amount <=0.1){
+                    message = Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("dislike")+" your "+message+" cooking.";
+                }
+                return new acegiak_RomancePreferenceResult(count,message);
+            }
+            return null;
+        }
+
+
+
         public string GetStory(){
                 List<string> Stories = null;
                 if(amount>0){
@@ -196,10 +228,6 @@ namespace XRL.World.Parts
                 }
                 return Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==sample==",exampleObject().ShortDisplayName);
             
-              
-
-
-
         }
 
 
