@@ -175,6 +175,7 @@ namespace XRL.World.AI.GoalHandlers
 			return !overridesCombat;
 		}
 
+		
 		private GameObject CellHasFriendly(Cell TargetCell)
 		{
 			if (TargetCell == null)
@@ -289,13 +290,17 @@ namespace XRL.World.AI.GoalHandlers
 	}
 
     [Serializable]
-	internal class acegiak_Wait : GoalHandler
+	internal class acegiak_WaitWith : GoalHandler
 	{
 		private int TicksLeft;
+		private int StartTicks;
+		private GameObject With;
 
-		public acegiak_Wait(int Duration)
+		public acegiak_WaitWith(int Duration,GameObject with)
 		{
 			TicksLeft = Duration;
+			StartTicks = Duration;
+			With = with;
 		}
 
 		public override void Create()
@@ -307,6 +312,10 @@ namespace XRL.World.AI.GoalHandlers
 		{
 			if (TicksLeft <= 0)
 			{
+				if(ParentBrain.ParentObject.CurrentCell.DistanceTo(With.CurrentCell) <= 2){
+					TicksLeft = StartTicks;
+					return false;
+				}
 				return true;
 			}
 			return false;
@@ -318,7 +327,11 @@ namespace XRL.World.AI.GoalHandlers
 			TicksLeft--;
 			if (TicksLeft <= 0)
 			{
-				Pop();
+				if(ParentBrain.ParentObject.CurrentCell.DistanceTo(With.CurrentCell) <= 2){
+					TicksLeft = StartTicks;
+				}else{
+					Pop();
+				}
 			}
 		}
 	}

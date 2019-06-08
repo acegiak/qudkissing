@@ -55,7 +55,7 @@ namespace XRL.World.Parts
             Romancable = romancable;
 
             amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
-                        //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
+            IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
 
         }
         public string exampleObjectName(){
@@ -65,7 +65,7 @@ namespace XRL.World.Parts
             && (b.GetPartParameter("MeleeWeapon","Skill") == this.wantedType || b.GetPartParameter("MissileWeapon","Skill") == this.wantedType));
 
             sample.MakeUnderstood();
-            return sample.ShortDisplayName;
+            return sample.a+sample.ShortDisplayName;
         }
 
         public acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
@@ -109,7 +109,8 @@ namespace XRL.World.Parts
                 bodytext = "How do you like to [slay|attack|fight|combat] your enemies?";
                 foreach(var item in verbs){
                     if((item.Key  == wantedType || Stat.Rnd2.NextDouble() < 0.5)){
-                        if(item.Key == wantedType){
+                        GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter("MeleeWeapon","Skill")==item.Key ||b.GetPartParameter("MissileWeapon","Skill")==item.Key );
+                        if(item.Key == wantedType || (GO != null && Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount>0)){
                             node.AddChoice(item.Key,"I [like|prefer] "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                         }else{
                             node.AddChoice(item.Key,"I [like|prefer] "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
@@ -164,7 +165,7 @@ namespace XRL.World.Parts
                     MeleeWeapon mw = GO.GetPart<MeleeWeapon>();
                     MissileWeapon rw = GO.GetPart<MissileWeapon>();
                     if((GO.GetBlueprint().InheritsFrom("BaseMissileWeapon") || GO.GetBlueprint().InheritsFrom("MeleeWeapon")) && (mw != null || rw != null) ){
-                        if(GetSkill(GO) == wantedType){
+                        if(Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount > 0){
                             node.AddChoice("weapon"+c.ToString(),"I have this "+GO.DisplayName+".",amount>0?"Wow, that's very interesting!":"Oh, is that all?",amount>0?2:-1);
                             s++;
                         }else{
@@ -193,33 +194,33 @@ namespace XRL.World.Parts
             return null;
         }
 
-        void FireEvent(Event E){
-            
-        }
+
 
         public string GetStory(){
+            while(this.tales.Count < 5){
                 List<string> Stories = null;
                 if(amount>0){
                     Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==sample== and then the next day I saw a rainbow.",
+                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+".",
                         "I really love ==typeverb== my enemies.",
-                        "I think I could probably make a ==sample==.",
+                        "I think I could probably make ==sample==.",
                         "I think ==type==s are kind of neat.",
                         "You look like the kind of person that might carry a ==type==.",
                         "My friend used to carry a ==type==."
                     });
                 }else{
                     Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==sample== and then the next day I got hit with a rock.",
+                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("badthinghappen","I got hit with a rock.")+".",
                         "I worry about people attacking me with a ==type==.",
-                        "A "+GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Creature")).ShortDisplayName+" once attacked me with a ==type==",
+                        "A "+Romancable.storyoptions("badperson",GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Creature")).ShortDisplayName)+" once attacked me with a ==type==",
                         "I just don't feel safe around ==type==s.",
                         "You look like the kind of person that might carry a ==type==.",
                         "My greatest enemy used to carry a ==type==."
                     });
                 }
-                return Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==typeverb==",verbsc(wantedType)).Replace("==sample==",exampleObjectName());
-            
+                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==typeverb==",verbsc(wantedType)).Replace("==sample==",exampleObjectName()));
+            }
+            return tales[Stat.Rnd2.Next(tales.Count)];
         }
 
 
@@ -238,7 +239,28 @@ namespace XRL.World.Parts
             }
         }
 
+        public string getstoryoption(string key){
 
+            if(key == "goodobject" && this.amount > 0){
+                return exampleObjectName();
+            }
+            if(key == "badobject" && this.amount < 0){
+                return exampleObjectName();
+            }
+            if(key == "goodweapon" && this.amount > 0){
+                return exampleObjectName();
+            }
+            if(key == "badweapon" && this.amount < 0){
+                return exampleObjectName();
+            }
+            if(key == "goodthinghappen" && this.amount > 0){
+                return "I saw "+exampleObjectName();
+            }
+            if(key == "badthinghappen" && this.amount < 0){
+                return "I was attacked with "+exampleObjectName();
+            }
+            return null;
+        }
 
     }
 }

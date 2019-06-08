@@ -20,5 +20,6 @@ namespace XRL.World.Parts
         string GetStory();
         acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject);
 
+        string getstoryoption(string key);
     }
 }

@@ -51,20 +51,20 @@ namespace XRL.World.Parts
 		public void havePreference(){
 			if(preferences == null){
 				preferences = new List<acegiak_RomancePreference>();
-				int count = Stat.Rnd2.Next(4)+2;
+				int count = Stat.Rnd2.Next(3)+3;
 				for(int i = 0; i<count;i++){
 					switch (Stat.Rnd2.Next(4)){
 					case 0:
 						preferences.Add(new acegiak_WeaponPreference(this));
 						break;
-					// case 1:
-					// 	preferences.Add(new acegiak_MissilePreference(this));
-					// 	break;
 					case 1:
 						preferences.Add(new acegiak_FoodPreference(this));
 						break;
 					case 2:
 						preferences.Add(new acegiak_FactionInterestPreference(this));
+						break;
+					case 3:
+						preferences.Add(new acegiak_SultanInterestPreference(this));
 						break;
 					}
 				}
@@ -122,7 +122,7 @@ namespace XRL.World.Parts
             {
                 return false;
             }
-			int result = assessGift(ObjectChoices[num12],who);
+			int result = (int)(assessGift(ObjectChoices[num12],who).amount+(Stat.Rnd2.Next(1,4) -2))*10;
 			
 
             XRL.World.Event event2 = XRL.World.Event.New("SplitStack", "Number", 1);
@@ -141,9 +141,13 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public int assessGift(GameObject GO,GameObject who){
+
+
+        public acegiak_RomancePreferenceResult assessGift(GameObject GO,GameObject who){
 			havePreference();
-            float value = (Stat.Rnd2.Next(1,4) -2);
+            float value = 0;
+
+			acegiak_RomancePreferenceResult ret = new acegiak_RomancePreferenceResult(0,"");
 
 			foreach(acegiak_RomancePreference preferece in preferences){
 				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(GO,who);
@@ -152,11 +156,12 @@ namespace XRL.World.Parts
 					if(GO.GetPart<Commerce>() != null && GO.GetPart<Commerce>().Value >1){
 						result.amount = ((float)result.amount)*((float)GO.GetPart<Commerce>().Value);
 					}
-					value += result.amount;
+					ret.amount += result.amount;
+					ret.explanation = ret.explanation +"\n"+result.explanation;
 					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
 				}
 			}
-            return (int)(value*10);
+            return ret;
         }
 
 		public void HandleBeginConversation(Conversation conversation, GameObject speaker){
@@ -373,7 +378,7 @@ namespace XRL.World.Parts
 				if (romancable != null && date.pBrain.GetFeeling(ParentObject) > 25)
 				{
 					
-					this.date.pBrain.PushGoal(new acegiak_Wait(10));
+					this.date.pBrain.PushGoal(new acegiak_WaitWith(10,ParentObject));
 					this.date.pBrain.PushGoal(new acegiak_DateAssess(ParentObject,GO));
 					this.date.pBrain.PushGoal(new acegiak_MoveTo(GO,true));
 					E.RequestInterfaceExit();
@@ -387,6 +392,21 @@ namespace XRL.World.Parts
 
 			return base.FireEvent(E);
 		}
+
+		public string storyoptions(string key,string alt){
+			List<string> output = new List<string>();
+			foreach(acegiak_RomancePreference preferece in preferences){
+				string newstring = preferece.getstoryoption(key);
+				if(newstring != null){
+					output.Add(newstring);
+				}
+			}
+			if(output.Count > 0){
+				return output[Stat.Rnd2.Next(output.Count)];
+			}
+			return alt;
+		}
+
 		public void AssessDate(GameObject Date,GameObject DateObject){
 			havePreference();
             float value = (Stat.Rnd2.Next(1,4) -2);
@@ -403,6 +423,12 @@ namespace XRL.World.Parts
 			}
 			Popup.Show(output);
             ParentObject.pBrain.AdjustFeeling(Date,(int)(value*10));
+			Date.GetPart<acegiak_Romancable>().date = null;
+			if(value <1){
+				this.patience -= 1f;
+			}else{
+				this.patience -= 0.5f;
+			}
 		}
 
 	}
