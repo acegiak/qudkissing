@@ -8,6 +8,7 @@ using System.Reflection;
 using Qud.API;
 using System.Text.RegularExpressions;
 using XRL.World.AI.GoalHandlers;
+using Qud.API;
 
 namespace XRL.World.Parts
 {
@@ -429,6 +430,8 @@ namespace XRL.World.Parts
 			}else{
 				this.patience -= 0.5f;
 			}
+			JournalAPI.AddAccomplishment("&y You took "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" on a date to "+DateObject.the+DateObject.DisplayNameOnlyDirect+" and "+ParentObject.it+(value>0?" was&G":" was &rnot")+" impressed&y.", "general", null, -1L);
+
 		}
 
 	}
