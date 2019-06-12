@@ -191,6 +191,18 @@ namespace XRL.World.Parts
 
 
         public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+            List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
+            foreach (BodyPart item in equippedParts)
+            {
+                if(item.Equipped != null){
+                    if(item.Equipped.GetPart<MeleeWeapon>() != null && item.Equipped.GetPart<MeleeWeapon>.Skill == this.wantedType){
+                        return new acegiak_RomancePreferenceResult(amount,(amount > 0?Romancable.ParentObject.GetVerb("like"):Romancable.ParentObject.GetVerb("dislike"))+" your "+item.Equipped.DisplayNameOnly);
+                    }
+                    if(item.Equipped.GetPart<MissileWeapon>() != null && item.Equipped.GetPart<MissileWeapon>.Skill == this.wantedType){
+                        return new acegiak_RomancePreferenceResult(amount,(amount > 0?Romancable.ParentObject.GetVerb("like"):Romancable.ParentObject.GetVerb("dislike"))+" your "+item.Equipped.DisplayNameOnly);
+                    }
+                }
+            }
             return null;
         }
 

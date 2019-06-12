@@ -55,7 +55,7 @@ namespace XRL.World.Parts
 				preferences = new List<acegiak_RomancePreference>();
 				int count = Stat.Rnd2.Next(3)+3;
 				for(int i = 0; i<count;i++){
-					switch (Stat.Rnd2.Next(4)){
+					switch (Stat.Rnd2.Next(5)){
 					case 0:
 						preferences.Add(new acegiak_WeaponPreference(this));
 						break;
@@ -67,6 +67,9 @@ namespace XRL.World.Parts
 						break;
 					case 3:
 						preferences.Add(new acegiak_SultanInterestPreference(this));
+						break;
+					case 4:
+						preferences.Add(new acegiak_ArmorPreference(this));
 						break;
 					}
 				}
@@ -172,8 +175,6 @@ namespace XRL.World.Parts
 				&& speaker != null
 				&& speaker.GetPart<acegiak_Romancable>() != null){
 
-
-
 					conversation.NodesByID.ToList().Where(pair => pair.Key.StartsWith("acegiak_romance_")).ToList().ForEach(pair => conversation.NodesByID.Remove(pair.Key));
 
 
@@ -212,6 +213,7 @@ namespace XRL.World.Parts
 						
 					}
 				}
+				
 		}
 
 		public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
