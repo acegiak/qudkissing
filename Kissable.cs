@@ -66,7 +66,7 @@ namespace XRL.World.Parts
 
 			string beguiled = "";
 			string hbeguiled = " &Mkissed you back&y.";
-			if(ParentObject.GetIntProperty("BeguilingBonusApplied") != null){
+			if(ParentObject.GetIntProperty("BeguilingBonusApplied") >0){
 				beguiled = "\n"+ParentObject.It+ParentObject.GetVerb("quake")+" with fear and manic ecstasy.";
 				hbeguiled = " could not resist.";
 			}else{
