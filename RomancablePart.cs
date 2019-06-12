@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
 using System.Text.RegularExpressions;
+using XRL.World.AI.GoalHandlers;
+using Qud.API;
 
 namespace XRL.World.Parts
 {
@@ -28,8 +30,10 @@ namespace XRL.World.Parts
 		public float patience = 5;
 
 		public bool lockout = true;
+		public GameObject date = null;
 
-		public GameObject Date = null;
+		public Cell origin;
+
 
 		public acegiak_Romancable()
 		{
@@ -49,20 +53,20 @@ namespace XRL.World.Parts
 		public void havePreference(){
 			if(preferences == null){
 				preferences = new List<acegiak_RomancePreference>();
-				int count = Stat.Rnd2.Next(4)+2;
+				int count = Stat.Rnd2.Next(3)+3;
 				for(int i = 0; i<count;i++){
 					switch (Stat.Rnd2.Next(4)){
 					case 0:
 						preferences.Add(new acegiak_WeaponPreference(this));
 						break;
-					// case 1:
-					// 	preferences.Add(new acegiak_MissilePreference(this));
-					// 	break;
 					case 1:
 						preferences.Add(new acegiak_FoodPreference(this));
 						break;
 					case 2:
 						preferences.Add(new acegiak_FactionInterestPreference(this));
+						break;
+					case 3:
+						preferences.Add(new acegiak_SultanInterestPreference(this));
 						break;
 					}
 				}
@@ -88,8 +92,8 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "ShowConversationChoices");
 			Object.RegisterPartEvent(this, "VisitConversationNode");
 			Object.RegisterPartEvent(this, "OwnerGetInventoryActions");
-			Object.RegisterPartEvent(this, "InvCommandInviteDate");
-			Object.RegisterPartEvent(this, "InvCommandInviteToDateSpot");
+			Object.RegisterPartEvent(this, "InvCommandArrangeDate");
+			Object.RegisterPartEvent(this, "InvCommandBeginDate");
 			base.Register(Object);
 		}
 
@@ -120,7 +124,7 @@ namespace XRL.World.Parts
             {
                 return false;
             }
-			int result = assessGift(ObjectChoices[num12],who);
+			int result = (int)(assessGift(ObjectChoices[num12],who).amount+(Stat.Rnd2.Next(1,4) -2))*10;
 			
 
             XRL.World.Event event2 = XRL.World.Event.New("SplitStack", "Number", 1);
@@ -139,9 +143,13 @@ namespace XRL.World.Parts
             return true;
         }
 
-        public int assessGift(GameObject GO,GameObject who){
+
+
+        public acegiak_RomancePreferenceResult assessGift(GameObject GO,GameObject who){
 			havePreference();
-            float value = (Stat.Rnd2.Next(1,4) -2);
+            float value = 0;
+
+			acegiak_RomancePreferenceResult ret = new acegiak_RomancePreferenceResult(0,"");
 
 			foreach(acegiak_RomancePreference preferece in preferences){
 				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(GO,who);
@@ -150,11 +158,12 @@ namespace XRL.World.Parts
 					if(GO.GetPart<Commerce>() != null && GO.GetPart<Commerce>().Value >1){
 						result.amount = ((float)result.amount)*((float)GO.GetPart<Commerce>().Value);
 					}
-					value += result.amount;
+					ret.amount += result.amount;
+					ret.explanation = ret.explanation +"\n"+result.explanation;
 					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
 				}
 			}
-            return (int)(value*10);
+            return ret;
         }
 
 		public void HandleBeginConversation(Conversation conversation, GameObject speaker){
@@ -235,9 +244,6 @@ namespace XRL.World.Parts
 				foreach(ConversationChoice choice in node.Choices){
 					choice.Text = FilterRandom(choice.Text);
 				}
-			}
-			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
-				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
 
 
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
@@ -249,6 +255,15 @@ namespace XRL.World.Parts
 					giftoption.GotoID = "End";
 					node.Choices.Add(giftoption);
 				}
+				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=25){
+					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
+					kissoption.Ordinal = 910;
+					kissoption.Text = "[Propose a Date]";
+					kissoption.action = "*Date";
+					kissoption.ParentNode = node;
+					kissoption.GotoID = "End";
+					node.Choices.Add(kissoption);
+				}
 				if(ParentObject.GetPart<acegiak_Kissable>() != null && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50){
 					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
 					kissoption.Ordinal = 910;
@@ -258,7 +273,15 @@ namespace XRL.World.Parts
 					kissoption.GotoID = "End";
 					node.Choices.Add(kissoption);
 				}
+
+
+
 			}
+			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1){
+				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
+			}
+
+			
 
 			patience--;
 
@@ -322,30 +345,95 @@ namespace XRL.World.Parts
 			}
 
 
+            if (E.ID == "OwnerGetInventoryActions")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = gameObjectParameter2.GetPart<acegiak_Romancable>();
+				if (romancable != null && gameObjectParameter2.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("ArrangeDate", 'r',  true, "A&Wr&yrange a Date", "InvCommandArrangeDate");
+				}
+			}
+            if (E.ID == "InvCommandArrangeDate")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = gameObjectParameter2.GetPart<acegiak_Romancable>();
+				if (romancable != null && gameObjectParameter2.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					this.date = gameObjectParameter2;
+					Popup.Show(gameObjectParameter2.ShortDisplayName+" seems amenable to the idea.");
+				}
+			}
 
-			// DATES
+            if (E.ID == "OwnerGetInventoryActions")
+			{
+				GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+				if (date != null && date.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("BeginDate", 'j',  true, "Invite "+this.date.ShortDisplayName+" to &Wj&yoin you", "InvCommandBeginDate");
+				}
+			}
+            if (E.ID == "InvCommandBeginDate")
+			{
+				GameObject GO = E.GetGameObjectParameter("Object");
+				acegiak_Romancable romancable = this.date.GetPart<acegiak_Romancable>();
+				if (romancable != null && date.pBrain.GetFeeling(ParentObject) > 25)
+				{
+					
+					this.date.pBrain.PushGoal(new acegiak_WaitWith(10,ParentObject));
+					this.date.pBrain.PushGoal(new acegiak_DateAssess(ParentObject,GO));
+					this.date.pBrain.PushGoal(new acegiak_MoveTo(GO,true));
+					E.RequestInterfaceExit();
 
-			// if (E.ID == "OwnerGetInventoryActions")
-			// {
-			// 	EventParameterGetInventoryActions eventParameterGetInventoryActions = E.GetParameter("Actions") as EventParameterGetInventoryActions;
-			// 	GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
-			// 	if (gameObjectParameter2.HasPart("acegiak_Romancable"))
-			// 	{
-			// 		E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("InviteOnDate", 'G',  false, "&WI&ynvite on a Date", "InvCommandInviteDate", 10);
-			// 	}else if(this.Date != null){
-			// 		E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("InviteToDateSpot", 'G',  false, "&WI&ynvite "+this.Date.ShortDisplayName+" here", "InvCommandInviteToDateSpot", 10);
-			// 	}
-			// }
-			// if (E.ID == "InvCommandInviteDate"){
-			// 	this.Date = E.GetGameObjectParameter("Object");
-			// }
-			// if(E.ID == "InvCommandInviteToDateSpot"){
-			// 	this.Date.pBrain.PushGoal(new MoveTo(E.GetGameObjectParameter("Object")));
-			// }
+					IPart.AddPlayerMessage(date.ShortDisplayName+" comes to join you at "+GO.the+GO.ShortDisplayName);
+
+				}
+			}
+			
+
 
 			return base.FireEvent(E);
 		}
 
+		public string storyoptions(string key,string alt){
+			List<string> output = new List<string>();
+			foreach(acegiak_RomancePreference preferece in preferences){
+				string newstring = preferece.getstoryoption(key);
+				if(newstring != null){
+					output.Add(newstring);
+				}
+			}
+			if(output.Count > 0){
+				return output[Stat.Rnd2.Next(output.Count)];
+			}
+			return alt;
+		}
+
+		public void AssessDate(GameObject Date,GameObject DateObject){
+			havePreference();
+            float value = (Stat.Rnd2.Next(1,4) -2);
+			string output = ParentObject.The+ParentObject.ShortDisplayName+" joins you at "+DateObject.the+DateObject.ShortDisplayName;
+
+			foreach(acegiak_RomancePreference preferece in preferences){
+				acegiak_RomancePreferenceResult result = preferece.DateAssess(Date,DateObject);
+
+				if(result != null){
+					value += result.amount;
+					output += "\n"+result.explanation;
+					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
+				}
+			}
+			Popup.Show(output);
+            ParentObject.pBrain.AdjustFeeling(Date,(int)(value*10));
+			Date.GetPart<acegiak_Romancable>().date = null;
+			if(value <1){
+				this.patience -= 1f;
+			}else{
+				this.patience -= 0.5f;
+			}
+			JournalAPI.AddAccomplishment("&y You took "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" on a date to "+DateObject.the+DateObject.DisplayNameOnlyDirect+" and "+ParentObject.it+(value>0?" was&G":" was &rnot")+" impressed&y.", "general", null, -1L);
+
+		}
 
 	}
 }

@@ -4,6 +4,7 @@ using XRL.UI;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using Qud.API;
 
 namespace XRL.World.Parts
 {
@@ -63,32 +64,40 @@ namespace XRL.World.Parts
 					return true;
                 }
 
+			string beguiled = "";
+			string hbeguiled = " &Mkissed you back&y.";
+			if(ParentObject.GetIntProperty("BeguilingBonusApplied") >0){
+				beguiled = "\n"+ParentObject.It+ParentObject.GetVerb("quake")+" with fear and manic ecstasy.";
+				hbeguiled = " could not resist.";
+			}else{
                 
-			if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 50)
-			{
-				if (who.IsPlayer())
+				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 50)
 				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
-				}
-				ParentObject.pBrain.AdjustFeeling(who,-5);
+					if (who.IsPlayer())
+					{
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
+					}
+					ParentObject.pBrain.AdjustFeeling(who,-5);
 
-				if(ParentObject.pBrain.GetFeeling(who) < 0){
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+					if(ParentObject.pBrain.GetFeeling(who) < 0){
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+					}
+					return true;
 				}
-				return true;
+				if(!isAttractedTo(who)){
+					if (who.IsPlayer())
+					{
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
+					}
+					ParentObject.pBrain.AdjustFeeling(who,-10);
+
+					if(ParentObject.pBrain.GetFeeling(who) < 0){
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+					}
+					return true;
+				}
+				
 			}
-			if(!isAttractedTo(who)){
-				if (who.IsPlayer())
-				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
-				}
-				ParentObject.pBrain.AdjustFeeling(who,-10);
-
-				if(ParentObject.pBrain.GetFeeling(who) < 0){
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
-				}
-				return true;
-            }
 
             
 			string verb = "kiss";
@@ -102,7 +111,9 @@ namespace XRL.World.Parts
 				}
 				else
 				{
-					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "&Mkisses you back") + ".");
+
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "&Mkisses you back") + "."+beguiled);
+					JournalAPI.AddAccomplishment("&y You kissed "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" and "+ParentObject.it+hbeguiled, "general", null, -1L);
 				}
 			}
 			ParentObject.Heartspray();

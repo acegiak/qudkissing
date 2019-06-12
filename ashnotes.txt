@@ -1,0 +1,4 @@
+
+  <object Name="SultanShrine_3x3N" Inherits="Widget">
+    <part Name="MapChunkPlacement" Map="preset_tile_chunks/SultanShrine_3x3N.rpm" Width="5" Height="5"></part>
+  </object>
