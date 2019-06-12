@@ -139,7 +139,7 @@ namespace XRL.World.Parts
             foreach (BodyPart item in equippedParts)
             {
                 if(item.Equipped != null){
-                    if(item.Equipped.GetPart<Armor>() != null && item.Equipped.GetPart<Armor>.WornOn == this.wantedType){
+                    if(item.Equipped.GetPart<Armor>() != null && item.Equipped.GetPart<Armor>().WornOn == this.wantedType){
                         return new acegiak_RomancePreferenceResult(amount,(amount > 0?Romancable.ParentObject.GetVerb("like"):Romancable.ParentObject.GetVerb("dislike"))+" your "+item.Equipped.DisplayNameOnly);
                     }
                 }

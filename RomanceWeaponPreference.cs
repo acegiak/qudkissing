@@ -195,10 +195,10 @@ namespace XRL.World.Parts
             foreach (BodyPart item in equippedParts)
             {
                 if(item.Equipped != null){
-                    if(item.Equipped.GetPart<MeleeWeapon>() != null && item.Equipped.GetPart<MeleeWeapon>.Skill == this.wantedType){
+                    if(item.Equipped.GetPart<MeleeWeapon>() != null && item.Equipped.GetPart<MeleeWeapon>().Skill == this.wantedType){
                         return new acegiak_RomancePreferenceResult(amount,(amount > 0?Romancable.ParentObject.GetVerb("like"):Romancable.ParentObject.GetVerb("dislike"))+" your "+item.Equipped.DisplayNameOnly);
                     }
-                    if(item.Equipped.GetPart<MissileWeapon>() != null && item.Equipped.GetPart<MissileWeapon>.Skill == this.wantedType){
+                    if(item.Equipped.GetPart<MissileWeapon>() != null && item.Equipped.GetPart<MissileWeapon>().Skill == this.wantedType){
                         return new acegiak_RomancePreferenceResult(amount,(amount > 0?Romancable.ParentObject.GetVerb("like"):Romancable.ParentObject.GetVerb("dislike"))+" your "+item.Equipped.DisplayNameOnly);
                     }
                 }
