@@ -2,6 +2,7 @@ using System;
 using XRL.Core;
 using XRL.UI;
 using XRL.Rules;
+using XRL.World.AI.GoalHandlers;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace XRL.World.Parts
 
 		public bool lockout = true;
 
-
+		public GameObject Date = null;
 
 		public acegiak_Romancable()
 		{
@@ -86,6 +87,9 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "PlayerBeginConversation");
 			Object.RegisterPartEvent(this, "ShowConversationChoices");
 			Object.RegisterPartEvent(this, "VisitConversationNode");
+			Object.RegisterPartEvent(this, "OwnerGetInventoryActions");
+			Object.RegisterPartEvent(this, "InvCommandInviteDate");
+			Object.RegisterPartEvent(this, "InvCommandInviteToDateSpot");
 			base.Register(Object);
 		}
 
@@ -316,6 +320,28 @@ namespace XRL.World.Parts
 					E.SetParameter("CurrentNode",BuildNode((acegiak_RomanceChatNode)E.GetParameter<ConversationNode>("CurrentNode")));
 				}
 			}
+
+
+
+			// DATES
+
+			// if (E.ID == "OwnerGetInventoryActions")
+			// {
+			// 	EventParameterGetInventoryActions eventParameterGetInventoryActions = E.GetParameter("Actions") as EventParameterGetInventoryActions;
+			// 	GameObject gameObjectParameter2 = E.GetGameObjectParameter("Object");
+			// 	if (gameObjectParameter2.HasPart("acegiak_Romancable"))
+			// 	{
+			// 		E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("InviteOnDate", 'G',  false, "&WI&ynvite on a Date", "InvCommandInviteDate", 10);
+			// 	}else if(this.Date != null){
+			// 		E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("InviteToDateSpot", 'G',  false, "&WI&ynvite "+this.Date.ShortDisplayName+" here", "InvCommandInviteToDateSpot", 10);
+			// 	}
+			// }
+			// if (E.ID == "InvCommandInviteDate"){
+			// 	this.Date = E.GetGameObjectParameter("Object");
+			// }
+			// if(E.ID == "InvCommandInviteToDateSpot"){
+			// 	this.Date.pBrain.PushGoal(new MoveTo(E.GetGameObjectParameter("Object")));
+			// }
 
 			return base.FireEvent(E);
 		}
