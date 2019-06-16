@@ -47,14 +47,44 @@ namespace XRL.World.Parts
             string retexplain = "";
             if(gift.GetPart<ModFeathered>() != null && this.interestedFaction == "Birds"){
                 retamount += this.amount;
-                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the feathers on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".";
+                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the feathers on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".\n";
             }
             if(gift.GetPart<ModScaled>() != null && this.interestedFaction == "Unshelled Reptiles"){
                 retamount += this.amount;
-                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the scales on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".";
+                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the scales on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".\n";
             }
             if(gift.GetPart<AddsRep>() != null && gift.GetPart<AddsRep>().Faction == this.interestedFaction){
                 retamount += this.amount;
+            }
+            GameObjectBlueprint bp = gift.GetBlueprint();
+            if(bp.InheritsFrom("Jerky")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Preservable","Result") == bp.Name);
+                if(g != null){
+                    bp = g.GetBlueprint();
+                }
+            }
+
+            if(bp.InheritsFrom("Raw Meat")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Butcherable","OnSuccess") == bp.Name);
+                if(g != null){
+                    bp = g.GetBlueprint();
+                }
+            }
+
+            if(bp.InheritsFrom("Corpse")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Corpse","CorpseBlueprint") == bp.Name);
+                if(g != null){
+                    if(this.interestedFaction == g.pBrain.GetPrimaryFaction()){
+                        retamount += amount*-1;
+                        retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("is")+(this.amount > 0?"upset by the remains of":"pleased by the remains of")+g.a+g.DisplayNameOnly+".\n";
+                    }
+                }
+            }
+            if(retamount != 0 || retexplain != ""){
+                return new acegiak_RomancePreferenceResult(retamount,retexplain);
             }
             // if(getType(gift) == wantedType){
             //     return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.ShortDisplayName+"&Y.");
