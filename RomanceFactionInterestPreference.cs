@@ -30,7 +30,7 @@ namespace XRL.World.Parts
             }else{
                 this.interestedFaction = Factions.GetRandomFaction().Name;
             }
-            IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.interestedFaction);
+            //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.interestedFaction);
 
         }
 

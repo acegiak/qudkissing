@@ -49,7 +49,7 @@ namespace XRL.World.Parts
                     this.tales.Add(list[Stat.Random(0, list.Count - 1)]);
                 }
             }
-            IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","sultan"));
+            //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","sultan"));
 
         }
 

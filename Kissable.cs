@@ -80,7 +80,7 @@ namespace XRL.World.Parts
 					ParentObject.pBrain.AdjustFeeling(who,-5);
 
 					if(ParentObject.pBrain.GetFeeling(who) < 0){
-						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
 					}
 					return true;
 				}
@@ -92,7 +92,7 @@ namespace XRL.World.Parts
 					ParentObject.pBrain.AdjustFeeling(who,-10);
 
 					if(ParentObject.pBrain.GetFeeling(who) < 0){
-						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!.");
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
 					}
 					return true;
 				}
