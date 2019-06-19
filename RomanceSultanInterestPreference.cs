@@ -112,7 +112,7 @@ namespace XRL.World.Parts
                     }else{
                         Stories = new List<string>(new string[] {
                             "Once, I had a dream about a ==sultan==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "I just [hate|don't like] ==sultan==."
+                            "I just <hate|don't like> ==sultan==."
                         });
                     }
                     this.mytales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==sultan==",this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")).Replace("==sultanlong==",this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2)));
@@ -123,7 +123,7 @@ namespace XRL.World.Parts
             HistoricEvent e = tales[Stat.Rnd2.Next(tales.Count)];
             SultanShrine.RevealBasedOnHistoricalEvent(e);
 
-            return "[Did you know|I've heard that|There is a tale that says] "+e.GetEventProperty("gospel")+(amount>0?" [Isn't that interesting?|It's so fascinating!|At least, that's what I heard.]":"[Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.]");
+            return "<Did you know|I've heard that|There is a tale that says> "+e.GetEventProperty("gospel")+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 
         }
         public string getstoryoption(string key){

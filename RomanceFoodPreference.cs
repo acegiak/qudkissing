@@ -125,12 +125,12 @@ namespace XRL.World.Parts
                 }else{
                     sample.MakeUnderstood();
                     if(sample.GetPart<PreparedCookingIngredient>() != null){
-                        bodytext = "Did you know that [cooking|brewing|broiling|frying] "+sample.DisplayNameOnly+" can sometimes make [a meal|food] that bestows ";
+                        bodytext = "Did you know that <cooking|brewing|broiling|frying> "+sample.DisplayNameOnly+" can sometimes make <a meal|food> that bestows ";
                         bodytext += GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
                         bodytext += " effects on whoever eats it?";
                     }else
                     if(sample.GetPart<PreservableItem>() != null){
-                        bodytext = "I've heard that "+sample.DisplayNameOnly+" can be [preserved|cooked|made] into "+GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnly+".";
+                        bodytext = "I've heard that "+sample.DisplayNameOnly+" can be <preserved|cooked|made> into "+GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnly+".";
                     }else
                     if(sample.GetPart<Food>() != null){
                         bodytext = "I hear some people eat "+sample.DisplayNameOnly+" as a "+sample.GetPart<Food>().Satiation+".";
@@ -141,7 +141,7 @@ namespace XRL.World.Parts
                 node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds wonderful.":"Yes it seems quite unsettling.",amount>0?-1:1);
                 node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);
             }else{
-                bodytext = "Do you have any [interesting|tasty|exotic] food?";
+                bodytext = "Do you have any <interesting|tasty|exotic> food?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
@@ -162,10 +162,10 @@ namespace XRL.World.Parts
                     rw = GO.GetPart<PreservableItem>();
                     if((rw != null || mw != null) && GO.GetPart<Salve_Tonic_Applicator>()==null){
                         if(Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount > 0){
-                            node.AddChoice("food"+c.ToString(),"I have [this|a] "+GO.DisplayName+".",amount>0?"Wow, that looks delicious!":"Oh, that's disgusting!",amount>0?2:-1);
+                            node.AddChoice("food"+c.ToString(),"I have <this|a> "+GO.DisplayName+".",amount>0?"Wow, that looks delicious!":"Oh, that's disgusting!",amount>0?2:-1);
                             s++;
                         }else{
-                            node.AddChoice("food"+c.ToString(),"I have [this|a] "+GO.DisplayName+".",amount>0?"Oh, is that all?":"Oh, I guess that IS edible.",amount>0?0:0);
+                            node.AddChoice("food"+c.ToString(),"I have <this|a> "+GO.DisplayName+".",amount>0?"Oh, is that all?":"Oh, I guess that IS edible.",amount>0?0:0);
                             s++;
                         }
                     }
@@ -231,12 +231,12 @@ namespace XRL.World.Parts
                 List<string> Stories = null;
                 if(amount>0){
                     Stories = new List<string>(new string[] {
-                        "Once, I had a dream about eating a ==sample==. It was [delicious|amazing|wonderful].",
+                        "Once, I had a dream about eating a ==sample==. It was <delicious|amazing|wonderful>.",
                         "Once, I ate so much ==sample== I made myself sick."
                     });
                 }else{
                     Stories = new List<string>(new string[] {
-                        "Once, I had a dream about eating a ==sample==. It was [disgusting|horrible|awful].",
+                        "Once, I had a dream about eating a ==sample==. It was <disgusting|horrible|awful>.",
                         "I think I might be allergic to ==sample==."
                     });
                 }

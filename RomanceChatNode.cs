@@ -26,7 +26,7 @@ namespace XRL.World
             this.Title = title;
         }
 
-        public void AddChoice(string id, string title,string response, float opinionchange){
+        public void AddChoice(string id, string title,string response, float opinionchange,acegiak_RomanceChatChoice.acegiak_ChoiceAction action = null){
                 acegiak_RomanceChatChoice choice = new acegiak_RomanceChatChoice();
                 choice.ID = "acegiak_romance_"+id;
                 choice.Text = title;
@@ -34,6 +34,9 @@ namespace XRL.World
                 choice.OpinionAmount = opinionchange;
                 choice.GotoID = "acegiak_romance_aboutme";
                 choice.ParentNode = this;
+                if(action != null){
+                    choice.choiceAction = action;
+                }
                 this.Choices.Add(choice);
         }
 

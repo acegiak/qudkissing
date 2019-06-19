@@ -92,7 +92,7 @@ namespace XRL.World.Parts
                 node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
             
             }else{
-                bodytext = "Do you have any interesting [clothing|armor|vestments]?";
+                bodytext = "Do you have any interesting <clothing|armor|vestments>?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();

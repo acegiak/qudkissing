@@ -102,18 +102,18 @@ namespace XRL.World.Parts
             }
 
             if(g<0.2 && haskey){
-                bodytext = "Do you ever [think about|fantasize about|ponder|dream about] just "+verbs[wantedType]+" people?";
+                bodytext = "Do you ever <think about|fantasize about|ponder|dream about> just "+verbs[wantedType]+" people?";
                 node.AddChoice("yeahcleave","Oh yes, quite often.",amount>0?"Oh good. I thought I was the only one.":"Really? That is troubling.",amount>0?1:-1);
                 node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);
             }else if(g<0.4 && haskey){
-                bodytext = "How do you like to [slay|attack|fight|combat] your enemies?";
+                bodytext = "How do you like to <slay|attack|fight|combat> your enemies?";
                 foreach(var item in verbs){
                     if((item.Key  == wantedType || Stat.Rnd2.NextDouble() < 0.5)){
                         GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter("MeleeWeapon","Skill")==item.Key ||b.GetPartParameter("MissileWeapon","Skill")==item.Key );
                         if(item.Key == wantedType || (GO != null && Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount>0)){
-                            node.AddChoice(item.Key,"I [like|prefer] "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                         }else{
-                            node.AddChoice(item.Key,"I [like|prefer] "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
                         }
                     }
                 }
@@ -143,7 +143,7 @@ namespace XRL.World.Parts
                     bodytext = "I hear bows and rifles are very good for shooting folks at long range.";}
                 if(wantedType == "Pistol"){
                     bodytext = "Did you know some folks weild a pistol in each hand?";}
-                node.AddChoice("approve","I have seen as much. It is [glorious|wonderful|fantastic].",amount>0?"So fascinating!":"Oh, how scary.",amount>0?1:-1);
+                node.AddChoice("approve","I have seen as much. It is <glorious|wonderful|fantastic>.",amount>0?"So fascinating!":"Oh, how scary.",amount>0?1:-1);
                 node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds very impressive.":"Yes it seems quite dangerous.",amount>0?-1:1);
                 node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);
             }else{

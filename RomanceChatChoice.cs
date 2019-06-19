@@ -14,6 +14,9 @@ namespace XRL.World
 
         public float OpinionAmount = 0;
         public string ResponseText = "huh?";
+        public delegate void acegiak_ChoiceAction();
+
+        public acegiak_ChoiceAction choiceAction = null;
 
         public string action = null;
 
@@ -53,6 +56,9 @@ namespace XRL.World
                 }
                 if(this.OpinionAmount <= -1){
                     Speaker.GetPart<acegiak_Romancable>().patience -= 0.5f;
+                }
+                if(choiceAction != null){
+                    choiceAction.Invoke();
                 }
             }
             ConversationNode goingto = base.Goto(Speaker,peekOnly);

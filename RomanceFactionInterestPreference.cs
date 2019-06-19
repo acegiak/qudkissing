@@ -106,9 +106,9 @@ namespace XRL.World.Parts
             float g = (float)Stat.Rnd2.NextDouble();
 
             if(g<1){
-                bodytext = "[What do you think of|How do you feel about|What is your opinion of] "+factionName()+"?";
+                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+factionName()+"?";
                 node.AddChoice("likethem","I am quite fond of them.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
-                node.AddChoice("dislikethem","[Loathsome creatures, one and all|They are wretched|I can't stand them].",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);
+                node.AddChoice("dislikethem","<Loathsome creatures, one and all|They are wretched|I can't stand them>.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);
             }
 
             if(Romancable != null){
@@ -137,7 +137,7 @@ namespace XRL.World.Parts
                     item.MakeUnderstood();
                     Stories = new List<string>(new string[] {
                         "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                        "Once, a ==example== [gave me|showed me|told me about] "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
+                        "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
                         "I think ==type== are neat."
                     });
                 }else{
@@ -145,8 +145,8 @@ namespace XRL.World.Parts
                     item.MakeUnderstood();
                     Stories = new List<string>(new string[] {
                         "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                        "Once, a ==example== [attacked|tried to kill me] me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
-                        "I just [hate|can't stand] ==type==."
+                        "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
+                        "I just <hate|can't stand> ==type==."
                     });
                 }
                 this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",factionName()).Replace("==example==",examplename()));

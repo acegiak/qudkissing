@@ -25,6 +25,7 @@ namespace XRL.World.Parts
 		private Dictionary<string,int> FavoriteThings = null;
 
 		private List<acegiak_RomancePreference> preferences = null;
+		private acegiak_RomanceBoon boon = null;
 
 		private int lastseen = 0;
 		public float patience = 5;
@@ -43,10 +44,10 @@ namespace XRL.World.Parts
 
 		public static string FilterRandom(string s)
     {
-			return Regex.Replace(s, @"\[(.*?)\]", delegate(Match match)
+			return Regex.Replace(s, @"<(.*?)>", delegate(Match match)
 			{
-				string[] v = match.Groups[0].ToString().Split('|');
-				return v[Stat.Rnd2.Next(v.Length)].Replace("[","").Replace("]","");
+				string[] v = match.Groups[1].ToString().Split('|');
+				return v[Stat.Rnd2.Next(v.Length)];
 			});
 		}
 
@@ -72,6 +73,16 @@ namespace XRL.World.Parts
 						preferences.Add(new acegiak_ArmorPreference(this));
 						break;
 					}
+				}
+			}
+			if(this.boon == null){
+				switch (Stat.Rnd2.Next(2)){
+					case 0:
+						boon = new acegiak_GiftBoon(this);
+						break;
+					case 1:
+						boon = new acegiak_FollowBoon(this);
+						break;
 				}
 			}
 		}
@@ -240,6 +251,12 @@ namespace XRL.World.Parts
 					returntostart.GotoID = node.ParentConversation.StartNodes[0].ID;
 					returntostart.ParentNode = node;
 					node.Choices.Add(returntostart);
+			}else if(boon.BoonReady(XRLCore.Core.Game.Player.Body)){
+				node = boon.BuildNode(node);
+				node.Text = FilterRandom(node.Text);
+				foreach(ConversationChoice choice in node.Choices){
+					choice.Text = FilterRandom(choice.Text);
+				}
 			}else{
 				node = preferences[Stat.Rnd2.Next(0,preferences.Count)].BuildNode(node);
 				node.Text = FilterRandom(node.Text);
