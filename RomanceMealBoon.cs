@@ -29,8 +29,8 @@ namespace XRL.World.Parts
                         //IPart.AddPlayerMessage("no romancable");
                         return null;
                     }
-                    acegiak_FoodPreference food = (acegiak_FoodPreference)Romancable.preferences.Where(b=>b is acegiak_FoodPreference).FirstOrDefault();
-                    if(food == null){
+                    acegiak_FoodPreference food = (acegiak_FoodPreference)Romancable.preferences.Where(b=>b is acegiak_FoodPreference && ((acegiak_FoodPreference)b).amount >=0).OrderBy(o=>Stat.Rnd2.NextDouble()).FirstOrDefault();
+                    if(food == null || food.amount < 0){
                         //IPart.AddPlayerMessage("no food preference");
                         return null;
                     }

@@ -136,6 +136,7 @@ namespace XRL.World.Parts
 			Object.RegisterPartEvent(this, "OwnerGetInventoryActions");
 			Object.RegisterPartEvent(this, "InvCommandArrangeDate");
 			Object.RegisterPartEvent(this, "InvCommandBeginDate");
+			Object.RegisterPartEvent(this, "CommandRemoveObject");
 			base.Register(Object);
 		}
 
@@ -166,7 +167,7 @@ namespace XRL.World.Parts
             {
                 return false;
             }
-			int result = (int)(assessGift(ObjectChoices[num12],who).amount+(Stat.Rnd2.Next(1,4) -2))*10;
+			int result = (int)((assessGift(ObjectChoices[num12],who).amount+(Stat.Rnd2.Next(1,4) -1.5f))*10);
 			
 
             XRL.World.Event event2 = XRL.World.Event.New("SplitStack", "Number", 1);
@@ -177,6 +178,8 @@ namespace XRL.World.Parts
                 Popup.Show("You can't give that object.");
                 return false;
             }
+			ObjectChoices[num12].SetStringProperty("GiftedTo",ParentObject.id);
+			ParentObject.GetPart<Inventory>().AddObject(ObjectChoices[num12]);
             ParentObject.pBrain.AdjustFeeling(who,result);
 				if (who.IsPlayer())
 				{
@@ -435,6 +438,12 @@ namespace XRL.World.Parts
 
 					IPart.AddPlayerMessage(date.ShortDisplayName+" comes to join you at "+GO.the+GO.ShortDisplayName);
 
+				}
+			}
+			if(E.ID == "CommandRemoveObject" && !ParentObject.IsPlayer()){
+				GameObject G = E.GetGameObjectParameter("Object");
+				if(assessGift(G,ParentObject).amount>0 && G.GetPropertyOrTag("GiftedTo") == ParentObject.id){
+					Popup.Show(ParentObject.The+ParentObject.DisplayNameOnly+" cannot bear to part with "+G.the+G.DisplayNameOnly+".");
 				}
 			}
 			
