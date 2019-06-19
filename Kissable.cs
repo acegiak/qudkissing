@@ -78,7 +78,7 @@ namespace XRL.World.Parts
 				hbeguiled = " could not resist.";
 			}else{
                 
-				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 50)
+				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 55)
 				{
 					if (who.IsPlayer())
 					{

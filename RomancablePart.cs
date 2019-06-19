@@ -10,6 +10,8 @@ using Qud.API;
 using System.Text.RegularExpressions;
 using XRL.World.AI.GoalHandlers;
 using Qud.API;
+using HistoryKit;
+
 
 namespace XRL.World.Parts
 {
@@ -24,8 +26,8 @@ namespace XRL.World.Parts
 
 		private Dictionary<string,int> FavoriteThings = null;
 
-		private List<acegiak_RomancePreference> preferences = null;
-		private acegiak_RomanceBoon boon = null;
+		public List<acegiak_RomancePreference> preferences = null;
+		private List<acegiak_RomanceBoon> boons = null;
 
 		private int lastseen = 0;
 		public float patience = 5;
@@ -52,40 +54,66 @@ namespace XRL.World.Parts
 		}
 
 		public void havePreference(){
-			if(preferences == null){
-				preferences = new List<acegiak_RomancePreference>();
+			if(this.preferences == null){
+				// IPart.AddPlayerMessage("Populating Preference");
+				this.preferences = new List<acegiak_RomancePreference>();
 				int count = Stat.Rnd2.Next(3)+3;
 				for(int i = 0; i<count;i++){
 					switch (Stat.Rnd2.Next(5)){
 					case 0:
-						preferences.Add(new acegiak_WeaponPreference(this));
+						this.preferences.Add(new acegiak_WeaponPreference(this));
 						break;
 					case 1:
-						preferences.Add(new acegiak_FoodPreference(this));
+						this.preferences.Add(new acegiak_FoodPreference(this));
 						break;
 					case 2:
-						preferences.Add(new acegiak_FactionInterestPreference(this));
+						this.preferences.Add(new acegiak_FactionInterestPreference(this));
 						break;
 					case 3:
-						preferences.Add(new acegiak_SultanInterestPreference(this));
+						this.preferences.Add(new acegiak_SultanInterestPreference(this));
 						break;
 					case 4:
-						preferences.Add(new acegiak_ArmorPreference(this));
+						this.preferences.Add(new acegiak_ArmorPreference(this));
 						break;
 					}
 				}
+				// IPart.AddPlayerMessage(this.preferences.ToString());
 			}
-			if(this.boon == null){
-				switch (Stat.Rnd2.Next(2)){
-					case 0:
-						boon = new acegiak_GiftBoon(this);
-						break;
-					case 1:
-						boon = new acegiak_FollowBoon(this);
-						break;
-				}
+			if(this.boons == null){
+				boons = new List<acegiak_RomanceBoon>();
+				boons.Add(new acegiak_GiftBoon(this));
+				boons.Add(new acegiak_MealBoon(this));
+				boons.Add(new acegiak_FollowBoon(this));
+				boons.RemoveAll(b=>!b.BoonPossible(XRLCore.Core.Game.Player.Body));
+				boons.ShuffleInPlace();
+				// switch (Stat.Rnd2.Next(3)){
+				// 	case 0:
+				// 		boon = new acegiak_GiftBoon(this);
+				// 		break;
+				// 	case 1:
+				// 		boon = new acegiak_MealBoon(this);
+				// 		break;
+				// 	case 2:
+				// 		boon = new acegiak_FollowBoon(this);
+				// 		break;
+				// }
 			}
 		}
+		
+		// public acegiak_RomancePreference GetPreference<T>(){
+		// 	this.havePreference();
+		// 	IPart.AddPlayerMessage(this.preferences.ToString());
+
+		// 	// if(this.preferences == null){
+		// 	// 	IPart.AddPlayerMessage("Preferences is null");
+		// 	// 	return null;}
+		// 	IPart.AddPlayerMessage("Preference count:"+this.preferences.Count.ToString());
+
+		// 	for(int i = 0;i < this.preferences.Count;i++){
+		// 		IPart.AddPlayerMessage("Preference"+i.ToString()+":"+preferences[i].GetType().ToString());
+		// 	}
+		// 	return null;
+		// }
 
 
 		public override bool SameAs(IPart p)
@@ -251,7 +279,8 @@ namespace XRL.World.Parts
 					returntostart.GotoID = node.ParentConversation.StartNodes[0].ID;
 					returntostart.ParentNode = node;
 					node.Choices.Add(returntostart);
-			}else if(boon.BoonReady(XRLCore.Core.Game.Player.Body)){
+			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
+				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
 				node = boon.BuildNode(node);
 				node.Text = FilterRandom(node.Text);
 				foreach(ConversationChoice choice in node.Choices){
@@ -283,7 +312,7 @@ namespace XRL.World.Parts
 					kissoption.GotoID = "End";
 					node.Choices.Add(kissoption);
 				}
-				if(ParentObject.GetPart<acegiak_Kissable>() != null && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=50){
+				if(ParentObject.GetPart<acegiak_Kissable>() != null && ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>=55){
 					acegiak_RomanceChatChoice kissoption = new acegiak_RomanceChatChoice();
 					kissoption.Ordinal = 910;
 					kissoption.Text = "[Attempt to Kiss]";
