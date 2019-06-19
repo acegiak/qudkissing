@@ -37,7 +37,8 @@ namespace XRL.World.Parts
             node.AddChoice("acceptgift","Very well. [Accept "+this.Romancable.ParentObject.the+this.Romancable.ParentObject.DisplayNameOnly+" into your party].","Excellent! We will have many adventures together!",-30,delegate(){
                     this.Romancable.ParentObject.GetPart<Brain>().BecomeCompanionOf(XRLCore.Core.Game.Player.Body);
                     this.Romancable.ParentObject.GetPart<Brain>().IsLedBy(XRLCore.Core.Game.Player.Body);
-                    this.Romancable.ParentObject.GetPart<Brain>().Goals.Clear();});
+                    this.Romancable.ParentObject.GetPart<Brain>().Goals.Clear();
+                    Popup.Show(this.Romancable.ParentObject.The+this.Romancable.ParentObject.DisplayNameOnly+" joins your party!");});
             node.AddChoice("rejectgift","I'm sorry but you cannot join me.","Oh I'm sorry. That makes sense.",-30);
             return node;
         }
