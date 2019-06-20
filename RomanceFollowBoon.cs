@@ -29,7 +29,7 @@ namespace XRL.World.Parts
         }
 
         public bool BoonReady(GameObject player){
-            int? difference = DifficultyEvaluation.GetDifficultyRating(ParentObject,player);
+            int? difference = DifficultyEvaluation.GetDifficultyRating(Romancable.ParentObject,player);
             if(difference == null){difference = 0;}
             return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 65 + difference;
         }
