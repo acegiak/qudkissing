@@ -46,7 +46,7 @@ namespace XRL.World.Parts
 
             this.ExampleName = sample.DisplayNameOnly;
             Romancable = romancable;
-            amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
+            amount = (float)((Stat.Rnd2.NextDouble()*2)-0.9);
             //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
         }
         string normalisename(string name){

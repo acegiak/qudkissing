@@ -54,27 +54,38 @@ namespace XRL.World.Parts
 		}
 
 		public void havePreference(){
+			if(ParentObject.IsPlayer()){
+				return;
+			}
 			if(this.preferences == null){
 				// IPart.AddPlayerMessage("Populating Preference");
 				this.preferences = new List<acegiak_RomancePreference>();
 				int count = Stat.Rnd2.Next(3)+3;
-				for(int i = 0; i<count;i++){
-					switch (Stat.Rnd2.Next(5)){
-					case 0:
-						this.preferences.Add(new acegiak_WeaponPreference(this));
-						break;
-					case 1:
-						this.preferences.Add(new acegiak_FoodPreference(this));
-						break;
-					case 2:
-						this.preferences.Add(new acegiak_FactionInterestPreference(this));
-						break;
-					case 3:
-						this.preferences.Add(new acegiak_SultanInterestPreference(this));
-						break;
-					case 4:
-						this.preferences.Add(new acegiak_ArmorPreference(this));
-						break;
+				while(preferences.Count < count){
+					try{
+						switch (Stat.Rnd2.Next(6)){
+						case 0:
+							this.preferences.Add(new acegiak_WeaponPreference(this));
+							break;
+						case 1:
+							this.preferences.Add(new acegiak_FoodPreference(this));
+							break;
+						case 2:
+							this.preferences.Add(new acegiak_FactionInterestPreference(this));
+							break;
+						case 3:
+							this.preferences.Add(new acegiak_SultanInterestPreference(this));
+							break;
+						case 4:
+							this.preferences.Add(new acegiak_ArmorPreference(this));
+							break;
+						case 5:
+							this.preferences.Add(new acegiak_PatriotPreference(this));
+							break;
+						}
+					}catch (Exception ex)
+					{
+
 					}
 				}
 				// IPart.AddPlayerMessage(this.preferences.ToString());
@@ -442,7 +453,7 @@ namespace XRL.World.Parts
 			}
 			if(E.ID == "CommandRemoveObject" && !ParentObject.IsPlayer()){
 				GameObject G = E.GetGameObjectParameter("Object");
-				if(assessGift(G,ParentObject).amount>0 && G.GetPropertyOrTag("GiftedTo") == ParentObject.id){
+				if(G.GetPropertyOrTag("GiftedTo") == ParentObject.id && assessGift(G,ParentObject).amount>0){
 					Popup.Show(ParentObject.The+ParentObject.DisplayNameOnly+" cannot bear to part with "+G.the+G.DisplayNameOnly+".");
 				}
 			}

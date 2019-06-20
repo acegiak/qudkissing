@@ -29,21 +29,20 @@ namespace XRL.World.Parts
                         //IPart.AddPlayerMessage("no romancable");
                         return null;
                     }
-                    acegiak_FoodPreference food = (acegiak_FoodPreference)Romancable.preferences.Where(b=>b is acegiak_FoodPreference && ((acegiak_FoodPreference)b).amount >=0).OrderBy(o=>Stat.Rnd2.NextDouble()).FirstOrDefault();
-                    if(food == null || food.amount < 0){
-                        //IPart.AddPlayerMessage("no food preference");
-                        return null;
-                    }
-                    GameObject G = food.exampleObject();
-                    if(G == null){
+
+                    List<GameObject> foods = Romancable.preferences
+                        .Where(b=>b is acegiak_FoodPreference).Select(b=>(acegiak_FoodPreference)b)
+                        .OrderBy(o=>Stat.Rnd2.NextDouble())
+                        .Select(b=>b.exampleObject())
+                        .ToList();
+                    
+                    if(foods.Count() <= 0){
                         //IPart.AddPlayerMessage("no example object");
                         return null;
                     }
                     List<GameObject> GList = new List<GameObject>();
-                    GList.Add(G);
+                    
                     reward = CookingRecipe.FromIngredients(GList);
-                
-
             }
             return reward;
         }

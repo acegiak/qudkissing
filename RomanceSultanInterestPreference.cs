@@ -27,7 +27,7 @@ namespace XRL.World.Parts
 
         public acegiak_SultanInterestPreference(acegiak_Romancable romancable){
             Romancable = romancable;
-            amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
+            amount = (float)((Stat.Rnd2.NextDouble()*2)-0.9);
 
             History sultanHistory = XRLCore.Core.Game.sultanHistory;
 
