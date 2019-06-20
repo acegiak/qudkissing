@@ -34,7 +34,7 @@ namespace XRL.World.Parts
         public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "I have a suggestion: I would like to join you and follow you on your adventures.";
 
-            node.AddChoice("acceptgift","Very well. [Accept "+this.Romancable.ParentObject.the+this.Romancable.ParentObject.DisplayNameOnly+" into your party].","Excellent! We will have many adventures together!",-30,delegate(){
+            node.AddChoice("End","Very well. [Accept "+this.Romancable.ParentObject.the+this.Romancable.ParentObject.DisplayNameOnly+" into your party].","Excellent! We will have many adventures together!",-30,delegate(){
                     this.Romancable.ParentObject.GetPart<Brain>().BecomeCompanionOf(XRLCore.Core.Game.Player.Body);
                     this.Romancable.ParentObject.GetPart<Brain>().IsLedBy(XRLCore.Core.Game.Player.Body);
                     this.Romancable.ParentObject.GetPart<Brain>().Goals.Clear();});
