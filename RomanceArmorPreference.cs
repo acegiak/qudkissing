@@ -69,7 +69,7 @@ namespace XRL.World.Parts
         }
 
         string GetSkill(GameObject GO){
-            if(GO.GetPart<Armor>() != null && GO.GetBlueprint().InheritsFrom("Armor")){
+            if(GO.GetPart<Armor>() != null){
                 return GO.GetPart<Armor>().WornOn;
             }
             return null;

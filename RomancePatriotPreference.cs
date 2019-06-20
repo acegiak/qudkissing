@@ -33,7 +33,6 @@ namespace XRL.World.Parts
             List<HistoricEntity> villages = HistoryAPI.GetVillages();
             // .Name.Contains("villagers")
             int high = 0;
-            HistoricEntitySnapshot village = null;
             foreach (KeyValuePair<string, int> item in  romancable.ParentObject.pBrain.FactionMembership)
 			{
                 if(item.Key.Contains("villagers")){
@@ -70,38 +69,44 @@ namespace XRL.World.Parts
         }
 
         public List<string> goods (){
+            if(village == null){
+                throw new Exception("Village does not exist.");
+            }
             List<string> good = village.GetList("sacredThings");
             if(good == null){good = new List<string>();}
             good.Add(village.GetProperty("defaultSacredThing"));
             good.Add(village.GetProperty("signatureItem"));
             good.Add(village.GetProperty("signatureHistoricObjectName"));
-            good.RemoveAll(r=>r==null);
+            good.RemoveAll(r=>r==null||r=="unknown");
             return good;
         }
 
         public List<string> bads(){
+            if(village == null){
+                throw new Exception("Village does not exist.");
+            }
             List<string> bad = village.GetList("profaneThings");
             if(bad == null){bad = new List<string>();}
             bad.Add(village.GetProperty("defaultProfaneThing"));
-            bad.RemoveAll(r=>r==null);
+            bad.RemoveAll(r=>r==null||r=="unknown");
             return bad;
         }
 
         public string randomGood(){
             string element = goods().GetRandomElement();
-            GameObject GO = GameObject.create(element);
-            if(GO == null){
+            // GameObject GO = GameObject.create(element);
+            // if(GO == null){
                 return element;
-            }
-            return GO.a+GO.DisplayNameOnly;
+            // }
+            // return GO.a+GO.DisplayNameOnly;
         }
         public string randomBad(){
             string element = bads().GetRandomElement();
-            GameObject GO = GameObject.create(element);
-            if(GO == null){
+            // GameObject GO = GameObject.create(element);
+            // if(GO == null){
                 return element;
-            }
-            return GO.a+GO.DisplayNameOnly;
+            // }
+            // return GO.a+GO.DisplayNameOnly;
         }
 
         public acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
@@ -172,21 +177,21 @@ namespace XRL.World.Parts
                         GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
                         item.MakeUnderstood();
                         Stories = new List<string>(new string[] {
-                            "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
+                            "Once, I had a dream about  ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
+                            "Once,  ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
 
                             "Once, I had a dream about a ==examplebad==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once, a ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
+                            "Once,  ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
                         });
                     }else{
                         GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
                         item.MakeUnderstood();
                         Stories = new List<string>(new string[] {
-                            "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
+                            "Once, I had a dream about  ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
+                            "Once,  ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
 
                             "Once, I had a dream about a ==examplebad==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once, a ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
+                            "Once,  ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
                         });
                     }
                     this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
@@ -199,7 +204,7 @@ namespace XRL.World.Parts
                 JournalAPI.RevealVillageNote(e);
 			};
 
-            return "<Did you know|I've heard that|There is a tale that says> "+e.text+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
+            return "<Did you know|I've heard that|There is a tale that says> "+e.GetDisplayText()+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 
         }
         public string getstoryoption(string key){
