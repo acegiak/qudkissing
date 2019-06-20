@@ -2,6 +2,7 @@ using System;
 using XRL.Core;
 using XRL.UI;
 using XRL.Rules;
+using XRL.World.Capabilities;
 
 namespace XRL.World.Parts
 {
@@ -28,7 +29,9 @@ namespace XRL.World.Parts
         }
 
         public bool BoonReady(GameObject player){
-            return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 60;
+            int? difference = DifficultyEvaluation.GetDifficultyRating(ParentObject,player);
+            if(difference == null){difference = 0;}
+            return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 65 + difference;
         }
 
         public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){

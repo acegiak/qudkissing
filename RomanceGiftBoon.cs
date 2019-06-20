@@ -39,7 +39,11 @@ namespace XRL.World.Parts
         }
 
         public bool BoonReady(GameObject player){
-            return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 60;
+            int diff = 0;
+            if(ParentObject.GetPart<Commerce>() != null){
+                diff = ParentObject.GetPart<Commerce>().Value;
+            }
+            return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 60+diff;
         }
 
         public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
