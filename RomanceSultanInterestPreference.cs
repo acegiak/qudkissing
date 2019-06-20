@@ -82,7 +82,7 @@ namespace XRL.World.Parts
             }
 
             if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory();
+                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
             }
             node.Text = node.Text+"\n\n"+bodytext;
 
@@ -99,7 +99,7 @@ namespace XRL.World.Parts
 
         
 
-        public string GetStory(){
+        public string GetStory(acegiak_RomanceChatNode node){
 
             if(Stat.Rnd2.NextDouble()>0.25){
                 while(this.mytales.Count < 5){
@@ -121,7 +121,9 @@ namespace XRL.World.Parts
             }
 
             HistoricEvent e = tales[Stat.Rnd2.Next(tales.Count)];
-            SultanShrine.RevealBasedOnHistoricalEvent(e);
+            node.OnLeaveNode = delegate{
+                SultanShrine.RevealBasedOnHistoricalEvent(e);
+			};
 
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetEventProperty("gospel")+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 

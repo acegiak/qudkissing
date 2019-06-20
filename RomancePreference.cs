@@ -17,7 +17,7 @@ namespace XRL.World.Parts
 	{
         acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift);
         acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node);
-        string GetStory();
+        string GetStory(acegiak_RomanceChatNode node);
         acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject);
 
         string getstoryoption(string key);

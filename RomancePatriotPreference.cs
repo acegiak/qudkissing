@@ -19,6 +19,9 @@ namespace XRL.World.Parts
         float amount = 0;
         acegiak_Romancable Romancable = null;
 
+        List<JournalVillageNote> historytales = new List<JournalVillageNote>();
+
+
         List<string> tales = new List<string>();
 
 
@@ -45,12 +48,18 @@ namespace XRL.World.Parts
 			
 
             amount = (float)((Stat.Rnd2.NextDouble()*1.5)-0.5);
+
+
             
             if(village == null || faction == null){
                 throw new Exception("Not a villager.");
             }
             //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.interestedFaction);
+            List<JournalVillageNote> notesForVillage = JournalAPI.GetNotesForVillage(village.entity.id);
 
+            while(this.historytales.Count<2){
+                this.historytales.Add(notesForVillage[Stat.Rnd2.Next(0, notesForVillage.Count)]);
+            }
         }
 
         string factionName(){
@@ -62,6 +71,7 @@ namespace XRL.World.Parts
 
         public List<string> goods (){
             List<string> good = village.GetList("sacredThings");
+            if(good == null){good = new List<string>();}
             good.Add(village.GetProperty("defaultSacredThing"));
             good.Add(village.GetProperty("signatureItem"));
             good.Add(village.GetProperty("signatureHistoricObjectName"));
@@ -71,6 +81,7 @@ namespace XRL.World.Parts
 
         public List<string> bads(){
             List<string> bad = village.GetList("profaneThings");
+            if(bad == null){bad = new List<string>();}
             bad.Add(village.GetProperty("defaultProfaneThing"));
             bad.RemoveAll(r=>r==null);
             return bad;
@@ -136,7 +147,7 @@ namespace XRL.World.Parts
             }
 
             if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory();
+                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
             }
             node.Text = node.Text+"\n\n"+bodytext;
 
@@ -153,33 +164,42 @@ namespace XRL.World.Parts
 
         
 
-        public string GetStory(){
-            while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                        "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
+        public string GetStory(acegiak_RomanceChatNode node){
+            if(Stat.Rnd2.NextDouble()<0.5f){
+                while(this.tales.Count < 5){
+                    List<string> Stories = null;
+                    if(amount>0){
+                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
+                        item.MakeUnderstood();
+                        Stories = new List<string>(new string[] {
+                            "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
+                            "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
 
-                        "Once, I had a dream about a ==examplebad==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                        "Once, a ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
-                    });
-                }else{
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                        "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
+                            "Once, I had a dream about a ==examplebad==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
+                            "Once, a ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
+                        });
+                    }else{
+                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
+                        item.MakeUnderstood();
+                        Stories = new List<string>(new string[] {
+                            "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
+                            "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
 
-                        "Once, I had a dream about a ==examplebad==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                        "Once, a ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
-                    });
+                            "Once, I had a dream about a ==examplebad==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
+                            "Once, a ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
+                        });
+                    }
+                    this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
                 }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
+                return tales[Stat.Rnd2.Next(tales.Count)];
             }
-            return tales[Stat.Rnd2.Next(tales.Count)];
+
+            JournalVillageNote e = historytales[Stat.Rnd2.Next(historytales.Count)];
+            node.OnLeaveNode = delegate{
+                JournalAPI.RevealVillageNote(e);
+			};
+
+            return "<Did you know|I've heard that|There is a tale that says> "+e.text+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 
         }
         public string getstoryoption(string key){

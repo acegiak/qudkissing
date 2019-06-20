@@ -182,7 +182,7 @@ namespace XRL.World.Parts
             }
 
             if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory();
+                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
             }
             node.Text = node.Text+"\n\n"+bodytext;
 
@@ -208,7 +208,7 @@ namespace XRL.World.Parts
 
 
 
-        public string GetStory(){
+        public string GetStory(acegiak_RomanceChatNode node){
             while(this.tales.Count < 5){
                 List<string> Stories = null;
                 if(amount>0){

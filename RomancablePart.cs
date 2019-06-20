@@ -359,8 +359,8 @@ namespace XRL.World.Parts
 			return node;
 		}
 
-		public string GetStory(){
-			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)].GetStory();
+		public string GetStory(acegiak_RomanceChatNode node){
+			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)].GetStory(node);
 			return story;
 		}
 
@@ -451,7 +451,7 @@ namespace XRL.World.Parts
 
 				}
 			}
-			if(E.ID == "CommandRemoveObject" && !ParentObject.IsPlayer()){
+			if(E.ID == "CommandRemoveObject" && !ParentObject.IsPlayer() && ParentObject != null && ParentObject.id != null){
 				GameObject G = E.GetGameObjectParameter("Object");
 				if(G.GetPropertyOrTag("GiftedTo") == ParentObject.id && assessGift(G,ParentObject).amount>0){
 					Popup.Show(ParentObject.The+ParentObject.DisplayNameOnly+" cannot bear to part with "+G.the+G.DisplayNameOnly+".");
