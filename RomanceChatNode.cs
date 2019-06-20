@@ -33,6 +33,10 @@ namespace XRL.World
                 choice.ResponseText = response;
                 choice.OpinionAmount = opinionchange;
                 choice.GotoID = "acegiak_romance_aboutme";
+
+                if(id == "End"){
+                    choice.GotoID = "End";
+                }
                 choice.ParentNode = this;
                 if(action != null){
                     choice.choiceAction = action;

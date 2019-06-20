@@ -42,7 +42,7 @@ namespace XRL.World
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 10 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) >= 10){
                     this.ResponseText = this.ResponseText+"\n\n *"+Speaker.ShortDisplayName+" smiles.*";
                 }else
-                if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 50 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) >= 50){
+                if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 55 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) >= 55){
                     this.ResponseText = this.ResponseText+"\n\n *"+Speaker.ShortDisplayName+" grins at you.*";
                 }else
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) >= 5 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) < 5){

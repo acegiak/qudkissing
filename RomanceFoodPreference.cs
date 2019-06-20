@@ -17,7 +17,7 @@ namespace XRL.World.Parts
 	{
         public static bool cooked = false;
         string wantedType = "tasty";
-        float amount = 0;
+        public float amount = 0;
         acegiak_Romancable Romancable = null;
 
         string ExampleName = "corpse";
@@ -261,7 +261,7 @@ namespace XRL.World.Parts
                 return "I ate "+GO.a+GO.DisplayNameOnly;
             }
             if(key == "badthinghappen" && this.amount < 0){
-                return "I ate a "+GO.a+GO.DisplayNameOnly;
+                return "I ate "+GO.a+GO.DisplayNameOnly;
             }
             return null;
         }

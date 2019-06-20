@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
+using XRL.World.Parts.Effects;
 
 namespace XRL.World.Parts
 {
@@ -46,6 +47,12 @@ namespace XRL.World.Parts
 			base.Register(Object);
 		}
 
+		public void KissBuff(GameObject who){
+			if(!who.HasEffect("acegiak_EffectGay")){
+				who.ApplyEffect(new acegiak_EffectGay());
+			}
+		}
+
 		public bool Kiss(GameObject who)
 		{
             
@@ -71,7 +78,7 @@ namespace XRL.World.Parts
 				hbeguiled = " could not resist.";
 			}else{
                 
-				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 50)
+				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 55)
 				{
 					if (who.IsPlayer())
 					{
@@ -99,6 +106,20 @@ namespace XRL.World.Parts
 				
 			}
 
+			if(ParentObject.GetPart<acegiak_Romancable>() != null){
+
+				if(ParentObject.GetPart<acegiak_Romancable>().patience<=0){
+					ParentObject.pBrain.AdjustFeeling(who,-5);
+					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y doesn't want to kiss you right now.");
+
+					if(ParentObject.pBrain.GetFeeling(who) < 0){
+						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
+					}
+				}
+				ParentObject.GetPart<acegiak_Romancable>().patience--;
+			}
+
+
             
 			string verb = "kiss";
 			GameObject parentObject = ParentObject;
@@ -111,7 +132,7 @@ namespace XRL.World.Parts
 				}
 				else
 				{
-
+					KissBuff(who);
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "&Mkisses you back") + "."+beguiled);
 					JournalAPI.AddAccomplishment("&y You kissed "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" and "+ParentObject.it+hbeguiled, "general", null, -1L);
 				}

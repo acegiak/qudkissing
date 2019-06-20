@@ -120,8 +120,8 @@ namespace XRL.World.Parts
                 node.AddChoice("notmelee","I prefer to avoid combat entirely.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
             }else if(g<0.60 && haskey){
                 string sample = exampleObjectName();
-                bodytext = "Have you ever seen a "+sample+"?";
-                node.AddChoice("yesseen","Oh yes, I have seen a "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
+                bodytext = "Have you ever seen "+sample+"?";
+                node.AddChoice("yesseen","Oh yes, I have seen "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but I didn't like it.",amount>0?"Oh, I guess we have different tastes.":"I agree, I saw one once and didn't like it.",amount>0?-1:1);
                 node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
             }else if(g<0.80 ){
