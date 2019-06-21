@@ -39,6 +39,9 @@ namespace XRL.World.Parts
         }
 
         public bool BoonReady(GameObject player){
+            if(Reward() == null || this.Romancable == null || this.Romancable.ParentObject == null || this.Romancable.ParentObject.pBrain == null || player == null){
+                return false;
+            }
             float diff = 0;
             if(Reward().GetPart<Commerce>() != null){
                 diff = (float)Reward().GetPart<Commerce>().Value;

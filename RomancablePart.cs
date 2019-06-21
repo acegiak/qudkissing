@@ -37,6 +37,8 @@ namespace XRL.World.Parts
 
 		public Cell origin;
 
+		public int? lastQuestion = null;
+
 
 		public acegiak_Romancable()
 		{
@@ -301,7 +303,14 @@ namespace XRL.World.Parts
 					choice.Text = FilterRandom(choice.Text);
 				}
 			}else{
-				node = preferences[Stat.Rnd2.Next(0,preferences.Count)].BuildNode(node);
+				int c = 0;
+				int whichquestion = 0;
+				do{
+					whichquestion = Stat.Rnd2.Next(0,preferences.Count);
+					c++;
+				}while(whichquestion == lastQuestion && c<5);
+				lastQuestion = whichquestion;
+				node = preferences[whichquestion].BuildNode(node);
 				node.Text = FilterRandom(node.Text);
 				foreach(ConversationChoice choice in node.Choices){
 					choice.Text = FilterRandom(choice.Text);
