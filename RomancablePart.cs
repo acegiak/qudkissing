@@ -26,7 +26,10 @@ namespace XRL.World.Parts
 
 		private Dictionary<string,int> FavoriteThings = null;
 
+		[NonSerialized]
 		public List<acegiak_RomancePreference> preferences = null;
+		
+		[NonSerialized]
 		private List<acegiak_RomanceBoon> boons = null;
 
 		private int lastseen = 0;
