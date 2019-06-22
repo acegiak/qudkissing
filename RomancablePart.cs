@@ -463,7 +463,7 @@ namespace XRL.World.Parts
 
 				}
 			}
-			if(E.ID == "CommandRemoveObject" && !ParentObject.IsPlayer() && ParentObject != null && ParentObject.id != null){
+			if(E.ID == "CommandRemoveObject" && XRLCore.Core.Game != null &&  !ParentObject.IsPlayer() && ParentObject != null && ParentObject.id != null){
 				GameObject G = E.GetGameObjectParameter("Object");
 				if(G.GetPropertyOrTag("GiftedTo") == ParentObject.id && assessGift(G,ParentObject).amount>0){
 					Popup.Show(ParentObject.The+ParentObject.DisplayNameOnly+" cannot bear to part with "+G.the+G.DisplayNameOnly+".");
