@@ -16,6 +16,7 @@ namespace XRL.World.Parts
     //     }
     // }
 
+	[Serializable]
 	public class acegiak_MealBoon: acegiak_RomanceBoon
 	{
         CookingRecipe reward;

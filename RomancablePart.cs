@@ -35,9 +35,12 @@ namespace XRL.World.Parts
 		public bool lockout = true;
 		public GameObject date = null;
 
-		public Cell origin;
+
+		
 
 		public int? lastQuestion = null;
+
+
 
 
 		public acegiak_Romancable()

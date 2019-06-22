@@ -15,6 +15,7 @@ namespace XRL.World.Parts
     //     }
     // }
 
+	[Serializable]
 	public class acegiak_FollowBoon: acegiak_RomanceBoon
 	{
         acegiak_Romancable Romancable = null;

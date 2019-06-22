@@ -14,6 +14,7 @@ namespace XRL.World.Parts
     //     }
     // }
 
+	[Serializable]
 	public class acegiak_GiftBoon: acegiak_RomanceBoon
 	{
         GameObject reward;
