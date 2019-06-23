@@ -18,24 +18,23 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_FollowBoon: acegiak_RomanceBoon
 	{
-        acegiak_Romancable Romancable = null;
 
 
         public acegiak_FollowBoon(acegiak_Romancable romancable){
             Romancable = romancable;
         }
 
-        public bool BoonPossible(GameObject talker){
+        public override bool BoonPossible(GameObject talker){
             return true;
         }
 
-        public bool BoonReady(GameObject player){
+        public override bool BoonReady(GameObject player){
             int? difference = DifficultyEvaluation.GetDifficultyRating(Romancable.ParentObject,player);
             if(difference == null){difference = 0;}
             return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 65 + difference;
         }
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "I have a suggestion: I would like to join you and follow you on your adventures.";
 
             node.AddChoice("End","Very well. [Accept "+this.Romancable.ParentObject.the+this.Romancable.ParentObject.DisplayNameOnly+" into your party].","Excellent! We will have many adventures together!",-30,delegate(){
@@ -47,9 +46,6 @@ namespace XRL.World.Parts
             return node;
         }
 
-        public static void GiveGift(){
-
-        }
 
     }
 }

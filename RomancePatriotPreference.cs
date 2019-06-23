@@ -17,7 +17,7 @@ namespace XRL.World.Parts
         HistoricEntitySnapshot village = null;
         FactionInfo faction = null;
         float amount = 0;
-        acegiak_Romancable Romancable = null;
+
 
         List<JournalVillageNote> historytales = new List<JournalVillageNote>();
 
@@ -109,7 +109,7 @@ namespace XRL.World.Parts
             // return GO.a+GO.DisplayNameOnly;
         }
 
-        public acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
+        public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
             float retamount = 0;
             string retexplain = "";
 
@@ -135,7 +135,7 @@ namespace XRL.World.Parts
 
 
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             string bodytext = "whoah";
 
             float g = (float)Stat.Rnd2.NextDouble();
@@ -160,7 +160,7 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+        public override acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
             // if(DateObject.GetPart<Pettable>() != null){
             //     return new acegiak_RomancePreferenceResult(0,Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("pet")+DateObject.the+DateObject.ShortDisplayName+".");
             // }
@@ -169,7 +169,7 @@ namespace XRL.World.Parts
 
         
 
-        public string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node){
             if(Stat.Rnd2.NextDouble()<0.5f){
                 while(this.tales.Count < 5){
                     List<string> Stories = null;
@@ -207,7 +207,7 @@ namespace XRL.World.Parts
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetDisplayText()+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 
         }
-        public string getstoryoption(string key){
+        public override string getstoryoption(string key){
             // GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
             // if(GO != null){
                 if(key == "goodobject" && this.amount > 0){
@@ -231,7 +231,42 @@ namespace XRL.World.Parts
             // }
             return null;
         }
-        
+         public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            this.village.entity.Save(Writer);
+            Writer.Write(amount);
+            Writer.Write(faction.Name);
+            Writer.Write(historytales.Count);
+            foreach(JournalVillageNote tale in historytales){
+                 Writer.Write(tale.secretid);
+            }
+            Writer.Write(tales.Count);
+            foreach(string tale in tales){
+                Writer.Write(tale);
+            }
+        }
+
+        public override void Load(SerializationReader Reader){
+            this.village = HistoricEntity.Load(Reader, XRLCore.Core.Game.sultanHistory).GetCurrentSnapshot();
+            this.amount = Reader.ReadSingle();
+            this.faction = Factions.FactionList[Reader.ReadString()];
+
+            int countTales = Reader.ReadInt32();
+            this.historytales = new List<JournalVillageNote>();
+            List<JournalVillageNote> allnotes= JournalAPI.GetNotesForVillage(village.entity.id);
+            for(int i = 0; i < countTales; i++){
+                string thissecretid = Reader.ReadString();
+                JournalVillageNote note = allnotes.FirstOrDefault(c=>c.secretid == thissecretid);
+                if(note != null){
+                    this.historytales.Add(note);
+                }
+            }
+            int counttales = Reader.ReadInt32();
+            this.tales = new List<string>();
+            for(int i = 0; i < counttales; i++){
+                this.tales.Add(Reader.ReadString());
+            }
+        }
 
     }
 }

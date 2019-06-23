@@ -17,8 +17,10 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_GiftBoon: acegiak_RomanceBoon
 	{
+        
+        [NonSerialized]
         GameObject reward;
-        acegiak_Romancable Romancable = null;
+
 
 
         public GameObject Reward(){
@@ -35,12 +37,12 @@ namespace XRL.World.Parts
             Romancable = romancable;
         }
 
-        public bool BoonPossible(GameObject talker){
+        public override bool BoonPossible(GameObject talker){
             return Romancable.ParentObject.GetPart<Inventory>() != null;
             return true;
         }
 
-        public bool BoonReady(GameObject player){
+        public override bool BoonReady(GameObject player){
             if(Reward() == null || this.Romancable == null || this.Romancable.ParentObject == null || this.Romancable.ParentObject.pBrain == null || player == null){
                 return false;
             }
@@ -51,17 +53,12 @@ namespace XRL.World.Parts
             return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 60+diff;
         }
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "I hope you don't mind, but I got you a gift. It's "+Reward().a+Reward().DisplayNameOnly+".";
 
             node.AddChoice("acceptgift","Thankyou! [Accept "+Reward().the+Reward().DisplayNameOnly+"].","You're very welcome.",-30,delegate(){Reward().ForceUnequipAndRemove();XRLCore.Core.Game.Player.Body.GetPart<Inventory>().AddObject(Reward()); Popup.ShowBlock("You receive " + Reward().a + Reward().DisplayNameOnly + "!");this.reward = null;});
             node.AddChoice("rejectgift","I couldn't possibly accept such a gift.","Oh I'm sorry. That makes sense.",-30);
             return node;
         }
-
-        public static void GiveGift(){
-
-        }
-
     }
 }

@@ -18,7 +18,7 @@ namespace XRL.World.Parts
         public static bool cooked = false;
         string wantedType = "tasty";
         public float amount = 0;
-        acegiak_Romancable Romancable = null;
+
 
         string ExampleName = "corpse";
         List<string> tales = new List<string>();
@@ -95,7 +95,7 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
+        public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
             float retamount = 0;
             string retexplain = "";
             if(getType(gift) == wantedType){
@@ -106,7 +106,7 @@ namespace XRL.World.Parts
 
 
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             string bodytext = "whoah";
 
             float g = (float)Stat.Rnd2.NextDouble();
@@ -186,7 +186,7 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+        public override acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
             if(DateObject.GetPart<Campfire>() != null && (cooked || DateObject.GetPart<Campfire>().Cook())){
                 cooked = true;
                 float count = 0.25f;
@@ -226,7 +226,7 @@ namespace XRL.World.Parts
 
 
 
-        public string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node){
             while(this.tales.Count < 5){
                 List<string> Stories = null;
                 if(amount>0){
@@ -245,7 +245,7 @@ namespace XRL.World.Parts
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
 
-        public string getstoryoption(string key){
+        public override string getstoryoption(string key){
             GameObject GO = exampleObject();
             if(GO == null){
                 return null;
@@ -264,6 +264,30 @@ namespace XRL.World.Parts
                 return "I ate "+GO.a+GO.DisplayNameOnly;
             }
             return null;
+        }
+
+
+
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(wantedType);
+            Writer.Write(amount);
+            Writer.Write(ExampleName);
+            Writer.Write(tales.Count);
+            foreach(string tale in tales){
+                Writer.Write(tale);
+            }
+        }
+
+        public override void Load(SerializationReader Reader){
+            this.wantedType = Reader.ReadString();
+            this.amount = Reader.ReadSingle();
+            this.ExampleName = Reader.ReadString();
+            int countTales = Reader.ReadInt32();
+            this.tales = new List<string>();
+            for(int i = 0; i < countTales; i++){
+                this.tales.Add(Reader.ReadString());
+            }
         }
 
     }

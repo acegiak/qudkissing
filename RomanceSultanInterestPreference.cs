@@ -18,7 +18,7 @@ namespace XRL.World.Parts
 	{
         HistoricEntity faveSultan = null;
         float amount = 0;
-        acegiak_Romancable Romancable = null;
+
 
         List<HistoricEvent> tales = new List<HistoricEvent>();
         List<string> mytales = new List<string>();
@@ -54,7 +54,7 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
+        public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
             float retamount = 0;
             string retexplain = "";
 
@@ -69,7 +69,7 @@ namespace XRL.World.Parts
             return null;
         }
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             string bodytext = "whoah";
 
             float g = (float)Stat.Rnd2.NextDouble();
@@ -90,7 +90,7 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+        public override acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
             if(DateObject.GetPart<SultanShrine>() != null && DateObject.GetPart<SultanShrine>().sultan == this.faveSultan){
                 return new acegiak_RomancePreferenceResult(amount,Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("stare")+" at "+DateObject.the+DateObject.ShortDisplayName+(amount>0?" in awe.":"in disgust."));
             }
@@ -99,7 +99,7 @@ namespace XRL.World.Parts
 
         
 
-        public string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node){
 
             if(Stat.Rnd2.NextDouble()>0.25){
                 while(this.mytales.Count < 5){
@@ -128,7 +128,7 @@ namespace XRL.World.Parts
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetEventProperty("gospel")+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 
         }
-        public string getstoryoption(string key){
+        public override string getstoryoption(string key){
 
             if(key == "goodobject" && this.amount > 0){
                 return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
@@ -154,6 +154,36 @@ namespace XRL.World.Parts
 			lookfor = lookfor.ToLower();
             return HistoricSpice.root["elements"][input][lookfor][Stat.Rnd2.Next(HistoricSpice.root["elements"][input][lookfor].Count)];
 		}
+
+
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            this.faveSultan.Save(Writer);
+            Writer.Write(amount);
+            Writer.Write(tales.Count);
+            foreach(HistoricEvent tale in tales){
+                tale.Save(Writer);
+            }
+            Writer.Write(mytales.Count);
+            foreach(string tale in mytales){
+                Writer.Write(tale);
+            }
+        }
+
+        public override void Load(SerializationReader Reader){
+            this.faveSultan = HistoricEntity.Load(Reader, XRLCore.Core.Game.sultanHistory);
+            this.amount = Reader.ReadSingle();
+            int countTales = Reader.ReadInt32();
+            this.tales = new List<HistoricEvent>();
+            for(int i = 0; i < countTales; i++){
+                this.tales.Add(HistoricEvent.Load(Reader));
+            }
+            int countmytales = Reader.ReadInt32();
+            this.mytales = new List<string>();
+            for(int i = 0; i < countmytales; i++){
+                this.mytales.Add(Reader.ReadString());
+            }
+        }
         
 
     }

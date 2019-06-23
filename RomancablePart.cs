@@ -11,7 +11,8 @@ using System.Text.RegularExpressions;
 using XRL.World.AI.GoalHandlers;
 using Qud.API;
 using HistoryKit;
-
+using System.ComponentModel;
+using UnityEngine;
 
 namespace XRL.World.Parts
 {
@@ -30,16 +31,14 @@ namespace XRL.World.Parts
 		public List<acegiak_RomancePreference> preferences = null;
 		
 		[NonSerialized]
-		private List<acegiak_RomanceBoon> boons = null;
+		public List<acegiak_RomanceBoon> boons = null;
 
 		private int lastseen = 0;
-		public float patience = 5;
+		public int patience = 10;
 
 		public bool lockout = true;
 		public GameObject date = null;
 
-
-		
 
 		public int? lastQuestion = null;
 
@@ -63,6 +62,8 @@ namespace XRL.World.Parts
 
 		public void havePreference(){
 			if(ParentObject.IsPlayer()){
+				this.preferences = new List<acegiak_RomancePreference>();
+				this.boons = new List<acegiak_RomanceBoon>();
 				return;
 			}
 			if(this.preferences == null){
@@ -105,34 +106,13 @@ namespace XRL.World.Parts
 				boons.Add(new acegiak_FollowBoon(this));
 				boons.RemoveAll(b=>!b.BoonPossible(XRLCore.Core.Game.Player.Body));
 				boons.ShuffleInPlace();
-				// switch (Stat.Rnd2.Next(3)){
-				// 	case 0:
-				// 		boon = new acegiak_GiftBoon(this);
-				// 		break;
-				// 	case 1:
-				// 		boon = new acegiak_MealBoon(this);
-				// 		break;
-				// 	case 2:
-				// 		boon = new acegiak_FollowBoon(this);
-				// 		break;
-				// }
+
 			}
+			touch();
+
 		}
 		
-		// public acegiak_RomancePreference GetPreference<T>(){
-		// 	this.havePreference();
-		// 	IPart.AddPlayerMessage(this.preferences.ToString());
-
-		// 	// if(this.preferences == null){
-		// 	// 	IPart.AddPlayerMessage("Preferences is null");
-		// 	// 	return null;}
-		// 	IPart.AddPlayerMessage("Preference count:"+this.preferences.Count.ToString());
-
-		// 	for(int i = 0;i < this.preferences.Count;i++){
-		// 		IPart.AddPlayerMessage("Preference"+i.ToString()+":"+preferences[i].GetType().ToString());
-		// 	}
-		// 	return null;
-		// }
+	
 
 
 		public override bool SameAs(IPart p)
@@ -405,7 +385,7 @@ namespace XRL.World.Parts
 						if(speaker.GetPart<acegiak_Romancable>().lastseen == 0){
 							newPatience = 0;
 						}
-						if(newPatience>7){newPatience = 7;}
+						if(newPatience>10){newPatience = 10;}
 						speaker.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
 						speaker.GetPart<acegiak_Romancable>().patience = speaker.GetPart<acegiak_Romancable>().patience+newPatience;
 					}
@@ -510,13 +490,107 @@ namespace XRL.World.Parts
             ParentObject.pBrain.AdjustFeeling(Date,(int)(value*10));
 			Date.GetPart<acegiak_Romancable>().date = null;
 			if(value <1){
-				this.patience -= 1f;
+				this.patience -= 2;
 			}else{
-				this.patience -= 0.5f;
+				this.patience -= 1;
 			}
 			JournalAPI.AddAccomplishment("&y You took "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" on a date to "+DateObject.the+DateObject.DisplayNameOnlyDirect+" and "+ParentObject.it+(value>0?" was&G":" was &rnot")+" impressed&y.", "general", null, -1L);
 
 		}
+        public void touch()
+        {
+            // Load our normal data
+			foreach(acegiak_RomancePreference preference in this.preferences){
+				preference.setRomancable(this);
+			}
+			foreach(acegiak_RomanceBoon boon in this.boons){
+				boon.setRomancable(this);
+			}
+		}
+
+		//         [NonSerialized]
+        // public List<StandAbility> abilities = new List<StandAbility>();
+
+        // SaveData is called when the game is ready to save this object, so we override it here.
+        public override void SaveData(SerializationWriter Writer)
+        {
+			this.havePreference();
+
+
+			if(Writer == null){
+				throw new Exception("The Writer is null!");
+			}
+			if(preferences == null){
+				throw new Exception("The preferences list is null!");
+			}
+
+			if(boons == null){
+				throw new Exception("The boons list is null!");
+			}
+
+			this.preferences.RemoveAll(d=>d==null);
+			this.boons.RemoveAll(d=>d==null);
+
+            // We have to call base.SaveData to save all normally serialized fields on our class
+            base.SaveData(Writer);
+			
+            // Writing out the number of items in this list lets us know how many items we need to read back in on Load
+            Writer.Write(preferences.Count);
+            foreach (acegiak_RomancePreference preference in preferences)
+            {
+				preference.Save(Writer);
+            }
+            Writer.Write(boons.Count);
+            foreach (acegiak_RomanceBoon boon in boons)
+            {
+				boon.Save(Writer);
+            }
+
+        }
+
+        // Load data is called when loading the save game, we also need to override this
+        public override void LoadData(SerializationReader Reader)
+        {
+            // Load our normal data
+            base.LoadData(Reader);
+
+
+			this.preferences = new List<acegiak_RomancePreference>();
+			this.boons = new List<acegiak_RomanceBoon>();
+
+
+			if(Reader == null){
+				throw new Exception("The Reader is null!");
+			}
+			if(preferences == null){
+				throw new Exception("The preferences list is null!");
+			}
+
+			if(boons == null){
+				throw new Exception("The boons list is null!");
+			}
+			if(this == null){
+				throw new Exception("This is null!");
+			}
+
+
+            // Read the number we wrote earlier telling us how many items there were
+            int arraySize = Reader.ReadInt32();
+            for (int i = 0; i < arraySize; i++)
+            {
+               
+                acegiak_RomancePreference.Read(Reader,this);
+                // Similar to above, if we had a basic type in our list, we would instead use the Reader.Read function specific to our object type.
+            }
+
+
+            int boonarraySize = Reader.ReadInt32();
+            for (int j = 0; j < boonarraySize; j++)
+            {
+                acegiak_RomanceBoon.Read(Reader,this);
+                // Similar to above, if we had a basic type in our list, we would instead use the Reader.Read function specific to our object type.
+            }
+        }
 
 	}
 }

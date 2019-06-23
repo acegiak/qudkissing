@@ -19,8 +19,10 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_MealBoon: acegiak_RomanceBoon
 	{
+
+        [NonSerialized]
         CookingRecipe reward;
-        acegiak_Romancable Romancable = null;
+
 
 
         public CookingRecipe Reward(){
@@ -51,18 +53,18 @@ namespace XRL.World.Parts
             Romancable = romancable;
         }
 
-        public bool BoonPossible(GameObject talker){
+        public override bool BoonPossible(GameObject talker){
             return Romancable != null;
         }
 
-        public bool BoonReady(GameObject player){
+        public override bool BoonReady(GameObject player){
             if(Reward() == null){
                 return false;
             }
             return this.Romancable.ParentObject.pBrain.GetFeeling(player) > 60;
         }
 
-        public acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "Are you hungry? I'd like to make you "+Reward().GetDisplayName()+".";
 
             node.AddChoice("End","Thankyou! [Eat "+Reward().GetDisplayName()+"].","You're very welcome.",-30,delegate(){
@@ -74,10 +76,5 @@ namespace XRL.World.Parts
             node.AddChoice("rejectgift","No thankyou.","Oh I'm sorry. That makes sense.",-30);
             return node;
         }
-
-        public static void GiveGift(){
-
-        }
-
     }
 }
