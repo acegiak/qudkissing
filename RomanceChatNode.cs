@@ -2,10 +2,13 @@ using Qud.API;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using XRL.Core;
 using XRL.UI;
 using XRL.World.Parts;
 using XRL.World;
+using XRL.Rules;
+using HistoryKit;
 
 namespace XRL.World
 {
@@ -43,6 +46,43 @@ namespace XRL.World
                 }
                 this.Choices.Add(choice);
         }
+
+
+
+        static bool InitializedSpice = false;
+
+        static void InitializeSpice()
+        {
+            ModManager.ForEachFileIn("acegiak_romance", (string filePath, ModInfo modInfo) =>
+            {
+                if (filePath.ToLower().Contains(".json"))
+                    acegiak_HistoricSpicePatcher.Patch(filePath);
+            });
+        }
+        public void ExpandText(
+            HistoricEntitySnapshot     entity,
+            Dictionary<string, string> vars = null)
+        {
+            InitializeSpice();
+
+            Text = "&C<spice.eros.react.jumble.!random>&Y\n\n"
+                + FilterRandom(Text);
+            Text = HistoricStringExpander.ExpandString(
+                Text, entity, null, vars);
+            foreach(ConversationChoice choice in Choices){
+                choice.Text = FilterRandom(choice.Text);
+                choice.Text = HistoricStringExpander.ExpandString(
+                    choice.Text, entity, null, vars);
+            }
+        }
+        public static string FilterRandom(string s)
+        {
+			return Regex.Replace(s, @"<([^\|>]+\|[^>]+)>", delegate(Match match)
+			{
+				string[] v = match.Groups[1].ToString().Split('|');
+				return v[Stat.Rnd2.Next(v.Length)];
+			});
+		}
 
 
 

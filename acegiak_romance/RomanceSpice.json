@@ -1,0 +1,1029 @@
+{ "spice" : {
+
+// Romance assets.
+// Comments are supported in this file if loaded with SpicePatcher.
+	
+"eros" : {
+
+	"impatient" :
+	{
+		"generic" : [
+			"Sorry, I have other things to do.",
+			"Anyway, I'm very busy.",
+			"Maybe we could talk some more another time?"
+		]
+	},
+
+	"disposition" :
+	{
+		"now_poor": "<entity.name> frowns.",
+		"now_good": "<entity.name> smiles.",
+		"now_great": "<entity.name> grins at you."
+	},
+	
+	// Gaze: reactions to kissing preferences
+
+	// like & dislike reactions may be mixed.
+	// characters will not normally mix flirts and insults unless they're being insincere
+
+	"react" :
+	{
+		"jumble" : [
+			"<spice.eros.react.amorous.!random.!random>",
+			"<spice.eros.react.amorous.!random.!random>",
+			"<spice.eros.react.relationship.!random.!random.!random>",
+			"<spice.eros.react.relationship.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.part.!random.!random.!random.!random>",
+			"<spice.eros.react.part.!random.!random.!random.!random>",
+			"<spice.eros.react.skill.!random.!random.!random.!random>"
+		],
+
+		"generic" :
+		{
+			"like" : [
+				"<entity.name> leans briefly toward you.",
+				"<entity.name> smiles.",
+				"<entity.name> sighs.",
+				"<entity.name> relaxes."
+			],
+			"dislike" : [
+				"<entity.name> shifts away from you.",
+				"<entity.name> purses <entity.possessivePronoun> lips.",
+				"<entity.name> draws a sharp breath.",
+				"<entity.name> goes still."
+			],
+			"flirt" : [
+				"I've dreamt of finding someone like you, someplace, <spice.history.regions.terrain.!random.over.!random>...",
+				"It's nice to see you.",
+				"Stay a while, OK?"
+			],
+			"insult" : [
+				"Begone, to someplace far and <spice.history.regions.terrain.!random.over.!random>!",
+				"You're such a waste of time.",
+				"Are you finished?"
+			]
+		},
+
+		// Amorous characters like everybody a little bit.
+		"amorous" :
+		{
+			"like" : [
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.react.generic.like.!random>",
+				"<entity.name> shifts <entity.possessivePronoun> weight.",
+				"<entity.name> looks around wistfully.",
+				"<entity.name> rustles softly."
+			],
+			"dislike" : [
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.react.generic.dislike.!random>",
+				"<entity.name> slouches a little.",
+				"<entity.name> looks around with a flat expression.",
+				"<entity.name> is still."
+			],
+			"flirt" : [
+				"<spice.eros.react.generic.flirt.!random>",
+				"Where have you been all my life?",
+				"Why don't you come a little closer?",
+				"You are just what I needed."
+			],
+			"insult" : [
+				"<spice.eros.react.generic.insult.!random>",
+				"You really help me to appreciate my alone time.",
+				"Please don't touch me.",
+				"Don't get any ideas."
+			]
+		},
+
+		"relationship" :
+		{
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.react.generic.like.!random>",
+					"<entity.name> seems at ease around you.",
+					"<entity.name> gives you a look of fond familiarity.",
+					"<entity.name> seems glad to see you again."
+				],
+				"dislike" : [
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.react.generic.dislike.!random>",
+					"<entity.name> seems a little less interested in you now.",
+					"<entity.name> eyes you with waning interest.",
+					"<entity.name> gives you a look that makes you feel used up."
+				],
+				"flirt" : [
+					"<spice.eros.react.generic.flirt.!random>",
+					"I'm glad I took the time to get to know you.",
+					"Oh, never change."
+				],
+				"insult" : [
+					"<spice.eros.react.generic.insult.!random>",
+					"As I've gotten to know you, I've come to appreciate you're a terrible person.",
+					"I'm not interested anymore."
+				]
+			},
+			"lo" : {
+				// These are much more likely to apply
+				"like" : [
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.react.generic.like.!random>",
+					"<entity.name> looks at you curiously.",
+					"<entity.name> gives you a mysterious look.",
+					"<entity.name> takes in your strangest details."
+				],
+				"dislike" : [
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.react.generic.dislike.!random>",
+					"<entity.name> keeps <entity.possessivePronoun> distance.",
+					"<entity.name> eyes you cautiously.",
+					"<entity.name> responds only with hesitation."
+				],
+				"flirt" : [
+					"<spice.eros.react.generic.flirt.!random>",
+					"Howdy, stranger.",
+					"Less talk, please.",
+					"What has the wind brought me today?",
+					"Qud is truly a wondrous place."
+				],
+				"insult" : [
+					"<spice.eros.react.generic.insult.!random>",
+					"Back off, creep!",
+					"I don't know you and I don't want to know you.",
+					"Don't get any ideas.",
+					"Keep your distance."
+				]
+			}
+		},
+
+		// Generic body reactions (could be to high/low stats, parts present/absent, etc)
+		"body" : {
+			"like" : [
+				"<spice.eros.react.generic.like.!random>",
+				"<entity.name> looks you over approvingly.",
+				"<entity.name> turns to face you."
+			],
+			"dislike" : [
+				"<spice.eros.react.generic.dislike.!random>",
+				"<entity.name> adopts a closed posture.",
+				"<entity.name> keeps some distance between you."
+			],
+			"flirt" : [
+				"<spice.eros.react.generic.flirt.!random>",
+				"You are just my type.",
+				"You're easy on the eyes, you know that?",
+				"I could look at you for hours.",
+				"By the eaters, where was such a likeness <spice.professions.!random.forged>?"
+			],
+			"insult" : [
+				"<spice.eros.react.generic.insult.!random>",
+				"You are not my type.",
+				"You are not my type.",
+				"Your form was <spice.professions.!random.forged> by someone, yes?  They should try again.",
+				"You would do well to study shapeshifting."
+			]
+		},
+
+		// Stat reactions
+		"stat" :
+		{
+			// Generic reactions to physical stats
+			"physical" : {
+				"hi" : {
+					"like" : [
+						// SHEER ANIMAL MAGNETISM
+						"<spice.eros.react.body.like.!random>",
+						"<spice.eros.react.body.like.!random>",
+						"<entity.name> looks you up and down, and up again.",
+						"<entity.name> admires your physique."
+					],
+					"dislike" : [
+						// PLEASE DON'T HURT ME
+						"<spice.eros.react.body.dislike.!random>",
+						"<spice.eros.react.body.dislike.!random>",
+						"<entity.name> seems to tense up when you move.",
+						"<entity.name> watches you cautiously."
+					],
+					"flirt" : [
+						"<spice.eros.react.body.flirt.!random>",
+						"Hmm, look at that body!",
+						"<entity.name> takes a deep breath of you, and sighs."
+					],
+					"insult" : [
+						"<spice.eros.react.body.insult.!random>",
+						"Tried taking a bath lately?",
+						"If I was looking for a beast I wouldn't bother speaking."
+					]
+				},
+				"lo" : {
+					"like" : [
+						// MY TURTLE-DOVE
+						"<spice.eros.react.body.like.!random>",
+						"<spice.eros.react.body.like.!random>",
+						"<entity.name> looks sympathetically at you.",
+						"<entity.name> seems at ease around you.",
+						"<entity.name> seems almost protective."
+					],
+					"dislike" : [
+						// GOD YOU'RE A MESS
+						"<spice.eros.react.body.dislike.!random>",
+						"<spice.eros.react.body.dislike.!random>",
+						"<entity.name> looks you over disapprovingly.",
+						"<entity.name> frowns at your posture.",
+						"<entity.name> looks away for a while."
+					],
+					"flirt" : [
+						"<spice.eros.react.body.flirt.!random>",
+						"I hope you're being careful out there.",
+						"<entity.name> takes a deep breath of you, and sighs."
+					],
+					"insult" : [
+						"<spice.eros.react.body.insult.!random>",
+						"You won't last ten seconds out there.",
+						"By the sultans, you're pathetic."
+					]
+				}
+			},
+
+			// Generic reactions to mental stats
+			"mental" : {
+				"hi" : {
+					"like" : [
+						// YOUR SPARKLING CHARACTER
+						"<spice.eros.react.generic.like.!random>",
+						"<spice.eros.react.generic.like.!random>",
+						"<entity.name> listens attentively.",
+						"<entity.name> hangs on your words.",
+						"<entity.name> seems to enjoy the sound of your voice."
+					],
+					"dislike" : [
+						// YOUR OVERBEARING AURA
+						"<spice.eros.react.generic.dislike.!random>",
+						"<spice.eros.react.generic.dislike.!random>",
+						"<entity.name> seems uneasy as you speak.",
+						"<entity.name> seems hesitant to respond.",
+						"<entity.name> looks at you as if seeking permission to speak."
+					],
+					"flirt" : [
+						"<spice.eros.react.generic.flirt.!random>",
+						"Keep talking.  I like the sound of your voice.",
+						"I enjoy our conversations.",
+						"You never cease to intrigue me."
+					],
+					"insult" : [
+						"<spice.eros.react.generic.insult.!random>",
+						"You talk a lot, don't you?",
+						"Do you think you're better than me?",
+						"You are way, way too intense."
+					]
+				},
+				"lo" : {
+					"like" : [
+						// WHISPER TO ME OF SWEET NOTHINGS
+						"<spice.eros.react.generic.like.!random>",
+						"<spice.eros.react.generic.like.!random>",
+						"<entity.name> half-listens with a smile.",
+						"<entity.name> admires your surroundings.",
+						"<entity.name> smiles and nods."
+					],
+					"dislike" : [
+						// YOU ARE A FRIGGIN DOOFUS
+						"<spice.eros.react.generic.dislike.!random>",
+						"<spice.eros.react.generic.dislike.!random>",
+						"<entity.name> half-listens with a patronizing expression.",
+						"<entity.name> seems distracted.",
+						"<entity.name> seems distracted, then perks up when you finish speaking."
+					],
+					"flirt" : [
+						"<spice.eros.react.generic.flirt.!random>",
+						"Keep talking.  I like the sound of your voice.",
+						"You're easy to be around.",
+						"Mmm-hmm, yeah, mm-hmm!"
+					],
+					"insult" : [
+						"<spice.eros.react.generic.insult.!random>",
+						"You talk a lot, don't you?",
+						"You have a lot to learn.",
+						"You fool."
+					]
+				}
+			},
+			
+			"Strength" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<entity.name>'s eyes trace your muscles.",
+						"<entity.name> studies how you shoulder your equipment."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<entity.name> seems to shrink away from you.",
+						"<entity.name> gathers <entity.possessivePronoun>self."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.hi.flirt.!random>",
+						"Looks like someone's been working out.",
+						"Taking a break from moving mountains?",
+						"I'd like to put you to work."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.hi.insult.!random>",
+						"You horrible brute.",
+						"Sorry, I'm not a sports fan.",
+						"Shouldn't you be hauling cargo for the dromads?"
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<entity.name> looks at your frame with endearment.",
+						"<entity.name> looks at your burden sympathetically."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<entity.name> looks at your frame with disappointment.",
+						"<entity.name> looks at your burden with a patronizing expression."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.lo.flirt.!random>",
+						"Do you need help carrying anything?",
+						"I admire the one who travels light.",
+						"<entity.name> casually flexes."
+						// "I wish I had ten of you." Better as a remark on fugue
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.lo.insult.!random>",
+						"You pathetic weakling.",
+						"I see now; you're unfit to work, so you roam the wastes.",
+						"Tell me, who carries your water for you?"
+					]
+				}
+			},
+			"Agility" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<entity.name> follows your movements with interest.",
+						"<entity.name> nods along with your gestures."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<entity.name> watches your movements warily.",
+						"<entity.name> places a hand on <entity.possessivePronoun> equipment."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.hi.flirt.!random>",
+						"I hate to see you go, but I love to watch you leave.",
+						"You move like a dancer, you know that?",
+						"If you must leave... return to me switftly."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.hi.insult.!random>",
+						"Run away now, fast and far.",
+						"Shouldn't you be stealing something?",
+						"I sense you're good at avoiding things!  Could you avoid me, too?"
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<entity.name> giggles at your clumsy movements.",
+						"<entity.name> lets their shoulders slacken."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<entity.name> watches your clumsy movements with a grim expression.",
+						"<entity.name> narrowly avoids your wild gesturing."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.lo.flirt.!random>",
+						"You adorable klutz.",
+						"Remember to duck!  I would hate for anything to happen to that face.",
+						"Do me a favor and keep away from the slime."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.lo.insult.!random>",
+						"You awful klutz.",
+						"The dromads sell helmets for people like you.",
+						"Please, do us all a favor and fall down a shaft."
+					]
+				}
+			},
+			"Toughness" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<spice.eros.react.stat.physical.hi.like.!random>",
+						"<entity.name> seems to be counting your scars.",
+						"<entity.name> straightens <entity.possessivePronoun> back.",
+						"<entity.name> stares you down like a fulcrete wall."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<spice.eros.react.stat.physical.hi.dislike.!random>",
+						"<entity.name> looks at your scars uneasily.",
+						"<entity.name> frowns at your overworked body."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.hi.flirt.!random>",
+						"So, what happens when you meet an unstoppable force?",
+						"You'll have to tell me how you got that scar.",
+						"You look like you've seen a fight or two."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.hi.insult.!random>",
+						"The leatherworkers would pay a fortune for your hide.",
+						"You look like an expert in getting kicked around.",
+						"You have thick skin, so I won't mince my words."
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<spice.eros.react.stat.physical.lo.like.!random>",
+						"<entity.name> eyes your soft spots with affection.",
+						"<entity.name> studies you like a desert flower."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<spice.eros.react.stat.physical.lo.dislike.!random>",
+						"<entity.name> seems surprised you've lived this long.",
+						"<entity.name> gives you a look that makes you feel like a lost cause."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.physical.lo.flirt.!random>",
+						"Be careful out there, OK?",
+						"Oh, to find elusive softness in Qud...",
+						"I'll see you again, right?"
+					],
+					"insult" : [
+						"<spice.eros.react.stat.physical.lo.insult.!random>",
+						"I give you three days before they find your body <spice.history.regions.terrain.!random.over>",
+						"Is that the sound of your fragile heart breaking?",
+						"Gracious, what a wimp."
+					]
+				}
+			},
+			"Intelligence" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"<entity.name> considers <entity.possessivePronoun> next words carefully.",
+						"<entity.name> looks thoughtful."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<entity.name> seems a little annoyed with you.",
+						"<entity.name> struggles to find <entity.possessivePronoun> words."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.hi.flirt.!random>",
+						"You have a beautiful mind, you know that?",
+						"I like the way you think.",
+						"Good idea!"
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.hi.insult.!random>",
+						"You think you're so clever.",
+						"Your fancy words won't protect you out there.",
+						"I tire of your scheming."
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<entity.name> seems to follow.",
+						"<entity.name> is still listening to you."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<entity.name> looks unsurprised.",
+						"<entity.name> is still listening to you."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.lo.flirt.!random>",
+						"I like that you keep things simple.",
+						"I feel like I completely understand you.",
+						"You don't overthink things and I respect that."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.lo.insult.!random>",
+						"You idiot.",
+						"You aren't very bright, so I'll spell it out for you: not interested.",
+						"I'm getting very tired of your drivel."
+					]
+				}
+			},
+			"Willpower" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"<entity.name> looks at you with admiration.",
+						"<entity.name> pays close attention to you."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<entity.name> looks ready to turn away, but you keep talking.",
+						"<entity.name> looks taxed by the conversation."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.hi.flirt.!random>",
+						"I admire how you know what you want and you go for it.",
+						"You always seem to know exactly what to do.",
+						"I'm behind you all the way."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.hi.insult.!random>",
+						"You're persistent, but you're wasting your breath.",
+						"You know, you have a special skill for creeping people out.",
+						"Hey, I heard about a good meditation spot.  It's far, far away."
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<entity.name> seems to have things figured out.",
+						"You nod, almost unconsciously.",
+						"You pay close attention to <entity.name>."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<entity.name> looks at you with pity.",
+						"<entity.name> seems exasperated by your nodding.",
+						"You feel like you've done something wrong."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.lo.flirt.!random>",
+						"I admire how you go with the flow.",
+						"Can I rely on you?",
+						"Do you have any pleasant surprises for me?"
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.lo.insult.!random>",
+						"You should learn to think for yourself.",
+						"Leave me alone.",
+						"If you wish to woo me, bring me a gift."
+					]
+				}
+			},
+			"Ego" : {
+				"hi" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"<spice.eros.react.stat.mental.hi.like.!random>",
+						"Your voice makes <entity.name> smile.",
+						"<entity.name> chuckles.",
+						"<entity.name> nods, almost unconsciously."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<spice.eros.react.stat.mental.hi.dislike.!random>",
+						"<entity.name> seems suspicious of you.",
+						"<entity.name> seems a little overwhelmed.",
+						"<entity.name> nods reluctantly."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.hi.flirt.!random>",
+						"My, my, you have a way with words.",
+						"You can say that again.",
+						"Say, are you after my water?",
+						"Read my mind, friend."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.hi.insult.!random>",
+						"I won't be manipulated by you.",
+						"Save your silver tongue for the stiltgrounds.",
+						"You are disgustingly full of yourself.",
+						"You should try a slice of humble pie."
+					]
+				},
+				"lo" : {
+					"like" : [
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<spice.eros.react.stat.mental.lo.like.!random>",
+						"<entity.name> rolls <entity.possessivePronoun> eyes.",
+						"<entity.name> purses <entity.possessivePronoun> lips, but smiles faintly."
+					],
+					"dislike" : [
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<spice.eros.react.stat.mental.lo.dislike.!random>",
+						"<entity.name> seems to see right through you.",
+						"<entity.name> seems a little bored."
+					],
+					"flirt" : [
+						"<spice.eros.react.stat.mental.lo.flirt.!random>",
+						"I like that I can be myself around you.",
+						"I feel like I know the real you.  No facades.",
+						"If the water runs out, I'll drink you in instead."
+					],
+					"insult" : [
+						"<spice.eros.react.stat.mental.lo.insult.!random>",
+						"I've met blocks of fulcrete with more personality than you.",
+						"Please stop talking.  You're giving me a headache.",
+						"I should be charging you for this conversation."
+					]
+				}
+			}
+		},
+
+		// RCs only have strong feelings about parts that exist on their own body.
+		//   "none" applies if the part does not exist in the player's body schematic.
+		//   "missing" applies if the player is missing at least one of the part.
+		//   "have" applies if the player has the part type and none dismembered.
+		"part" :
+		{
+			// Generic part-oriented lines
+			"any" : {
+				"have" : {
+					"like" : [
+						"<spice.eros.react.body.like.!random>",
+						"<spice.eros.react.body.like.!random>",
+						"<entity.name> glances at your *part* and quickly looks away.",
+						"<entity.name> lingers on the little details of you."
+					],
+					"dislike" : [
+						"<spice.eros.react.body.dislike.!random>",
+						"<spice.eros.react.body.dislike.!random>",
+						"<entity.name> averts <entity.possessivePronoun> eyes from your *part*.",
+						"<entity.name> avoids looking at you too closely."
+					],
+					"flirt" : [
+						"<spice.eros.react.body.flirt.!random>",
+						"Hey, take good care of your *part* for me, OK?",
+						"Your *part* must have been <spice.professions.!random.forged> by the Eaters themselves.",
+						"One of these days you'll tell me how you got your *part* to look that good."
+					],
+					"insult" : [
+						"<spice.eros.react.body.insult.!random>",
+						"I find *part* disgusting.",
+						"I hope you get your *part* stuck in a trash chute.",
+						"It would be a... shame... if something were to happen to your *part*."
+					]
+				},
+				"missing" : {
+					"like" : [
+						"<spice.eros.react.body.like.!random>",
+						"<spice.eros.react.body.like.!random>",
+						"<entity.name> smiles at what remains of your *part*.",
+						"<entity.name> lingers on the exotic details of your body."
+					],
+					"dislike" : [
+						"<spice.eros.react.body.dislike.!random>",
+						"<spice.eros.react.body.dislike.!random>",
+						"<entity.name> stares in horror at what's left of your *part*.",
+						"<entity.name> gawks rudely at your riven body."
+					],
+					"flirt" : [
+						"<spice.eros.react.body.flirt.!random>",
+						"Personally, I find the *part* extremely overrated.",
+						"Who needs ubernostrum?  I like you the way you are.",
+						"Nothing you're missing will be missed."
+					],
+					"insult" : [
+						"<spice.eros.react.body.insult.!random>",
+						"Look at you!  You're falling apart.",
+						"I've seem ruins in better repair than you.",
+						"You look like you've been left half-finished."
+					]
+				},
+				"none" : {
+					"like" : [
+						"<spice.eros.react.body.like.!random>",
+						"<spice.eros.react.body.like.!random>",
+						"<entity.name> cheerfully notes your lack of *part*.",
+						"<entity.name> lingers on the exotic details of your body."
+					],
+					"dislike" : [
+						"<spice.eros.react.body.dislike.!random>",
+						"<spice.eros.react.body.dislike.!random>",
+						"<entity.name> looks for your *part* and finds none.",
+						"<entity.name> looks disapprovingly over your geometry."
+					],
+					"flirt" : [
+						"<spice.eros.react.body.flirt.!random>",
+						"I like something a little different in my life.",
+						"I look forward to learning about your body.",
+						"Personally, I find the *part* extremely overrated."
+					],
+					"insult" : [
+						"<spice.eros.react.body.insult.!random>",
+						"You look like you've been left half-finished.",
+						"You're not my type.  No, you're really not my type.",
+						"Have you ever considered shapeshifting?"
+					]
+				}
+			},
+
+
+			// Copy this to write new parts
+			"unknown" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+
+			// Face or sensor array
+			"Face" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> takes in the little details of your *part*.",
+						"<entity.name> meets your gaze and holds it."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>",
+						"<entity.name> seems to avert <entity.possessivePronoun> gaze from your *part*.",
+						"<entity.name> avoids your gaze."
+					],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
+						"I haven't been able to get your *part* out my mind.",
+						"Your *part* must have been <spice.professions.!random.forged> by the gods themselves!"
+					],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>",
+						"That is truly a *part* only a mother could love.",
+						"You would do well to feed your *part* to a madpole."
+					]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+			"Body" : {
+				"have" : {
+					"like" : [
+						"<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> glances at your chest and quickly looks away.",
+						"<entity.name> is matching your breaths."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : [
+						"<spice.eros.react.part.any.missing.like.!random>",
+						"<entity.name> puzzles over how your body remains alive."
+					],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like" : [
+						"<spice.eros.react.part.any.none.like.!random>",
+						"<entity.name> admires your strange body.",
+						"<entity.name> listens to the sounds you make as you move."
+					],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				}
+			},
+			"Head" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+			"Back" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> seems to look past you, but not quite past you.",
+						"<entity.name> keeps glancing at something behind you but you can't figure out what."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
+						"<entity.name> gives you a look that says: \"there's no turning back now.\""],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+						"<entity.name> gives you a look that says: \"there's no turning back now.\""
+					],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+			"Arm" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> eyes your shoulder.",
+						"You stretch your arms and <entity.name> is briefly speechless."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+						"<entity.name> admires your strange body."
+					],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+			"Hands" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+			"Feet" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"You take a small step, and <entity.name> follows your feet.",
+						"<entity.name> bends down suddenly, and breathes deeply.",
+						"<entity.name> glances at the ground.",
+						"<entity.name> keeps looking at the ground."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
+						"<entity.name> seems to enjoy the sound you make while stumping around."
+					],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+						"<entity.name> perks up at the sound of your movement.",
+						"<entity.name> admires your mode of locomotion."
+					],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+
+			"Floating Nearby" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> seems to admire your self-control."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
+						"Have you ever thought about beekeeping?"
+					],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			},
+
+			// I think only robots have a treads preference?
+			"Tread" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+						"<entity.name> casts a sultry look at your motors.",
+						"<entity.name> follows the motions ."
+					],
+					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+				},
+				"missing" : {
+					"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+				},
+				"none" : {
+					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+						"<entity.name> looks approvingly at your propulsion system.",
+						"<entity.name> admires your mode of locomotion."
+					],
+					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>",
+						"<entity.name> grimly studies your inferior ambulatory systems."
+					],
+					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+				}
+			}
+			
+		},
+
+		// Assuming RCs will only feel strongly about presence (not absence) of skills
+		"skill" :
+		{
+			"any" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.generic.like.!random>",
+						"<entity.name> seems impressed with your skills.",
+						"<entity.name> looks at you with curiosity."
+					],
+					"dislike" : ["<spice.eros.react.generic.dislike.!random>",
+						"<entity.name> looks at you disapprovingly.",
+						"<entity.name> betrays a hint of resentment."
+					],
+					"flirt"   : ["<spice.eros.react.generic.flirt.!random>",
+						"I really admire your knowledge of *skill*.",
+						"So, how did you learn *skill*?"
+					],
+					"insult"  : ["<spice.eros.react.generic.insult.!random>",
+						"Only fools and charlatans dabble in *skill*!",
+						"*skill* are not going to save you from Qud."
+					]
+				}
+			}
+		}
+	}
+
+} } }

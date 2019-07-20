@@ -19,13 +19,13 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_Romancable : IPart
 	{
-		public string useFactionForFeelingFloor;
+		//public string useFactionForFeelingFloor;
 
 		public bool kissableIfPositiveFeeling;
 
-		private bool bOnlyAllowIfLiked = true;
+		//private bool bOnlyAllowIfLiked = true;
 
-		private Dictionary<string,int> FavoriteThings = null;
+		//private Dictionary<string,int> FavoriteThings = null;
 
 		[NonSerialized]
 		public List<acegiak_RomancePreference> preferences = null;
@@ -49,15 +49,6 @@ namespace XRL.World.Parts
 		{
 			base.Name = "acegiak_Romancable";
 			
-		}
-
-		public static string FilterRandom(string s)
-    {
-			return Regex.Replace(s, @"<(.*?)>", delegate(Match match)
-			{
-				string[] v = match.Groups[1].ToString().Split('|');
-				return v[Stat.Rnd2.Next(v.Length)];
-			});
 		}
 
 		public void havePreference(){
@@ -284,10 +275,7 @@ namespace XRL.World.Parts
 			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
 				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
 				node = boon.BuildNode(node);
-				node.Text = FilterRandom(node.Text);
-				foreach(ConversationChoice choice in node.Choices){
-					choice.Text = FilterRandom(choice.Text);
-				}
+				node.ExpandText(GetSelfEntity());
 			}else{
 				int c = 0;
 				int whichquestion = 0;
@@ -297,10 +285,7 @@ namespace XRL.World.Parts
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;
 				node = preferences[whichquestion].BuildNode(node);
-				node.Text = FilterRandom(node.Text);
-				foreach(ConversationChoice choice in node.Choices){
-					choice.Text = FilterRandom(choice.Text);
-				}
+				node.ExpandText(GetSelfEntity());
 
 
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
@@ -456,6 +441,26 @@ namespace XRL.World.Parts
 
 
 			return base.FireEvent(E);
+		}
+
+		//private HistoricEntity selfHistory;
+		private HistoricEntitySnapshot selfEntity;
+
+		private HistoricEntitySnapshot GetSelfEntity()
+		{
+			if (selfEntity != null) return selfEntity;
+
+			var myBody = ParentObject.GetPart<Body>().GetBody();
+			PronounSet pronouns = ParentObject.GetPronounSet();
+
+			//selfHistory = new HistoricEntity();
+			selfEntity = new HistoricEntitySnapshot(null);
+			selfEntity.setProperty("name", ParentObject.The + ParentObject.DisplayNameOnlyDirect);
+            selfEntity.setProperty("subjectPronoun", pronouns.Subjective);
+            selfEntity.setProperty("objectPronoun", pronouns.Objective);
+            selfEntity.setProperty("possessivePronoun", pronouns.PossessiveAdjective);
+			selfEntity.setProperty("possessiveSubstantive", pronouns.SubstantivePossessive);
+			return selfEntity;
 		}
 
 		public string storyoptions(string key,string alt){
