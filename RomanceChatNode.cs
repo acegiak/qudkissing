@@ -65,8 +65,14 @@ namespace XRL.World
         {
             InitializeSpice();
 
-            Text = "&C<spice.eros.react.jumble.!random>&Y\n\n"
-                + FilterRandom(Text);
+            Text =
+                "  &C<spice.eros.react.jumble.!random>&Y\n" +
+                "  &C<spice.eros.react.jumble.!random>&Y\n" +
+                "  &C<spice.eros.react.jumble.!random>&Y\n" +
+                "  &C<spice.eros.react.jumble.!random>&Y\n" +
+                "\n" +
+                Text;
+            Text = FilterRandom(Text);
             Text = HistoricStringExpander.ExpandString(
                 Text, entity, null, vars);
             foreach(ConversationChoice choice in Choices){

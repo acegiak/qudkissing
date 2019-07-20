@@ -5,6 +5,10 @@
 	
 "eros" : {
 
+	// Helpers
+	"Rc" : "=subject.The==subject.name=&C",
+	"rc" : "=subject.the==subject.name=&C",
+
 	"impatient" :
 	{
 		"generic" : [
@@ -16,15 +20,14 @@
 
 	"disposition" :
 	{
-		"now_poor": "<entity.name> frowns.",
-		"now_good": "<entity.name> smiles.",
-		"now_great": "<entity.name> grins at you."
+		"now_poor": "<spice.eros.Rc> frowns.",
+		"now_good": "<spice.eros.Rc> smiles.",
+		"now_great": "<spice.eros.Rc> grins at you."
 	},
 	
-	// Gaze: reactions to kissing preferences
-
-	// like & dislike reactions may be mixed.
-	// characters will not normally mix flirts and insults unless they're being insincere
+	// Reactions to kissing preferences
+	//    like & dislike reactions may be mixed.
+	//    most characters won't mix flirts and insults
 
 	"react" :
 	{
@@ -44,16 +47,16 @@
 		"generic" :
 		{
 			"like" : [
-				"<entity.name> leans briefly toward you.",
-				"<entity.name> smiles.",
-				"<entity.name> sighs.",
-				"<entity.name> relaxes."
+				"<spice.eros.Rc> =verb:lean= briefly toward you.",
+				"<spice.eros.Rc> =verb:smile=.",
+				"<spice.eros.Rc> =verb:sigh=.",
+				"<spice.eros.Rc> =verb:relax=."
 			],
 			"dislike" : [
-				"<entity.name> shifts away from you.",
-				"<entity.name> purses <entity.possessivePronoun> lips.",
-				"<entity.name> draws a sharp breath.",
-				"<entity.name> goes still."
+				"<spice.eros.Rc> =verb:shift= away from you.",
+				"<spice.eros.Rc> =verb:purse= =pronouns.possessive= lips.",
+				"<spice.eros.Rc> =verb:draw= a sharp breath.",
+				"<spice.eros.Rc> =verb:go= still."
 			],
 			"flirt" : [
 				"I've dreamt of finding someone like you, someplace, <spice.history.regions.terrain.!random.over.!random>...",
@@ -73,16 +76,16 @@
 			"like" : [
 				"<spice.eros.react.generic.like.!random>",
 				"<spice.eros.react.generic.like.!random>",
-				"<entity.name> shifts <entity.possessivePronoun> weight.",
-				"<entity.name> looks around wistfully.",
-				"<entity.name> rustles softly."
+				"<spice.eros.Rc> shifts =pronouns.possessive= weight.",
+				"<spice.eros.Rc> =verb:look= around wistfully.",
+				"<spice.eros.Rc> =verb:rustle= softly."
 			],
 			"dislike" : [
 				"<spice.eros.react.generic.dislike.!random>",
 				"<spice.eros.react.generic.dislike.!random>",
-				"<entity.name> slouches a little.",
-				"<entity.name> looks around with a flat expression.",
-				"<entity.name> is still."
+				"<spice.eros.Rc> =verb:slouch= a little.",
+				"<spice.eros.Rc> =verb:look= around with a flat expression.",
+				"<spice.eros.Rc> =verb:are= still."
 			],
 			"flirt" : [
 				"<spice.eros.react.generic.flirt.!random>",
@@ -104,16 +107,16 @@
 				"like" : [
 					"<spice.eros.react.generic.like.!random>",
 					"<spice.eros.react.generic.like.!random>",
-					"<entity.name> seems at ease around you.",
-					"<entity.name> gives you a look of fond familiarity.",
-					"<entity.name> seems glad to see you again."
+					"<spice.eros.Rc> =verb:seem= at ease around you.",
+					"<spice.eros.Rc> =verb:give= you a look of fond familiarity.",
+					"<spice.eros.Rc> =verb:seem= glad to see you again."
 				],
 				"dislike" : [
 					"<spice.eros.react.generic.dislike.!random>",
 					"<spice.eros.react.generic.dislike.!random>",
-					"<entity.name> seems a little less interested in you now.",
-					"<entity.name> eyes you with waning interest.",
-					"<entity.name> gives you a look that makes you feel used up."
+					"<spice.eros.Rc> =verb:seem= a little less interested in you now.",
+					"<spice.eros.Rc> =verb:eye= you with waning interest.",
+					"<spice.eros.Rc> =verb:give= you a look that makes you feel used up."
 				],
 				"flirt" : [
 					"<spice.eros.react.generic.flirt.!random>",
@@ -131,16 +134,16 @@
 				"like" : [
 					"<spice.eros.react.generic.like.!random>",
 					"<spice.eros.react.generic.like.!random>",
-					"<entity.name> looks at you curiously.",
-					"<entity.name> gives you a mysterious look.",
-					"<entity.name> takes in your strangest details."
+					"<spice.eros.Rc> =verb:look= at you curiously.",
+					"<spice.eros.Rc> =verb:give= you a mysterious look.",
+					"<spice.eros.Rc> =verb:take= in your strangest details."
 				],
 				"dislike" : [
 					"<spice.eros.react.generic.dislike.!random>",
 					"<spice.eros.react.generic.dislike.!random>",
-					"<entity.name> keeps <entity.possessivePronoun> distance.",
-					"<entity.name> eyes you cautiously.",
-					"<entity.name> responds only with hesitation."
+					"<spice.eros.Rc> =verb:keep= =pronouns.possessive= distance.",
+					"<spice.eros.Rc> =verb:eye= you cautiously.",
+					"<spice.eros.Rc> =verb:respond= only with hesitation."
 				],
 				"flirt" : [
 					"<spice.eros.react.generic.flirt.!random>",
@@ -163,13 +166,13 @@
 		"body" : {
 			"like" : [
 				"<spice.eros.react.generic.like.!random>",
-				"<entity.name> looks you over approvingly.",
-				"<entity.name> turns to face you."
+				"<spice.eros.Rc> =verb:look= you over approvingly.",
+				"<spice.eros.Rc> =verb:turn= to face you."
 			],
 			"dislike" : [
 				"<spice.eros.react.generic.dislike.!random>",
-				"<entity.name> adopts a closed posture.",
-				"<entity.name> keeps some distance between you."
+				"<spice.eros.Rc> =verb:adopt= a closed posture.",
+				"<spice.eros.Rc> =verb:keep= some distance between you."
 			],
 			"flirt" : [
 				"<spice.eros.react.generic.flirt.!random>",
@@ -197,20 +200,20 @@
 						// SHEER ANIMAL MAGNETISM
 						"<spice.eros.react.body.like.!random>",
 						"<spice.eros.react.body.like.!random>",
-						"<entity.name> looks you up and down, and up again.",
-						"<entity.name> admires your physique."
+						"<spice.eros.Rc> =verb:look= you up and down, and up again.",
+						"<spice.eros.Rc> =verb:admire= your physique."
 					],
 					"dislike" : [
 						// PLEASE DON'T HURT ME
 						"<spice.eros.react.body.dislike.!random>",
 						"<spice.eros.react.body.dislike.!random>",
-						"<entity.name> seems to tense up when you move.",
-						"<entity.name> watches you cautiously."
+						"<spice.eros.Rc> =verb:seem= to tense up when you move.",
+						"<spice.eros.Rc> =verb:watch= you cautiously."
 					],
 					"flirt" : [
 						"<spice.eros.react.body.flirt.!random>",
 						"Hmm, look at that body!",
-						"<entity.name> takes a deep breath of you, and sighs."
+						"<spice.eros.Rc> =verb:take= a deep breath of you, and sighs."
 					],
 					"insult" : [
 						"<spice.eros.react.body.insult.!random>",
@@ -223,22 +226,22 @@
 						// MY TURTLE-DOVE
 						"<spice.eros.react.body.like.!random>",
 						"<spice.eros.react.body.like.!random>",
-						"<entity.name> looks sympathetically at you.",
-						"<entity.name> seems at ease around you.",
-						"<entity.name> seems almost protective."
+						"<spice.eros.Rc> =verb:look= sympathetically at you.",
+						"<spice.eros.Rc> =verb:seem= at ease around you.",
+						"<spice.eros.Rc> =verb:seem= almost protective."
 					],
 					"dislike" : [
 						// GOD YOU'RE A MESS
 						"<spice.eros.react.body.dislike.!random>",
 						"<spice.eros.react.body.dislike.!random>",
-						"<entity.name> looks you over disapprovingly.",
-						"<entity.name> frowns at your posture.",
-						"<entity.name> looks away for a while."
+						"<spice.eros.Rc> =verb:look= you over disapprovingly.",
+						"<spice.eros.Rc> =verb:frown= at your posture.",
+						"<spice.eros.Rc> =verb:look= away for a while."
 					],
 					"flirt" : [
 						"<spice.eros.react.body.flirt.!random>",
 						"I hope you're being careful out there.",
-						"<entity.name> takes a deep breath of you, and sighs."
+						"<spice.eros.Rc> =verb:take= a deep breath of you, and sighs."
 					],
 					"insult" : [
 						"<spice.eros.react.body.insult.!random>",
@@ -255,17 +258,17 @@
 						// YOUR SPARKLING CHARACTER
 						"<spice.eros.react.generic.like.!random>",
 						"<spice.eros.react.generic.like.!random>",
-						"<entity.name> listens attentively.",
-						"<entity.name> hangs on your words.",
-						"<entity.name> seems to enjoy the sound of your voice."
+						"<spice.eros.Rc> =verb:listen= attentively.",
+						"<spice.eros.Rc> =verb:hang= on your words.",
+						"<spice.eros.Rc> =verb:seem= to enjoy the sound of your voice."
 					],
 					"dislike" : [
 						// YOUR OVERBEARING AURA
 						"<spice.eros.react.generic.dislike.!random>",
 						"<spice.eros.react.generic.dislike.!random>",
-						"<entity.name> seems uneasy as you speak.",
-						"<entity.name> seems hesitant to respond.",
-						"<entity.name> looks at you as if seeking permission to speak."
+						"<spice.eros.Rc> =verb:seem= uneasy as you speak.",
+						"<spice.eros.Rc> =verb:seem= hesitant to respond.",
+						"<spice.eros.Rc> =verb:look= at you as if seeking permission to speak."
 					],
 					"flirt" : [
 						"<spice.eros.react.generic.flirt.!random>",
@@ -285,17 +288,17 @@
 						// WHISPER TO ME OF SWEET NOTHINGS
 						"<spice.eros.react.generic.like.!random>",
 						"<spice.eros.react.generic.like.!random>",
-						"<entity.name> half-listens with a smile.",
-						"<entity.name> admires your surroundings.",
-						"<entity.name> smiles and nods."
+						"<spice.eros.Rc> half-=verb:listen= with a smile.",
+						"<spice.eros.Rc> =verb:admire= your surroundings.",
+						"<spice.eros.Rc> =verb:smile= and nods."
 					],
 					"dislike" : [
 						// YOU ARE A FRIGGIN DOOFUS
 						"<spice.eros.react.generic.dislike.!random>",
 						"<spice.eros.react.generic.dislike.!random>",
-						"<entity.name> half-listens with a patronizing expression.",
-						"<entity.name> seems distracted.",
-						"<entity.name> seems distracted, then perks up when you finish speaking."
+						"<spice.eros.Rc> half-=verb:listen= with a patronizing expression.",
+						"<spice.eros.Rc> =verb:seem= distracted.",
+						"<spice.eros.Rc> =verb:seem= distracted, then =verb:perk= up when you finish speaking."
 					],
 					"flirt" : [
 						"<spice.eros.react.generic.flirt.!random>",
@@ -317,14 +320,14 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.hi.like.!random>",
 						"<spice.eros.react.stat.physical.hi.like.!random>",
-						"<entity.name>'s eyes trace your muscles.",
-						"<entity.name> studies how you shoulder your equipment."
+						"<spice.eros.Rc>'s eyes trace your muscles.",
+						"<spice.eros.Rc> =verb:study= how you shoulder your equipment."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
-						"<entity.name> seems to shrink away from you.",
-						"<entity.name> gathers <entity.possessivePronoun>self."
+						"<spice.eros.Rc> =verb:seem= to shrink away from you.",
+						"<spice.eros.Rc> =verb:gather= =pronouns.possessive=self."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.hi.flirt.!random>",
@@ -343,20 +346,20 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.lo.like.!random>",
 						"<spice.eros.react.stat.physical.lo.like.!random>",
-						"<entity.name> looks at your frame with endearment.",
-						"<entity.name> looks at your burden sympathetically."
+						"<spice.eros.Rc> =verb:look= at your frame with endearment.",
+						"<spice.eros.Rc> =verb:look= at your burden sympathetically."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
-						"<entity.name> looks at your frame with disappointment.",
-						"<entity.name> looks at your burden with a patronizing expression."
+						"<spice.eros.Rc> =verb:look= at your frame with disappointment.",
+						"<spice.eros.Rc> =verb:look= at your burden with a patronizing expression."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.lo.flirt.!random>",
 						"Do you need help carrying anything?",
 						"I admire the one who travels light.",
-						"<entity.name> casually flexes."
+						"<spice.eros.Rc> casually flexes."
 						// "I wish I had ten of you." Better as a remark on fugue
 					],
 					"insult" : [
@@ -372,14 +375,14 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.hi.like.!random>",
 						"<spice.eros.react.stat.physical.hi.like.!random>",
-						"<entity.name> follows your movements with interest.",
-						"<entity.name> nods along with your gestures."
+						"<spice.eros.Rc> =verb:follow= your movements with interest.",
+						"<spice.eros.Rc> =verb:nod= along with your gestures."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
-						"<entity.name> watches your movements warily.",
-						"<entity.name> places a hand on <entity.possessivePronoun> equipment."
+						"<spice.eros.Rc> =verb:watch= your movements warily.",
+						"<spice.eros.Rc> =verb:keep= an eye on you."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.hi.flirt.!random>",
@@ -398,14 +401,14 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.lo.like.!random>",
 						"<spice.eros.react.stat.physical.lo.like.!random>",
-						"<entity.name> giggles at your clumsy movements.",
-						"<entity.name> lets their shoulders slacken."
+						"<spice.eros.Rc> =verb:giggle= at your clumsy movements.",
+						"<spice.eros.Rc> =verb:let= their shoulders slacken."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
-						"<entity.name> watches your clumsy movements with a grim expression.",
-						"<entity.name> narrowly avoids your wild gesturing."
+						"<spice.eros.Rc> =verb:watch= your clumsy movements with a grim expression.",
+						"<spice.eros.Rc> rolls =pronouns.possessive== eyes."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.lo.flirt.!random>",
@@ -426,15 +429,15 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.hi.like.!random>",
 						"<spice.eros.react.stat.physical.hi.like.!random>",
-						"<entity.name> seems to be counting your scars.",
-						"<entity.name> straightens <entity.possessivePronoun> back.",
-						"<entity.name> stares you down like a fulcrete wall."
+						"<spice.eros.Rc> =verb:seem= to be counting your scars.",
+						"<spice.eros.Rc> =verb:straighten= =pronouns.possessive= back.",
+						"<spice.eros.Rc> =verb:stare= you down like a fulcrete wall."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
-						"<entity.name> looks at your scars uneasily.",
-						"<entity.name> frowns at your overworked body."
+						"<spice.eros.Rc> =verb:look= at your scars uneasily.",
+						"<spice.eros.Rc> =verb:frown= at your overworked body."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.hi.flirt.!random>",
@@ -453,14 +456,14 @@
 					"like" : [
 						"<spice.eros.react.stat.physical.lo.like.!random>",
 						"<spice.eros.react.stat.physical.lo.like.!random>",
-						"<entity.name> eyes your soft spots with affection.",
-						"<entity.name> studies you like a desert flower."
+						"<spice.eros.Rc> =verb:eye= your soft spots with affection.",
+						"<spice.eros.Rc> =verb:study= you like a desert flower."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
-						"<entity.name> seems surprised you've lived this long.",
-						"<entity.name> gives you a look that makes you feel like a lost cause."
+						"<spice.eros.Rc> =verb:seem= surprised you've lived this long.",
+						"<spice.eros.Rc> =verb:look= at you like a dead =player.personTerm= walking."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.lo.flirt.!random>",
@@ -481,14 +484,14 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.hi.like.!random>",
 						"<spice.eros.react.stat.mental.hi.like.!random>",
-						"<entity.name> considers <entity.possessivePronoun> next words carefully.",
-						"<entity.name> looks thoughtful."
+						"<spice.eros.Rc> =verb:consider= =pronouns.possessive= next words carefully.",
+						"<spice.eros.Rc> =verb:look= thoughtful."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
-						"<entity.name> seems a little annoyed with you.",
-						"<entity.name> struggles to find <entity.possessivePronoun> words."
+						"<spice.eros.Rc> =verb:seem= a little annoyed with you.",
+						"<spice.eros.Rc> =verb:struggle= to find =pronouns.possessive= words."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.mental.hi.flirt.!random>",
@@ -507,14 +510,14 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.lo.like.!random>",
 						"<spice.eros.react.stat.mental.lo.like.!random>",
-						"<entity.name> seems to follow.",
-						"<entity.name> is still listening to you."
+						"<spice.eros.Rc> =verb:seem= to follow.",
+						"<spice.eros.Rc> =verb:are= still listening to you."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
-						"<entity.name> looks unsurprised.",
-						"<entity.name> is still listening to you."
+						"<spice.eros.Rc> =verb:appear= unsurprised.",
+						"<spice.eros.Rc> =verb:are= still listening to you."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.mental.lo.flirt.!random>",
@@ -535,14 +538,14 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.hi.like.!random>",
 						"<spice.eros.react.stat.mental.hi.like.!random>",
-						"<entity.name> looks at you with admiration.",
-						"<entity.name> pays close attention to you."
+						"<spice.eros.Rc> =verb:look= at you with admiration.",
+						"<spice.eros.Rc> =verb:pay= close attention to you."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
-						"<entity.name> looks ready to turn away, but you keep talking.",
-						"<entity.name> looks taxed by the conversation."
+						"<spice.eros.Rc> =verb:look= ready to turn away, but you keep talking.",
+						"<spice.eros.Rc> =verb:look= taxed by the conversation."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.mental.hi.flirt.!random>",
@@ -561,15 +564,15 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.lo.like.!random>",
 						"<spice.eros.react.stat.mental.lo.like.!random>",
-						"<entity.name> seems to have things figured out.",
+						"<spice.eros.Rc> =verb:seem= to have things figured out.",
 						"You nod, almost unconsciously.",
-						"You pay close attention to <entity.name>."
+						"You pay close attention to <spice.eros.rc>."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
-						"<entity.name> looks at you with pity.",
-						"<entity.name> seems exasperated by your nodding.",
+						"<spice.eros.Rc> =verb:look= at you with pity.",
+						"<spice.eros.Rc> =verb:seem= exasperated by your compliance.",
 						"You feel like you've done something wrong."
 					],
 					"flirt" : [
@@ -591,16 +594,16 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.hi.like.!random>",
 						"<spice.eros.react.stat.mental.hi.like.!random>",
-						"Your voice makes <entity.name> smile.",
-						"<entity.name> chuckles.",
-						"<entity.name> nods, almost unconsciously."
+						"Your voice makes <spice.eros.rc> smile.",
+						"<spice.eros.Rc> =verb:chuckle=.",
+						"<spice.eros.Rc> =verb:nod=, almost unconsciously."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
 						"<spice.eros.react.stat.mental.hi.dislike.!random>",
-						"<entity.name> seems suspicious of you.",
-						"<entity.name> seems a little overwhelmed.",
-						"<entity.name> nods reluctantly."
+						"<spice.eros.Rc> =verb:seem= suspicious of you.",
+						"<spice.eros.Rc> =verb:seem= a little overwhelmed.",
+						"<spice.eros.Rc> =verb:nod= reluctantly."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.mental.hi.flirt.!random>",
@@ -621,14 +624,14 @@
 					"like" : [
 						"<spice.eros.react.stat.mental.lo.like.!random>",
 						"<spice.eros.react.stat.mental.lo.like.!random>",
-						"<entity.name> rolls <entity.possessivePronoun> eyes.",
-						"<entity.name> purses <entity.possessivePronoun> lips, but smiles faintly."
+						"<spice.eros.Rc> =verb:roll= =pronouns.possessive= eyes sentimentally.",
+						"<spice.eros.Rc> =verb:purse= =pronouns.possessive= lips, but =verb:smile= faintly."
 					],
 					"dislike" : [
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
 						"<spice.eros.react.stat.mental.lo.dislike.!random>",
-						"<entity.name> seems to see right through you.",
-						"<entity.name> seems a little bored."
+						"<spice.eros.Rc> =verb:seem= to see right through you.",
+						"<spice.eros.Rc> =verb:seem= a little bored."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.mental.lo.flirt.!random>",
@@ -658,14 +661,14 @@
 					"like" : [
 						"<spice.eros.react.body.like.!random>",
 						"<spice.eros.react.body.like.!random>",
-						"<entity.name> glances at your *part* and quickly looks away.",
-						"<entity.name> lingers on the little details of you."
+						"<spice.eros.Rc> =verb:glance= at your *part* and quickly looks away.",
+						"<spice.eros.Rc> =verb:linger= on the little details of you."
 					],
 					"dislike" : [
 						"<spice.eros.react.body.dislike.!random>",
 						"<spice.eros.react.body.dislike.!random>",
-						"<entity.name> averts <entity.possessivePronoun> eyes from your *part*.",
-						"<entity.name> avoids looking at you too closely."
+						"<spice.eros.Rc> =verb:avert= =pronouns.possessive= eyes from your *part*.",
+						"<spice.eros.Rc> =verb:avoid= looking at you too closely."
 					],
 					"flirt" : [
 						"<spice.eros.react.body.flirt.!random>",
@@ -684,14 +687,14 @@
 					"like" : [
 						"<spice.eros.react.body.like.!random>",
 						"<spice.eros.react.body.like.!random>",
-						"<entity.name> smiles at what remains of your *part*.",
-						"<entity.name> lingers on the exotic details of your body."
+						"<spice.eros.Rc> =verb:smile= at what remains of your *part*.",
+						"<spice.eros.Rc> =verb:linger= on the exotic details of your body."
 					],
 					"dislike" : [
 						"<spice.eros.react.body.dislike.!random>",
 						"<spice.eros.react.body.dislike.!random>",
-						"<entity.name> stares in horror at what's left of your *part*.",
-						"<entity.name> gawks rudely at your riven body."
+						"<spice.eros.Rc> =verb:gape= at what's left of your *part*.",
+						"<spice.eros.Rc> =verb:gawk= rudely at your riven body."
 					],
 					"flirt" : [
 						"<spice.eros.react.body.flirt.!random>",
@@ -710,14 +713,14 @@
 					"like" : [
 						"<spice.eros.react.body.like.!random>",
 						"<spice.eros.react.body.like.!random>",
-						"<entity.name> cheerfully notes your lack of *part*.",
-						"<entity.name> lingers on the exotic details of your body."
+						"<spice.eros.Rc> cheerfully =verb:note= your lack of *part*.",
+						"<spice.eros.Rc> =verb:linger= on the exotic details of your body."
 					],
 					"dislike" : [
 						"<spice.eros.react.body.dislike.!random>",
 						"<spice.eros.react.body.dislike.!random>",
-						"<entity.name> looks for your *part* and finds none.",
-						"<entity.name> looks disapprovingly over your geometry."
+						"<spice.eros.Rc> =verb:look= for your *part* and finds none.",
+						"<spice.eros.Rc> =verb:look= disapprovingly over your geometry."
 					],
 					"flirt" : [
 						"<spice.eros.react.body.flirt.!random>",
@@ -761,12 +764,12 @@
 			"Face" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> takes in the little details of your *part*.",
-						"<entity.name> meets your gaze and holds it."
+						"<spice.eros.Rc> =verb:take= in the little details of your *part*.",
+						"<spice.eros.Rc> =verb:meet= your gaze and holds it."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>",
-						"<entity.name> seems to avert <entity.possessivePronoun> gaze from your *part*.",
-						"<entity.name> avoids your gaze."
+						"<spice.eros.Rc> =verb:seem= to avert =pronouns.possessive= gaze from your *part*.",
+						"<spice.eros.Rc> =verb:avoid= your gaze."
 					],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
 						"I haven't been able to get your *part* out my mind.",
@@ -794,8 +797,8 @@
 				"have" : {
 					"like" : [
 						"<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> glances at your chest and quickly looks away.",
-						"<entity.name> is matching your breaths."
+						"<spice.eros.Rc> =verb:glance= at your chest and quickly looks away.",
+						"<spice.eros.Rc> =verb:are= matching your breaths."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
@@ -804,7 +807,7 @@
 				"missing" : {
 					"like"    : [
 						"<spice.eros.react.part.any.missing.like.!random>",
-						"<entity.name> puzzles over how your body remains alive."
+						"<spice.eros.Rc> =verb:puzzle= over how your body remains alive."
 					],
 					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
@@ -813,8 +816,8 @@
 				"none" : {
 					"like" : [
 						"<spice.eros.react.part.any.none.like.!random>",
-						"<entity.name> admires your strange body.",
-						"<entity.name> listens to the sounds you make as you move."
+						"<spice.eros.Rc> =verb:admire= your strange body.",
+						"<spice.eros.Rc> =verb:listen= to the sounds you make as you move."
 					],
 					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
@@ -844,8 +847,8 @@
 			"Back" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> seems to look past you, but not quite past you.",
-						"<entity.name> keeps glancing at something behind you but you can't figure out what."
+						"<spice.eros.Rc> =verb:seem= to look past you, but not quite past you.",
+						"<spice.eros.Rc> =verb:keep= glancing at something behind you but you can't figure out what."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
@@ -853,14 +856,14 @@
 				},
 				"missing" : {
 					"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
-						"<entity.name> gives you a look that says: \"there's no turning back now.\""],
+						"<spice.eros.Rc> =verb:give= you a look that says: \"there's no turning back now.\""],
 					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
 					"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
 				},
 				"none" : {
 					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
-						"<entity.name> gives you a look that says: \"there's no turning back now.\""
+						"<spice.eros.Rc> =verb:give= you a look that says: \"there's no turning back now.\""
 					],
 					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
@@ -870,8 +873,8 @@
 			"Arm" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> eyes your shoulder.",
-						"You stretch your arms and <entity.name> is briefly speechless."
+						"<spice.eros.Rc> =verb:eye= your shoulder.",
+						"You stretch your arms and <spice.eros.rc> =verb:are= briefly speechless."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
@@ -885,7 +888,7 @@
 				},
 				"none" : {
 					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
-						"<entity.name> admires your strange body."
+						"<spice.eros.Rc> =verb:admire= your strange body."
 					],
 					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
@@ -915,10 +918,10 @@
 			"Feet" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"You take a small step, and <entity.name> follows your feet.",
-						"<entity.name> bends down suddenly, and breathes deeply.",
-						"<entity.name> glances at the ground.",
-						"<entity.name> keeps looking at the ground."
+						"You take a small step, and <spice.eros.rc> =verb:follow= your feet.",
+						"<spice.eros.Rc> =verb:bend= down suddenly, and breathes deeply.",
+						"<spice.eros.Rc> =verb:flance= at the ground.",
+						"<spice.eros.Rc> =verb:keep= looking at the ground."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
@@ -926,7 +929,7 @@
 				},
 				"missing" : {
 					"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
-						"<entity.name> seems to enjoy the sound you make while stumping around."
+						"<spice.eros.Rc> =verb:seem= to enjoy the sound you make while stumping around."
 					],
 					"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
@@ -934,8 +937,8 @@
 				},
 				"none" : {
 					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
-						"<entity.name> perks up at the sound of your movement.",
-						"<entity.name> admires your mode of locomotion."
+						"<spice.eros.Rc> =verb:perk= up at the sound of your movement.",
+						"<spice.eros.Rc> =verb:admire= your mode of locomotion."
 					],
 					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
@@ -946,7 +949,7 @@
 			"Floating Nearby" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> seems to admire your self-control."
+						"<spice.eros.Rc> =verb:seem= to admire your self-control."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
@@ -972,8 +975,8 @@
 			"Tread" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>",
-						"<entity.name> casts a sultry look at your motors.",
-						"<entity.name> follows the motions ."
+						"<spice.eros.Rc> =verb:cast= a sultry look at your motors.",
+						"<spice.eros.Rc> =verb:follow= the angles of your treads."
 					],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
 					"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
@@ -987,11 +990,11 @@
 				},
 				"none" : {
 					"like"    : ["<spice.eros.react.part.any.none.like.!random>",
-						"<entity.name> looks approvingly at your propulsion system.",
-						"<entity.name> admires your mode of locomotion."
+						"<spice.eros.Rc> =verb:look= approvingly at your propulsion system.",
+						"<spice.eros.Rc> =verb:admire= your mode of locomotion."
 					],
 					"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>",
-						"<entity.name> grimly studies your inferior ambulatory systems."
+						"<spice.eros.Rc> grimly =verb:study= your inferior ambulatory systems."
 					],
 					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
 					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
@@ -1006,12 +1009,12 @@
 			"any" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.generic.like.!random>",
-						"<entity.name> seems impressed with your skills.",
-						"<entity.name> looks at you with curiosity."
+						"<spice.eros.Rc> =verb:seem= impressed with your skills.",
+						"<spice.eros.Rc> =verb:look= at you with curiosity."
 					],
 					"dislike" : ["<spice.eros.react.generic.dislike.!random>",
-						"<entity.name> looks at you disapprovingly.",
-						"<entity.name> betrays a hint of resentment."
+						"<spice.eros.Rc> =verb:look= at you disapprovingly.",
+						"<spice.eros.Rc> =verb:betray= a hint of resentment."
 					],
 					"flirt"   : ["<spice.eros.react.generic.flirt.!random>",
 						"I really admire your knowledge of *skill*.",
@@ -1022,6 +1025,314 @@
 						"*skill* are not going to save you from Qud."
 					]
 				}
+			}
+		}
+	},
+
+	// Stories based on romance preferences
+	"opinion" :
+	{
+		"generic" :
+		{
+			"goodStory" : [
+				"Once, I had a dream about *sample*.  The next day, <entity.goodThingHappen>!"
+			],
+			"badStory" : [
+				"Once, I had a dream about *sample*.  The next day, <entity.badThingHappen>!"
+			],
+			"goodThingHappen" : [
+				"I saw a rainbow"
+			],
+			"badThingHappen" : [
+				"I got hit with a rock"
+			],
+			"goodPerson" : ["friendly person"],
+			"badPerson"  : ["wicked person"],
+			"goodObject" : ["wondrous thing"],
+			"badObject"  : ["unspeakable thing"]
+		},
+
+		"food" :
+		{
+			"like" : {
+				"tasty" : [
+					"delicious",
+					"amazing",
+					"wonderful",
+					"phenomenal"
+				],
+
+				"story" : [
+					"Once, I had a dream about eating a *sample*. It was <^.tasty.!random>.",
+					"Once, I ate so much *sample* I made myself sick."
+				],
+				"goodThingHappen" : [
+					"I ate *sample*"
+				],
+				"badThingHappen" : [
+					"I ran out of *sample*"
+				],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : ["*sample*"],
+				"badObject" : [""]
+			},
+			"dislike" : {
+				"gross" : [
+					"disgusting",
+					"horrible",
+					"awful",
+					"nauseating"
+				],
+
+				"story" : [
+					"Once, I had a dream about eating a *sample*. It was <^.gross.random>.",
+					"I think I might be allergic to *sample*."
+				],
+				"goodThingHappen" : [""],
+				"badThingHappen" : ["I ate *sample*"],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : [""],
+				"badObject" : ["*sample*"]
+			}
+		},
+		"armor" :
+		{
+			"like" : {
+				"story" : [
+					"<spice.eros.opinion.generic.like.story>",
+					"I think I could probably make *sample.",
+					"I think *type*s are kind of neat.",
+					"You look like the kind of person that appreciates a good *type*.",
+					"My best friend used to wear a fine *type*"
+				],
+				"goodThingHappen" : [
+					"I saw *sample*"
+				],
+				"badThingHappen" : [
+					"I lost my precious *sample*"
+				],
+				"goodPerson" : ["*type*-maker", "*type* merchant"],
+				"badPerson"  : [""],
+				"goodObject" : ["*sample*"],
+				"badObject"  : [""]
+			},
+			"dislike" : {
+				"story" : [
+					"<spice.eros.opinion.generic.dislike.story>",
+					"I just don't like the look of *type*s.",
+					"You look like the kind of person that wears a lot of *type*s.",
+					"My greatest enemy used to wear a *type*."
+				],
+				"goodThingHappen" : [""],
+				"badThingHappen" : [
+					"I had to wear *sample*"
+				],
+				"goodPerson" : [""],
+				"badPerson"  : ["*type*-maker", "*type* merchant"],
+				"goodObject" : [""],
+				"badObject"  : ["*sample*"]
+			}
+		},
+		"weapon" : 
+		{
+			"name" : {
+				"Cudgel" : "cudgel",
+				"ShortBlades" : "short blade",
+				"LongBlades" : "long blade",
+				"Axe" : "axe",
+				"Whip" : "whip",
+				"Chain" : "chain",
+				"Pistol" : "pistol",
+				"HeavyWeapons" : "heavy weapon",
+				"Rifle" : "rifle"
+			},
+			"verb" : {
+				"Cudgel" : ["bashing", "clobbering", "crushing"],
+				"ShortBlades" : ["stabbing", "piercing", "hobbling", "shanking"],
+				"LongBlades" : ["slashing", "parrying", "fencing"],
+				"Axe" : ["cleaving", "chopping", "dismembering"],
+				"Whip" : ["whipping", "flaying", "flogging"],
+				"Chain" : ["chain-beating", "chaining up"],
+				"Pistol" : ["shooting", "peppering", "run-and-gunning"],
+				"HeavyWeapons" : ["exploding", "laying waste to", "obliterating", "incinerating"],
+				"Rifle" : ["sniping", "sharpshooting", ""]
+			},
+
+			"like" : {
+				"story" : [
+					"<spice.eros.opinion.generic.like.story>",
+					"I really love <spice.eros.opinion.weapon.verb.*type*.!random> my enemies.",
+					"I think I could probably make *sample*.",
+					"I think *type*s are kind of neat.",
+					"You look like the kind of person that might carry a *type*.",
+					"My friend used to carry a *type*."
+				],
+				"goodThingHappen" : [
+					//"<spice.eros.opinion.generic.goodThingHappen>",
+					"I saw *sample*"
+				],
+				"badThingHappen" : [
+					//"<spice.eros.opinion.generic.badThingHappen>",
+					"I saw a *sample* get destroyed"
+				],
+				"goodPerson" : ["*type*-smith", "*type* master"],
+				"badPerson"  : [""],
+				"goodObject" : ["*sample*"],
+				"badObject"  : [""]
+			},
+			"dislike" : {
+				"story" : [
+					"<spice.eros.opinion.generic.dislike.story>",
+					"I worry about people attacking me with a *type*.",
+					"A *badperson* once attacked me with a *type*",
+					"I just don't feel safe around *type*s.",
+					"You look like the kind of person that might carry a *type*.",
+					"My greatest enemy used to carry a *type*."
+				],
+				"goodThingHappen" : [
+					"I saw a *sample* get destroyed"
+				],
+				"badThingHappen" : [
+					"I was attacked with *sample*"
+				],
+				"goodPerson" : [""],
+				"badPerson"  : ["*type*-smith", "*type* master"],
+				"goodObject" : [""],
+				"badObject"  : ["*sample*"]
+			}
+		},
+
+		"faction" :
+		{
+			"like" : {
+				"sharedWithMe" : [
+					"gave me",
+					"showed me",
+					"told me about",
+					"let me borrow",
+					"let me use",
+					"let me hold",
+					"let me touch"
+				],
+
+				"story" : [
+					"<spice.eros.opinion.generic.like.story>",
+					"Once, a *sample* <^.sharedWithMe.!random> *goodobject*.",
+					"I think *type* are neat."
+				],
+				"goodThingHappen" : [
+					"I met *sample*"
+				],
+				"badThingHappen" : [
+					"I saw *sample* suffer a terrible misfortune"
+				],
+				"goodPerson" : ["*sample*"],
+				"badPerson"  : [""],
+				"goodObject" : [""],
+				"badObject"  : [""]
+			},
+			"dislike" : {
+				"menacedMeWith" : [
+					"attacked me with",
+					"threatened me with",
+					"assaulted me with",
+					"hurt my friend with",
+					"tried to kill me with"
+				],
+				"disdain" : [
+					"hate",
+					"can't stand",
+					"won't tolerate",
+					"can't be around"
+				],
+
+				"story" : [
+					"<spice.eros.opinion.generic.dislike.story>",
+					"Once, a *sample* <^.menacedMeWith.!random> *badweapon*.",
+					"I just <^.disdain.!random> *type*."
+				],
+				"goodThingHappen" : [
+					"I saw *sample* suffer a terrible misfortune"
+				],
+				"badThingHappen" : [
+					"I met *sample*"
+				],
+				"goodPerson" : [""],
+				"badPerson"  : ["*sample*"],
+				"goodObject" : [""],
+				"badObject"  : [""]
+			}
+		},
+
+		"patriot" :
+		{
+			"like" : {
+				"story" : [
+					"<spice.eros.opinion.generic.like.story>",
+					"Once, a *sample* <spice.eros.opinion.faction.like.sharedWithMe.!random> *goodobject*."
+				],
+				"goodThingHappen" : [""],
+				"badThingHappen" : [""],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : [""],
+				"badObject" : [""]
+			},
+			"dislike" : {
+				"story" : [
+					"<spice.eros.opinion.generic.dislike.story>",
+					"Once, a *sample* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> *badweapon*."
+				],
+				"goodThingHappen" : [""],
+				"badThingHappen" : [""],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : [""],
+				"badObject" : [""]
+			}
+		},
+
+		"sultan" :
+		{
+			"like" : {
+				"story" : [
+					"Once, I had a dream about *sultanlong*.  The next day, <entity.goodThingHappen>!",
+					"I think often about the accomplishments of *sultanlong*."
+				],
+
+				"goodThingHappen" : [
+					"I saw a vision of *sultanlong*."
+				],
+				"badThingHappen" : [
+					"Someone besmirched the name of *sultanlong*."
+				],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : [""],
+				"badObject" : [""]
+			},
+			"dislike" : {
+				"resent" : [
+					"hate",
+					"don't like",
+					"hate thinking about",
+					"resent"
+				],
+
+				"story" : [
+					"Once, I had a dream about *sultan*.  The next day, <entity.badThingHappen>!",
+					"I just <^.resent.!random> *sultan*."
+				],
+				"goodThingHappen" : [""],
+				"badThingHappen" : [
+					"I had a frightening vision of *sultan*."
+				],
+				"goodPerson" : [""],
+				"badPerson" : [""],
+				"goodObject" : [""],
+				"badObject" : [""]
 			}
 		}
 	}

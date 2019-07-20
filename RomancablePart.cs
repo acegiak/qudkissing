@@ -451,15 +451,17 @@ namespace XRL.World.Parts
 			if (selfEntity != null) return selfEntity;
 
 			var myBody = ParentObject.GetPart<Body>().GetBody();
-			PronounSet pronouns = ParentObject.GetPronounSet();
+			//PronounSet pronouns = ParentObject.GetPronounSet();
 
 			//selfHistory = new HistoricEntity();
 			selfEntity = new HistoricEntitySnapshot(null);
 			selfEntity.setProperty("name", ParentObject.The + ParentObject.DisplayNameOnlyDirect);
-            selfEntity.setProperty("subjectPronoun", pronouns.Subjective);
-            selfEntity.setProperty("objectPronoun", pronouns.Objective);
-            selfEntity.setProperty("possessivePronoun", pronouns.PossessiveAdjective);
-			selfEntity.setProperty("possessiveSubstantive", pronouns.SubstantivePossessive);
+
+			// Should not use these pronoun forms
+            selfEntity.setProperty("subjectPronoun", ParentObject.it);
+            selfEntity.setProperty("objectPronoun", ParentObject.them);
+            selfEntity.setProperty("possessivePronoun", ParentObject.its);
+			selfEntity.setProperty("substantivePossessivePronoun", ParentObject.theirs);
 			return selfEntity;
 		}
 
