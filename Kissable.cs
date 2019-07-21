@@ -18,7 +18,7 @@ namespace XRL.World.Parts
 
 		//private bool bOnlyAllowIfLiked = true;
 
-		private List<acegiak_KissingPreference> preferences = null;
+		public List<acegiak_KissingPreference> preferences = null;
 
 
 

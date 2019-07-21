@@ -19,7 +19,11 @@ namespace XRL.World.Parts
 
         public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             float modifier = (kissee.pBrain.GetFeeling(GO) -10);
-            return new acegiak_KissingPreferenceResult(Amount*modifier,(modifier*this.Amount>0?"likes":"doesn't like")+" that you"+(modifier >0?"":" don't")+" know them well.");
+            string reactPath = ((modifier>0) ? "relationship.hi" : "relationship.lo");
+            return new acegiak_KissingPreferenceResult(
+                Amount*modifier,
+                (modifier*this.Amount>0?"likes":"doesn't like")+" that you"+(modifier >0?"":" don't")+" know them well.",
+                reactPath);
         }
 
     }

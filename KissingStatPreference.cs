@@ -29,11 +29,12 @@ namespace XRL.World.Parts
 
             // IPart.AddPlayerMessage("Your "+Stat+(GO.StatMod(Stat)>=Needs?" meets ":" does not meet ")+this.Needs.ToString());
 
-
-            float result = Amount * (GO.StatMod(Stat)>=Needs?1:-1);
+            int statHi = (GO.StatMod(Stat)>=Needs?1:-1);
+            float result = Amount * statHi;
+            string reactPath = "stat." + Stat + ((statHi>0) ? ".hi" : ".lo");
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((GO.StatMod(Stat)>=Needs)?"high ":"low ")+Stat;
 
-            return new acegiak_KissingPreferenceResult(result,explain);
+            return new acegiak_KissingPreferenceResult(result,explain,reactPath);
         }
 
     }

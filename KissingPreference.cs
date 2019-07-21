@@ -7,9 +7,12 @@ namespace XRL.World.Parts
     public class acegiak_KissingPreferenceResult{
         public string explanation;
         public float amount;
-        public acegiak_KissingPreferenceResult(float amount,string explanation){
+        public string reactPath;
+
+        public acegiak_KissingPreferenceResult(float amount,string explanation,string reactPath){
             this.amount = amount;
             this.explanation = explanation;
+            this.reactPath = reactPath;
         }
     }
 

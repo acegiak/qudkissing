@@ -1,5 +1,6 @@
 using Qud.API;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -60,17 +61,46 @@ namespace XRL.World
                     acegiak_HistoricSpicePatcher.Patch(filePath);
             });
         }
+
+        public void InsertMyReaction(
+            GameObject me, GameObject them)
+        {
+            // Must be kissable
+            var kissable = me.GetPart<acegiak_Kissable>();
+            if (kissable == null)
+            {
+                Text = "  &RNOT KISSABLE&y\n\n" + Text;
+                return;
+            }
+
+            // Check a random kissing-preference
+            kissable.havePreference();
+            var preference = kissable.preferences
+                [Stat.Rnd2.Next(kissable.preferences.Count)];
+            var assess = preference.attractionAmount(me, them);
+
+            // Generate a reaction
+            string spiceKey = "<spice.eros.react." + assess.reactPath +
+                ((assess.amount > 0f) ? ".like" : ".dislike") + ".!random>";
+            string reaction = HistoricStringExpander.ExpandString(spiceKey);
+
+            // Apply some formatting and prepend
+            if (reaction != null && reaction.Count() > 0)
+            {
+                Text = "  &M" + reaction + " &k" + assess.reactPath + "&y\n\n" + Text;
+            }
+            else
+            {
+                Text = assess.reactPath + "  &R"+spiceKey+"&y\n\n" + Text;
+            }
+        }
         public void ExpandText(
             HistoricEntitySnapshot     entity,
             Dictionary<string, string> vars = null)
         {
             InitializeSpice();
 
-            Text =
-                "  &M<spice.eros.react.jumble.!random>&y\n\n" +
-                Text;
             Text = FilterRandom(Text);
-            // Consider ColorUtility.StripFormatting
             Text =
                 HistoricStringExpander.ExpandString(
                 Text, entity, null, vars)

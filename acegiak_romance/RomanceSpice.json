@@ -895,7 +895,7 @@
 					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
 				}
 			},
-			"Hands" : {
+			"Hand" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],

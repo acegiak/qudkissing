@@ -277,6 +277,7 @@ namespace XRL.World.Parts
 			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
 				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
 				node = boon.BuildNode(node);
+				node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
 				node.ExpandText(GetSelfEntity());
 			}else{
 				int c = 0;
@@ -287,6 +288,7 @@ namespace XRL.World.Parts
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;
 				node = preferences[whichquestion].BuildNode(node);
+				node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
 				node.ExpandText(GetSelfEntity());
 
 
@@ -350,7 +352,7 @@ namespace XRL.World.Parts
 				story = ConsoleLib.Console.ColorUtility.StripFormatting(story);
 				if (story.Count() > 0) return story;
 			} 
-			return "Sorry, I just had a brain fart.";
+			return "&RI AM EXPERIENCING TEMPORARY AMNESIA.&y";
 		}
 
 

@@ -29,7 +29,7 @@ namespace XRL.World.Parts
             BodyPart part = parts[random.Next(parts.Count-1)];
 
 
-            this.BodyPart = part.Name;
+            this.BodyPart = part.TypeModel().Type;
             this.Amount =  (float)((random.NextDouble()*2)-1);
         }
         public acegiak_PartPreference(string partname, float amount){
@@ -43,24 +43,30 @@ namespace XRL.World.Parts
 
             //IPart.AddPlayerMessage("They "+(Amount>0?"likes ":"dislikes ")+this.BodyPart);
 
-
+            string reactPath = "part." + this.BodyPart;
             if (part == null)
             {
                 //IPart.AddPlayerMessage("You have no body.");
 
 				has = false;
-            }else{
+                reactPath += ".none";
+            }else if (part.GetDismemberedPartByType(this.BodyPart) != null){
+                has = false;
+                reactPath = ".missing";
+            } else {
                // IPart.AddPlayerMessage("You have a body.");
 
-                BodyPart bpart = part.GetPartByName(this.BodyPart);
-                has = bpart != null;
+                var parts = part.GetPart(this.BodyPart);
+                //BodyPart bpart = (parts.Count() ? parts[Stat.Rnd2.Next(parts.Count())] : null);
+                has = (parts.Count() != 0);
+                reactPath += (has ? ".have" : ".none");
 
                 //IPart.AddPlayerMessage("You "+(has?"have ":"have no ")+this.BodyPart);
             }
 
             float result = Amount * (has?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((has)?"":"&rlack of ")+BodyPart;
-            return new acegiak_KissingPreferenceResult(result,explain);
+            return new acegiak_KissingPreferenceResult(result,explain,reactPath);
         }
 
     }
