@@ -7,6 +7,7 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -208,29 +209,17 @@ namespace XRL.World.Parts
 
 
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = presentablec(wantedType);
+            string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.weapon.like.story.!random>" :
+                    "<spice.eros.opinion.weapon.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+".",
-                        "I really love ==typeverb== my enemies.",
-                        "I think I could probably make ==sample==.",
-                        "I think ==type==s are kind of neat.",
-                        "You look like the kind of person that might carry a ==type==.",
-                        "My friend used to carry a ==type==."
-                    });
-                }else{
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("badthinghappen","I got hit with a rock.")+".",
-                        "I worry about people attacking me with a ==type==.",
-                        "A "+Romancable.storyoptions("badperson",GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Creature")).ShortDisplayName)+" once attacked me with a ==type==",
-                        "I just don't feel safe around ==type==s.",
-                        "You look like the kind of person that might carry a ==type==.",
-                        "My greatest enemy used to carry a ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==typeverb==",verbsc(wantedType)).Replace("==sample==",exampleObjectName()));
+                vars["*sample*"] = exampleObjectName();
+                this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                    HistoricStringExpander.ExpandString(
+                    storyTag, entity, null, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
@@ -252,26 +241,12 @@ namespace XRL.World.Parts
         }
 
         public override string getstoryoption(string key){
-
-            if(key == "goodobject" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badobject" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodweapon" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badweapon" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw "+exampleObjectName();
-            }
-            if(key == "badthinghappen" && this.amount < 0){
-                return "I was attacked with "+exampleObjectName();
-            }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = presentablec(wantedType);
+            vars["*sample*"] = exampleObjectName();
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.weapon." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
 
 

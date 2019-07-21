@@ -7,6 +7,7 @@ using XRL.World;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -129,48 +130,31 @@ namespace XRL.World.Parts
 
         
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+            string storyTag = ((amount > 0) ?
+                "<spice.eros.opinion.faction.like.story.!random>" :
+                "<spice.eros.opinion.faction.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                        "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
-                        "I think ==type== are neat."
-                    });
-                }else{
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                        "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
-                        "I just <hate|can't stand> ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",factionName()).Replace("==example==",examplename()));
+                vars["*sample*"] = examplename();
+                this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                    HistoricStringExpander.ExpandString(
+                    storyTag, entity, null, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
 
         }
         public override string getstoryoption(string key){
             GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            if(GO != null){
-                if(key == "goodperson" && this.amount > 0){
-                    return GO.a+GO.ShortDisplayName;
-                }
-                if(key == "badperson" && this.amount < 0){
-                    return GO.a+GO.ShortDisplayName;
-                }
-                if(key == "goodthinghappen" && this.amount > 0){
-                    return "I met "+GO.a+GO.ShortDisplayName;
-                }
-                if(key == "badthinghappen" && this.amount < 0){
-                    return "I met "+GO.a+GO.ShortDisplayName;
-                }
-            }
-            return null;
+            if (GO == null) return null;
+
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+            vars["*sample*"] = GO.a+GO.ShortDisplayName;
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.faction." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);

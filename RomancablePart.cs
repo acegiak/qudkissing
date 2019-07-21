@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using XRL.World.AI.GoalHandlers;
 using Qud.API;
 using HistoryKit;
+using SimpleJSON;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -340,7 +341,8 @@ namespace XRL.World.Parts
 		}
 
 		public string GetStory(acegiak_RomanceChatNode node){
-			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)].GetStory(node);
+			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
+				.GetStory(node, GetSelfEntity());
 			return story;
 		}
 
@@ -446,9 +448,24 @@ namespace XRL.World.Parts
 		//private HistoricEntity selfHistory;
 		private HistoricEntitySnapshot selfEntity;
 
+		static string[] StoryOptionTags =
+		{
+			"goodThingHappen",
+			"badThingHappen",
+			"goodObject",
+			"badObject",
+			"goodPerson",
+			"badPerson",
+			"goodWeapon",
+			"badWeapon",
+			"goodArmor",
+			"badArmor"
+		};
 		private HistoricEntitySnapshot GetSelfEntity()
 		{
 			if (selfEntity != null) return selfEntity;
+
+			havePreference();
 
 			var myBody = ParentObject.GetPart<Body>().GetBody();
 			//PronounSet pronouns = ParentObject.GetPronounSet();
@@ -462,6 +479,34 @@ namespace XRL.World.Parts
             selfEntity.setProperty("objectPronoun", ParentObject.them);
             selfEntity.setProperty("possessivePronoun", ParentObject.its);
 			selfEntity.setProperty("substantivePossessivePronoun", ParentObject.theirs);
+
+			// Populate entity with storyoptions
+			foreach (string option in StoryOptionTags)
+			{
+				var values = new List<string>();
+				foreach (var preference in preferences)
+				{
+					// Three items from each preference?
+					for (int i = 0; i < 3; ++i)
+					{
+						string value = preference.getstoryoption(option);
+						if (value != null && value.Count() != 0)
+							values.Add(value);
+					}
+				}
+				if (values.Count() == 0)
+				{
+					// Backup
+					string vague = HistoricStringExpander.ExpandString(
+						"<spice.eros.opinion.storyOption." + option + ".!random>",
+						selfEntity, null, null);
+					if (vague == null || vague.Count() == 0) // || vague[0] == '<')
+						vague = "...";
+					values.Add(vague);
+				}
+				selfEntity.listProperties.Add(option, values);
+			}
+
 			return selfEntity;
 		}
 

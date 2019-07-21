@@ -99,25 +99,22 @@ namespace XRL.World.Parts
 
         
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
 
             if(Stat.Rnd2.NextDouble()>0.25){
+                var vars = new Dictionary<string, string>();
+                vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
+                string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.sultan.like.story.!random>" :
+                    "<spice.eros.opinion.sultan.dislike.story.!random>");
                 while(this.mytales.Count < 5){
-                    List<string> Stories = null;
-                    if(amount>0){
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about a ==sultanlong==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "I think ==sultanlong== is neat."
-                        });
-                    }else{
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about a ==sultan==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "I just <hate|don't like> ==sultan==."
-                        });
-                    }
-                    this.mytales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==sultan==",this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")).Replace("==sultanlong==",this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2)));
+                    vars["*sultanLong*"] = vars["*sultan*"] + ", "
+                        + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+                    this.mytales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                        HistoricStringExpander.ExpandString(
+                        storyTag, entity, null, vars));
                 }
-                return mytales[Stat.Rnd2.Next(mytales.Count)];
+                return mytales[Stat.Rnd2.Next(tales.Count)];
             }
 
             HistoricEvent e = tales[Stat.Rnd2.Next(tales.Count)];
@@ -129,8 +126,18 @@ namespace XRL.World.Parts
 
         }
         public override string getstoryoption(string key){
+            var vars = new Dictionary<string, string>();
+            vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
+            vars["*sultanLong*"] = vars["*sultan*"] + ", "
+                + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+            vars["*sultanObject*"] = "a " +
+                GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
+            
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.sultan." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
 
-            if(key == "goodobject" && this.amount > 0){
+            /*if(key == "goodobject" && this.amount > 0){
                 return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
             }
             if(key == "goodweapon" && this.amount > 0){
@@ -142,7 +149,7 @@ namespace XRL.World.Parts
             if(key == "badthinghappen" && this.amount > 0){
                 return "someone besmirched the name of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
             }
-            return null;
+            return null;*/
         }
 
 

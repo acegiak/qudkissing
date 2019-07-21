@@ -9,6 +9,7 @@ using XRL.World.Parts;
 using XRL.World;
 using XRL.Rules;
 using HistoryKit;
+using ConsoleLib.Console;
 
 namespace XRL.World
 {
@@ -66,15 +67,14 @@ namespace XRL.World
             InitializeSpice();
 
             Text =
-                "  &C<spice.eros.react.jumble.!random>&Y\n" +
-                "  &C<spice.eros.react.jumble.!random>&Y\n" +
-                "  &C<spice.eros.react.jumble.!random>&Y\n" +
-                "  &C<spice.eros.react.jumble.!random>&Y\n" +
-                "\n" +
+                "  &M<spice.eros.react.jumble.!random>&y\n\n" +
                 Text;
             Text = FilterRandom(Text);
-            Text = HistoricStringExpander.ExpandString(
-                Text, entity, null, vars);
+            // Consider ColorUtility.StripFormatting
+            Text =
+                HistoricStringExpander.ExpandString(
+                Text, entity, null, vars)
+                + "&k"; // Black out village text, mrah
             foreach(ConversationChoice choice in Choices){
                 choice.Text = FilterRandom(choice.Text);
                 choice.Text = HistoricStringExpander.ExpandString(

@@ -7,6 +7,7 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -149,26 +150,17 @@ namespace XRL.World.Parts
 
 
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = presentablec(wantedType);
+            string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.armor.like.story.!random>" :
+                    "<spice.eros.opinion.armor.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+".",
-                        "I think I could probably make ==sample==.",
-                        "I think ==type==s are kind of neat.",
-                        "You look like the kind of person that appreciates a good ==type==.",
-                        "My friend used to wear a fine ==type==."
-                    });
-                }else{
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("badthinghappen","I got hit with a rock.")+".",
-                        "I just don't like the look of ==type==s.",
-                        "You look like the kind of person that wears a lot of ==type==s.",
-                        "My greatest enemy used to wear a ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==sample==",exampleObjectName()));
+                vars["*sample*"] = exampleObjectName();
+                this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                    HistoricStringExpander.ExpandString(
+                    storyTag, entity, null, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
@@ -183,26 +175,12 @@ namespace XRL.World.Parts
         }
 
         public override string getstoryoption(string key){
-
-            if(key == "goodobject" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badobject" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodarmor" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badarmor" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw "+exampleObjectName();
-            }
-            if(key == "badthinghappen" && this.amount > 0){
-                return "I had to wear "+exampleObjectName();
-            }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = presentablec(wantedType);
+            vars["*sample*"] = exampleObjectName();
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.armor." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);

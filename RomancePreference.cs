@@ -2,6 +2,7 @@ using System;
 using XRL.Core;
 using XRL.UI;
 using XRL.World;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -21,7 +22,7 @@ namespace XRL.World.Parts
         public acegiak_Romancable Romancable = null;
         public abstract acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift);
         public abstract acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node);
-        public abstract string GetStory(acegiak_RomanceChatNode node);
+        public abstract string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity);
         public abstract acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject);
 
         public abstract string getstoryoption(string key);

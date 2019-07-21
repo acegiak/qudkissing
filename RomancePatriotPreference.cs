@@ -169,9 +169,20 @@ namespace XRL.World.Parts
 
         
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
             if(Stat.Rnd2.NextDouble()<0.5f){
+                var vars = new Dictionary<string, string>();
+                string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.patriot.like.story.!random>" :
+                    "<spice.eros.opinion.patriot.dislike.story.!random>");
                 while(this.tales.Count < 5){
+                    vars["*sacredThing*"]  = randomGood();
+                    vars["*profaneThing*"] = randomBad();
+                    this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                        HistoricStringExpander.ExpandString(
+                        storyTag, entity, null, vars));
+                }
+                /*while(this.tales.Count < 5){
                     List<string> Stories = null;
                     if(amount>0){
                         GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
@@ -195,7 +206,7 @@ namespace XRL.World.Parts
                         });
                     }
                     this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
-                }
+                }*/
                 return tales[Stat.Rnd2.Next(tales.Count)];
             }
 
@@ -208,28 +219,13 @@ namespace XRL.World.Parts
 
         }
         public override string getstoryoption(string key){
-            // GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            // if(GO != null){
-                if(key == "goodobject" && this.amount > 0){
-                    return randomGood();
-                }
-                if(key == "badobject" && this.amount > 0){
-                    return randomBad();
-                }
-                if(key == "badobject" && this.amount < 0){
-                    return randomGood();
-                }
-                if(key == "goodobject" && this.amount < 0){
-                    return randomBad();
-                }
-                // if(key == "goodthinghappen" && this.amount > 0){
-                //     return "I met "+GO.a+GO.ShortDisplayName;
-                // }
-                // if(key == "badthinghappen" && this.amount < 0){
-                //     return "I met "+GO.a+GO.ShortDisplayName;
-                // }
-            // }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*sacredthing*"] = randomGood();
+            vars["*profanething*"] = randomBad();
+            
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.patriot." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
          public override void Save(SerializationWriter Writer){
             base.Save(Writer);

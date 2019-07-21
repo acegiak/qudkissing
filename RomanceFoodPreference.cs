@@ -9,6 +9,7 @@ using Qud.API;
 using System.Linq;
 using XRL.World.Parts.Effects;
 using System.Text.RegularExpressions;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -22,15 +23,6 @@ namespace XRL.World.Parts
 
         string ExampleName = "corpse";
         List<string> tales = new List<string>();
-
-
-        Dictionary<string, string> presentable = new Dictionary<string, string>()
-        {
-            { "Bow", "bow" },
-            { "Pistol", "pistol" },
-            { "HeavyWeapons", "heavy weapon" },
-            { "Rifle", "rifle" } //also bows :(
-        };
 
 
 
@@ -226,21 +218,18 @@ namespace XRL.World.Parts
 
 
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            //vars["*type*"]   = presentablec(wantedType);
+            string storyTag = ((amount > 0) ?
+                "<spice.eros.opinion.food.like.story.!random>" :
+                "<spice.eros.opinion.food.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about eating a ==sample==. It was <delicious|amazing|wonderful>.",
-                        "Once, I ate so much ==sample== I made myself sick."
-                    });
-                }else{
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about eating a ==sample==. It was <disgusting|horrible|awful>.",
-                        "I think I might be allergic to ==sample==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==sample==",exampleObject().DisplayNameOnly));
+                GameObject sample = exampleObject();
+                vars["*sample*"] = sample.DisplayNameOnly;
+                this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                    HistoricStringExpander.ExpandString(
+                    storyTag, entity, null, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
@@ -250,20 +239,13 @@ namespace XRL.World.Parts
             if(GO == null){
                 return null;
             }
-
-            if(key == "goodobject" && this.amount > 0){
-                return GO.a+GO.DisplayNameOnly;
-            }
-            if(key == "badobject" && this.amount < 0){
-                return GO.a+GO.DisplayNameOnly;
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I ate "+GO.a+GO.DisplayNameOnly;
-            }
-            if(key == "badthinghappen" && this.amount < 0){
-                return "I ate "+GO.a+GO.DisplayNameOnly;
-            }
-            return null;
+            
+            var vars = new Dictionary<string, string>();
+            //vars["*type*"]   = presentablec(wantedType);
+            vars["*sample*"] = GO.a+GO.DisplayNameOnly;
+            return HistoricStringExpander.ExpandString(
+                "<spice.eros.opinion.food." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
 
 

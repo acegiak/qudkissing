@@ -6,8 +6,8 @@
 "eros" : {
 
 	// Helpers
-	"Rc" : "=subject.The==subject.name=&C",
-	"rc" : "=subject.the==subject.name=&C",
+	"Rc" : "=subject.The==subject.name=&M",
+	"rc" : "=subject.the==subject.name=&M",
 
 	"impatient" :
 	{
@@ -1032,24 +1032,34 @@
 	// Stories based on romance preferences
 	"opinion" :
 	{
-		"generic" :
+		// Story option defaults.
+		//   Maybe make it possible to define new story options here?
+		"storyOption" :
 		{
-			"goodStory" : [
-				"Once, I had a dream about *sample*.  The next day, <entity.goodThingHappen>!"
-			],
-			"badStory" : [
-				"Once, I had a dream about *sample*.  The next day, <entity.badThingHappen>!"
-			],
-			"goodThingHappen" : [
-				"I saw a rainbow"
-			],
-			"badThingHappen" : [
-				"I got hit with a rock"
-			],
+			"goodThingHappen" : ["I saw a rainbow"],
+			"badThingHappen"  : ["I got hit with a rock"],
 			"goodPerson" : ["friendly person"],
 			"badPerson"  : ["wicked person"],
 			"goodObject" : ["wondrous thing"],
-			"badObject"  : ["unspeakable thing"]
+			"badObject"  : ["unspeakable thing"],
+			"goodArmor"  : ["magnificent clothing"],
+			"badArmor"   : ["unspeakable adornments"],
+			"goodWeapon" : ["righteous fury"],
+			"badWeapon"  : ["murderous intent"]
+		},
+
+		"something" :
+		{
+			"like" : {
+				"story" : [
+					"Once, I had a dream about *sample*.  The next day, <entity.goodThingHappen[random]>!"
+				]
+			},
+			"dislike" : {
+				"story" : [
+					"Once, I had a dream about *sample*.  The next day, <entity.badThingHappen[random]>!"
+				]
+			}
 		},
 
 		"food" :
@@ -1072,10 +1082,7 @@
 				"badThingHappen" : [
 					"I ran out of *sample*"
 				],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : ["*sample*"],
-				"badObject" : [""]
+				"goodObject" : ["*sample*"]
 			},
 			"dislike" : {
 				"gross" : [
@@ -1086,14 +1093,10 @@
 				],
 
 				"story" : [
-					"Once, I had a dream about eating a *sample*. It was <^.gross.random>.",
+					"Once, I had a dream about eating a *sample*. It was <^.gross.!random>.",
 					"I think I might be allergic to *sample*."
 				],
-				"goodThingHappen" : [""],
 				"badThingHappen" : ["I ate *sample*"],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : [""],
 				"badObject" : ["*sample*"]
 			}
 		},
@@ -1101,8 +1104,8 @@
 		{
 			"like" : {
 				"story" : [
-					"<spice.eros.opinion.generic.like.story>",
-					"I think I could probably make *sample.",
+					"<spice.eros.opinion.something.like.story.!random>",
+					"I think I could probably make *sample*.",
 					"I think *type*s are kind of neat.",
 					"You look like the kind of person that appreciates a good *type*.",
 					"My best friend used to wear a fine *type*"
@@ -1114,25 +1117,22 @@
 					"I lost my precious *sample*"
 				],
 				"goodPerson" : ["*type*-maker", "*type* merchant"],
-				"badPerson"  : [""],
 				"goodObject" : ["*sample*"],
-				"badObject"  : [""]
+				"goodArmor" : ["*sample*"]
 			},
 			"dislike" : {
 				"story" : [
-					"<spice.eros.opinion.generic.dislike.story>",
+					"<spice.eros.opinion.something.dislike.story.!random>",
 					"I just don't like the look of *type*s.",
 					"You look like the kind of person that wears a lot of *type*s.",
 					"My greatest enemy used to wear a *type*."
 				],
-				"goodThingHappen" : [""],
 				"badThingHappen" : [
 					"I had to wear *sample*"
 				],
-				"goodPerson" : [""],
 				"badPerson"  : ["*type*-maker", "*type* merchant"],
-				"goodObject" : [""],
-				"badObject"  : ["*sample*"]
+				"badObject"  : ["*sample*"],
+				"badArmor"  : ["*sample*"]
 			}
 		},
 		"weapon" : 
@@ -1162,29 +1162,22 @@
 
 			"like" : {
 				"story" : [
-					"<spice.eros.opinion.generic.like.story>",
+					"<spice.eros.opinion.something.like.story.!random>",
 					"I really love <spice.eros.opinion.weapon.verb.*type*.!random> my enemies.",
 					"I think I could probably make *sample*.",
 					"I think *type*s are kind of neat.",
 					"You look like the kind of person that might carry a *type*.",
 					"My friend used to carry a *type*."
 				],
-				"goodThingHappen" : [
-					//"<spice.eros.opinion.generic.goodThingHappen>",
-					"I saw *sample*"
-				],
-				"badThingHappen" : [
-					//"<spice.eros.opinion.generic.badThingHappen>",
-					"I saw a *sample* get destroyed"
-				],
+				"goodThingHappen" : ["I saw *sample*"],
+				"badThingHappen" : ["I saw a *sample* get destroyed"],
 				"goodPerson" : ["*type*-smith", "*type* master"],
-				"badPerson"  : [""],
 				"goodObject" : ["*sample*"],
-				"badObject"  : [""]
+				"goodWeapon" : ["*sample*"]
 			},
 			"dislike" : {
 				"story" : [
-					"<spice.eros.opinion.generic.dislike.story>",
+					"<spice.eros.opinion.something.dislike.story.!random>",
 					"I worry about people attacking me with a *type*.",
 					"A *badperson* once attacked me with a *type*",
 					"I just don't feel safe around *type*s.",
@@ -1197,10 +1190,9 @@
 				"badThingHappen" : [
 					"I was attacked with *sample*"
 				],
-				"goodPerson" : [""],
 				"badPerson"  : ["*type*-smith", "*type* master"],
-				"goodObject" : [""],
-				"badObject"  : ["*sample*"]
+				"badObject"  : ["*sample*"],
+				"badWeapon"  : ["*sample*"]
 			}
 		},
 
@@ -1218,8 +1210,8 @@
 				],
 
 				"story" : [
-					"<spice.eros.opinion.generic.like.story>",
-					"Once, a *sample* <^.sharedWithMe.!random> *goodobject*.",
+					"<spice.eros.opinion.something.like.story.!random>",
+					"Once, a *sample* <^.sharedWithMe.!random> <entity.goodObject[random]>.",
 					"I think *type* are neat."
 				],
 				"goodThingHappen" : [
@@ -1228,10 +1220,7 @@
 				"badThingHappen" : [
 					"I saw *sample* suffer a terrible misfortune"
 				],
-				"goodPerson" : ["*sample*"],
-				"badPerson"  : [""],
-				"goodObject" : [""],
-				"badObject"  : [""]
+				"goodPerson" : ["*sample*"]
 			},
 			"dislike" : {
 				"menacedMeWith" : [
@@ -1249,8 +1238,8 @@
 				],
 
 				"story" : [
-					"<spice.eros.opinion.generic.dislike.story>",
-					"Once, a *sample* <^.menacedMeWith.!random> *badweapon*.",
+					"<spice.eros.opinion.something.dislike.story.!random>",
+					"Once, a *sample* <^.menacedMeWith.!random> <entity.badWeapon[random]>.",
 					"I just <^.disdain.!random> *type*."
 				],
 				"goodThingHappen" : [
@@ -1259,10 +1248,7 @@
 				"badThingHappen" : [
 					"I met *sample*"
 				],
-				"goodPerson" : [""],
-				"badPerson"  : ["*sample*"],
-				"goodObject" : [""],
-				"badObject"  : [""]
+				"badPerson"  : ["*sample*"]
 			}
 		},
 
@@ -1270,27 +1256,23 @@
 		{
 			"like" : {
 				"story" : [
-					"<spice.eros.opinion.generic.like.story>",
-					"Once, a *sample* <spice.eros.opinion.faction.like.sharedWithMe.!random> *goodobject*."
+					"Once, I had a dream about *sacredThing*.  The next day, <entity.goodThingHappen[random]>!",
+					"Once, I had a dream about *profaneThing*.  The next day, <entity.badThingHappen[random]>!",
+					"Once, a *sacredThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
+					"Once, a *profaneThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
 				],
-				"goodThingHappen" : [""],
-				"badThingHappen" : [""],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : [""],
-				"badObject" : [""]
+				"goodObject" : ["*sacredThing*"],
+				"badObject"  : ["*profaneThing"]
 			},
 			"dislike" : {
 				"story" : [
-					"<spice.eros.opinion.generic.dislike.story>",
-					"Once, a *sample* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> *badweapon*."
+					"Once, I had a dream about *profaneyhing*.  The next day, <entity.goodThingHappen[random]>!",
+					"Once, I had a dream about *sacredThing*.  The next day, <entity.badThingHappen[random]>!",
+					"Once, a *profaneThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
+					"Once, a *sacredThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
 				],
-				"goodThingHappen" : [""],
-				"badThingHappen" : [""],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : [""],
-				"badObject" : [""]
+				"goodObject" : ["*profaneThing*"],
+				"badObject"  : ["*sacredThing*"]
 			}
 		},
 
@@ -1298,20 +1280,17 @@
 		{
 			"like" : {
 				"story" : [
-					"Once, I had a dream about *sultanlong*.  The next day, <entity.goodThingHappen>!",
-					"I think often about the accomplishments of *sultanlong*."
+					"Once, I had a dream about *sultanLong*.  The next day, <entity.goodThingHappen[random]>!",
+					"I think often about the accomplishments of *sultanLong*."
 				],
 
 				"goodThingHappen" : [
-					"I saw a vision of *sultanlong*."
+					"I saw a vision of *sultanLong*"
 				],
 				"badThingHappen" : [
-					"Someone besmirched the name of *sultanlong*."
+					"Someone besmirched the name of *sultanLong*"
 				],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : [""],
-				"badObject" : [""]
+				"goodObject" : ["*sultanObject*"]
 			},
 			"dislike" : {
 				"resent" : [
@@ -1322,17 +1301,13 @@
 				],
 
 				"story" : [
-					"Once, I had a dream about *sultan*.  The next day, <entity.badThingHappen>!",
+					"Once, I had a dream about *sultan*.  The next day, <entity.badThingHappen[random]>!",
 					"I just <^.resent.!random> *sultan*."
 				],
-				"goodThingHappen" : [""],
 				"badThingHappen" : [
 					"I had a frightening vision of *sultan*."
 				],
-				"goodPerson" : [""],
-				"badPerson" : [""],
-				"goodObject" : [""],
-				"badObject" : [""]
+				"badObject"  : ["*sultanObject*"]
 			}
 		}
 	}
