@@ -87,11 +87,14 @@ namespace XRL.World
             // Apply some formatting and prepend
             if (reaction != null && reaction.Count() > 0)
             {
-                Text = "  &M" + reaction + " &k" + assess.reactPath + "&y\n\n" + Text;
+                Text = "  &M" + reaction
+                    // + " &k" + assess.reactPath
+                    + "&y\n\n" + Text;
             }
             else
             {
-                Text = assess.reactPath + "  &R"+spiceKey+"??&y\n\n" + Text;
+                Text = "  &R"
+                    + spiceKey.Substring(1,spiceKey.Count()-2)+"&y\n\n" + Text;
             }
         }
         public void ExpandText(
