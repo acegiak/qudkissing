@@ -178,7 +178,7 @@ namespace XRL.World.Parts
                 while(this.tales.Count < 5){
                     vars["*sacredThing*"]  = randomGood();
                     vars["*profaneThing*"] = randomBad();
-                    this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                    this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
                         HistoricStringExpander.ExpandString(
                         storyTag, entity, null, vars));
                 }

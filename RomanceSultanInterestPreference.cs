@@ -110,7 +110,7 @@ namespace XRL.World.Parts
                 while(this.mytales.Count < 5){
                     vars["*sultanLong*"] = vars["*sultan*"] + ", "
                         + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
-                    this.mytales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+&y\n"+
+                    this.mytales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
                         HistoricStringExpander.ExpandString(
                         storyTag, entity, null, vars));
                 }

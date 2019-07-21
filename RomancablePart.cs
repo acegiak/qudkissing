@@ -14,6 +14,7 @@ using HistoryKit;
 using SimpleJSON;
 using System.ComponentModel;
 using UnityEngine;
+using ConsoleLib.Console;
 
 namespace XRL.World.Parts
 {
@@ -341,9 +342,15 @@ namespace XRL.World.Parts
 		}
 
 		public string GetStory(acegiak_RomanceChatNode node){
-			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
-				.GetStory(node, GetSelfEntity());
-			return story;
+			string story;
+			for (int i = 0; i < 5; ++i)
+			{
+				story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
+					.GetStory(node, GetSelfEntity());
+				story = ConsoleLib.Console.ColorUtility.StripFormatting(story);
+				if (story.Count() > 0) return story;
+			} 
+			return "Sorry, I just had a brain fart.";
 		}
 
 
@@ -510,7 +517,7 @@ namespace XRL.World.Parts
 			return selfEntity;
 		}
 
-		public string storyoptions(string key,string alt){
+		/*public string storyoptions(string key,string alt){
 			List<string> output = new List<string>();
 			foreach(acegiak_RomancePreference preferece in preferences){
 				string newstring = preferece.getstoryoption(key);
@@ -522,7 +529,7 @@ namespace XRL.World.Parts
 				return output[Stat.Rnd2.Next(output.Count)];
 			}
 			return alt;
-		}
+		}*/
 
 		public void AssessDate(GameObject Date,GameObject DateObject){
 			havePreference();

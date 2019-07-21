@@ -1108,7 +1108,7 @@
 					"I think I could probably make *sample*.",
 					"I think *type*s are kind of neat.",
 					"You look like the kind of person that appreciates a good *type*.",
-					"My best friend used to wear a fine *type*"
+					"My best friend used to wear a fine *type*."
 				],
 				"goodThingHappen" : [
 					"I saw *sample*"
@@ -1179,7 +1179,7 @@
 				"story" : [
 					"<spice.eros.opinion.something.dislike.story.!random>",
 					"I worry about people attacking me with a *type*.",
-					"A *badperson* once attacked me with a *type*",
+					"A <entity.badPerson[random]> once attacked me with a *type*",
 					"I just don't feel safe around *type*s.",
 					"You look like the kind of person that might carry a *type*.",
 					"My greatest enemy used to carry a *type*."

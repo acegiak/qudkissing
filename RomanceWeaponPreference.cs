@@ -217,7 +217,7 @@ namespace XRL.World.Parts
                     "<spice.eros.opinion.weapon.dislike.story.!random>");
             while(this.tales.Count < 5){
                 vars["*sample*"] = exampleObjectName();
-                this.tales.Add("  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
                     HistoricStringExpander.ExpandString(
                     storyTag, entity, null, vars));
             }
