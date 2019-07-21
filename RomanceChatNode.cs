@@ -91,7 +91,7 @@ namespace XRL.World
             }
             else
             {
-                Text = assess.reactPath + "  &R"+spiceKey+"&y\n\n" + Text;
+                Text = assess.reactPath + "  &R"+spiceKey+"??&y\n\n" + Text;
             }
         }
         public void ExpandText(

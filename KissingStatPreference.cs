@@ -16,7 +16,7 @@ namespace XRL.World.Parts
             if(GO == null){
                 return;
             }
-            List<string> Stats = new List<string>(new string[] { "Strength", "Agility", "Toughness", "Ego", "Wisdom","Intelligence" });
+            List<string> Stats = new List<string>(new string[] { "Strength", "Agility", "Toughness", "Ego", "Willpower","Intelligence" });
 
             Random random = new Random();
             this.Stat = Stats[random.Next(Stats.Count-1)];
