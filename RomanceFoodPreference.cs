@@ -103,13 +103,17 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
+            var vars = new Dictionary<string, string>();
             if(g<0.3 ){
+                //SetSampleObject(vars, exampleObject());
                 GameObject sample = exampleObject();
                 bodytext = "Have you ever eaten a "+sample.DisplayNameOnly+"?";
                 node.AddChoice("yesseen","Oh yes, it was delicious.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but it was disgusting.",amount>0?"Oh, I guess we have different tastes.":"I agree, I ate one once and didn't like it.",amount>0?-1:1);
                 node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
             }else if(g<0.6){
+                //SetSampleObject(vars, exampleObject());
+
                 GameObject sample = exampleObject();
 
                 if(sample == null){
@@ -220,16 +224,14 @@ namespace XRL.World.Parts
 
         public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
             var vars = new Dictionary<string, string>();
-            //vars["*type*"]   = presentablec(wantedType);
             string storyTag = ((amount > 0) ?
                 "<spice.eros.opinion.food.like.story.!random>" :
                 "<spice.eros.opinion.food.dislike.story.!random>");
             while(this.tales.Count < 5){
-                GameObject sample = exampleObject();
-                vars["*sample*"] = sample.DisplayNameOnly;
+                SetSampleObject(vars, exampleObject());
                 this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
-                    HistoricStringExpander.ExpandString(
-                    storyTag, entity, null, vars));
+                    acegiak_RomanceText.ExpandString(
+                    storyTag, entity, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
@@ -241,11 +243,10 @@ namespace XRL.World.Parts
             }
             
             var vars = new Dictionary<string, string>();
-            //vars["*type*"]   = presentablec(wantedType);
-            vars["*sample*"] = GO.a+GO.DisplayNameOnly;
-            return HistoricStringExpander.ExpandString(
+            SetSampleObject(vars, GO);
+            return acegiak_RomanceText.ExpandString(
                 "<spice.eros.opinion.food." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
-                null, null, vars);
+                vars);
         }
 
 

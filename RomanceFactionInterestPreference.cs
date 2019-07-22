@@ -93,12 +93,9 @@ namespace XRL.World.Parts
             return null;
         }
 
-        public string examplename(){
+        public GameObject exampleCreature() {
             GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            if(GO == null){
-                return "member of "+factionName();
-            }
-            return GO.ShortDisplayName;
+            return GO;
         }
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
@@ -137,10 +134,10 @@ namespace XRL.World.Parts
                 "<spice.eros.opinion.faction.like.story.!random>" :
                 "<spice.eros.opinion.faction.dislike.story.!random>");
             while(this.tales.Count < 5){
-                vars["*sample*"] = examplename();
+                SetSampleObject(vars, exampleCreature(), "member of " + factionName());
                 this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
-                    HistoricStringExpander.ExpandString(
-                    storyTag, entity, null, vars));
+                    acegiak_RomanceText.ExpandString(
+                    storyTag, entity, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
 
@@ -151,10 +148,10 @@ namespace XRL.World.Parts
 
             var vars = new Dictionary<string, string>();
             vars["*type*"]   = factionName();
-            vars["*sample*"] = GO.a+GO.ShortDisplayName;
-            return HistoricStringExpander.ExpandString(
+            SetSampleObject(vars, GO);
+            return acegiak_RomanceText.ExpandString(
                 "<spice.eros.opinion.faction." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
-                null, null, vars);
+                vars);
         }
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);

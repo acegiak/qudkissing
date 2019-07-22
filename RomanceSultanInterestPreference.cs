@@ -111,8 +111,8 @@ namespace XRL.World.Parts
                     vars["*sultanLong*"] = vars["*sultan*"] + ", "
                         + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
                     this.mytales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
-                        HistoricStringExpander.ExpandString(
-                        storyTag, entity, null, vars));
+                        acegiak_RomanceText.ExpandString(
+                        storyTag, entity, vars));
                 }
                 return mytales[Stat.Rnd2.Next(tales.Count)];
             }
@@ -130,12 +130,12 @@ namespace XRL.World.Parts
             vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
             vars["*sultanLong*"] = vars["*sultan*"] + ", "
                 + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
-            vars["*sultanObject*"] = "a " +
+            vars["*sultanObject*"] = //"a " +
                 GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
             
-            return HistoricStringExpander.ExpandString(
+            return acegiak_RomanceText.ExpandString(
                 "<spice.eros.opinion.sultan." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
-                null, null, vars);
+                vars);
 
             /*if(key == "goodobject" && this.amount > 0){
                 return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");

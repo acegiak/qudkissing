@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using UnityEngine;
 using HistoryKit;
 using SimpleJSON;
 using XRL;
@@ -13,7 +14,6 @@ namespace HistoryKit
     static class acegiak_HistoricSpicePatcher
     {
         private static Dictionary<string, bool> loadedPatches = new Dictionary<string, bool>();
-
 
         public static bool Patch(string filename)
         {

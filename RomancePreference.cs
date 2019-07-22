@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using XRL.Core;
 using XRL.UI;
 using XRL.World;
 using HistoryKit;
+using XRL.Language;
 
 namespace XRL.World.Parts
 {
@@ -42,6 +44,23 @@ namespace XRL.World.Parts
             preference.setRomancable(romancable);
             preference.Load(Reader);
             romancable.preferences.Add(preference);             
+        }
+
+        // Utility
+        public static void SetSampleObject(Dictionary<string, string> vars, GameObject obj, string defaultName = "thing")
+        {
+            string sample = ((obj != null) ?
+                obj.DisplayNameOnlyDirectAndStripped :
+                defaultName);
+            string samples = Grammar.Pluralize(sample);
+            vars["*sample*"]   = sample;
+            vars["*samples*"]  = samples;
+            vars["*a_sample*"] = obj.a + sample;
+            vars["*A_sample*"] = obj.A + sample;
+            vars["*the_sample*"] = obj.the + sample;
+            vars["*The_sample*"] = obj.The + sample;
+            vars["*the_samples*"] = obj.the + samples;
+            vars["*The_samples*"] = obj.The + samples;
         }
     }
 }

@@ -49,19 +49,6 @@ namespace XRL.World
                 this.Choices.Add(choice);
         }
 
-
-
-        static bool InitializedSpice = false;
-
-        static void InitializeSpice()
-        {
-            ModManager.ForEachFileIn("acegiak_romance", (string filePath, ModInfo modInfo) =>
-            {
-                if (filePath.ToLower().Contains(".json"))
-                    acegiak_HistoricSpicePatcher.Patch(filePath);
-            });
-        }
-
         public void InsertMyReaction(
             GameObject me, GameObject them)
         {
@@ -69,20 +56,30 @@ namespace XRL.World
             var kissable = me.GetPart<acegiak_Kissable>();
             if (kissable == null)
             {
-                Text = "  &RNOT KISSABLE&y\n\n" + Text;
+                Text = "  &R(this character is not kissable)&y\n\n" + Text;
                 return;
             }
 
-            // Check a random kissing-preference
+            // Find a random applicable kissing-preference
             kissable.havePreference();
-            var preference = kissable.preferences
-                [Stat.Rnd2.Next(kissable.preferences.Count)];
-            var assess = preference.attractionAmount(me, them);
+            acegiak_KissingPreferenceResult assess = null;
+            for (int i = 0; i < 1; ++i)
+            {
+                var preference = kissable.preferences
+                    [Stat.Rnd2.Next(kissable.preferences.Count)];
+                assess = preference.attractionAmount(me, them);
+                if (assess.amount != 0f) break;
+            }
+            if (assess.amount == 0f)
+            {
+                //Text = "  &c(no reaction)&y\n\n" + Text;
+                return;
+            }
 
             // Generate a reaction
             string spiceKey = "<spice.eros.react." + assess.reactPath +
                 ((assess.amount > 0f) ? ".like" : ".dislike") + ".!random>";
-            string reaction = HistoricStringExpander.ExpandString(spiceKey);
+            string reaction = acegiak_RomanceText.ExpandString(spiceKey);
 
             // Apply some formatting and prepend
             if (reaction != null && reaction.Count() > 0)
@@ -101,17 +98,15 @@ namespace XRL.World
             HistoricEntitySnapshot     entity,
             Dictionary<string, string> vars = null)
         {
-            InitializeSpice();
-
             Text = FilterRandom(Text);
-            Text =
-                HistoricStringExpander.ExpandString(
-                Text, entity, null, vars)
+            Text = Text
+                //acegiak_RomanceText.ExpandString(
+                //Text, entity, vars)
                 + "&k"; // Black out village text, mrah
             foreach(ConversationChoice choice in Choices){
                 choice.Text = FilterRandom(choice.Text);
-                choice.Text = HistoricStringExpander.ExpandString(
-                    choice.Text, entity, null, vars);
+                //choice.Text = acegiak_RomanceText.ExpandString(
+                //    choice.Text, entity, vars);
             }
         }
         public static string FilterRandom(string s)

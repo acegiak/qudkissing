@@ -327,7 +327,7 @@
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
 						"<spice.eros.react.stat.physical.hi.dislike.!random>",
 						"<spice.eros.Rc> =verb:seem= to shrink away from you.",
-						"<spice.eros.Rc> =verb:gather= =pronouns.possessive=self."
+						"<spice.eros.Rc> =verb:gather= =pronouns.object=self."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.hi.flirt.!random>",
@@ -408,7 +408,7 @@
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
 						"<spice.eros.react.stat.physical.lo.dislike.!random>",
 						"<spice.eros.Rc> =verb:watch= your clumsy movements with a grim expression.",
-						"<spice.eros.Rc> rolls =pronouns.possessive== eyes."
+						"<spice.eros.Rc> =verb:roll= =pronouns.possessive= eyes."
 					],
 					"flirt" : [
 						"<spice.eros.react.stat.physical.lo.flirt.!random>",
@@ -736,6 +736,7 @@
 					]
 				}
 			},
+			//"_failureredirect" : "spice.eros.react.part.any",
 
 
 			// Copy this to write new parts
@@ -895,7 +896,7 @@
 					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
 				}
 			},
-			"Hand" : {
+			"Hands" : {
 				"have" : {
 					"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
 					"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
@@ -914,6 +915,10 @@
 					"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
 					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
 				}
+			},
+			"Hand" : {
+				// Redirect children to "Hands".
+				"_failureredirect" : "spice.eros.react.part.Hands"
 			},
 			"Feet" : {
 				"have" : {
@@ -1052,18 +1057,195 @@
 		{
 			"like" : {
 				"story" : [
-					"Once, I had a dream about *sample*.  The next day, <entity.goodThingHappen[random]>!"
+					"Once, I had a dream about *a_sample*.  The next day, <entity.goodThingHappen[random]>!"
 				]
 			},
 			"dislike" : {
 				"story" : [
-					"Once, I had a dream about *sample*.  The next day, <entity.badThingHappen[random]>!"
+					"Once, I had a dream about *a_sample*.  The next day, <entity.badThingHappen[random]>!"
 				]
 			}
 		},
+		//"_failureredirect" : "spice.eros.opinion.something",
 
 		"food" :
 		{
+			"qa" : {
+				"tasted" : {
+					"q" : [
+						"Have you ever eaten *a_sample*?",
+						"Ever tried cooking with *sample*?",
+						"Have you tasted *a_sample*?"
+					],
+					"a_like" : {
+						"choice" : [
+							"Oh yes, it was delicious.",
+							"Yes, and I would again!",
+							"I would like to have some now."
+						],
+						"agree" : [
+							"Wow, how excellent!"
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Oh, I don't think I would agree."
+						]
+					},
+					"a_dislike" : {
+						"choice" : [
+							"I have but it was disgusting.",
+							"Oh, it was awful!",
+							"I regret it to this day."
+						],
+						"agree" : [
+							"I agree, I ate one once and didn't like it."
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Oh, I don't think I would agree."
+						]
+					},
+					"a_no" : {
+						"choice" : [
+							"No, I've not seen such a thing.",
+							"I have not.",
+							"I'm afraid I haven't."
+						],
+						"agree" : [
+							"Oh, that's disappointing.",
+							"Perhaps someday you will.",
+							"You should expand your horizons."
+						],
+						"disagree" : [
+							"That's probably for the best.",
+							"You are not missing much.",
+							"Keep it that way.",
+							"Frankly, I'm jealous."
+						]
+					}
+				},
+				"cookingEffect" : {
+					"cooking" : [
+						// I'm hungry ok
+						"cooking", "broiling", "baking",
+						"frying", "heating", "charring",
+						"brewing", "infusing", "fermenting",
+						"stomping", "pressing", "hand-rolling"
+					],
+					"preserved" : [
+						"preserved", "cooked", "made",
+						"aged", "salted", "distilled",
+						"enhanced", "reduced", "transformed"
+					],
+					"a_meal" : [
+						"a meal", "food", "a residue",
+						"a powder", "cakes", "a stew"
+					],
+					"bestows_meal_effect" : [
+						"bestows *mealEffect* on whoever eats it",
+						"imbues one with *mealEffect*",
+						"invigorates the diner with *mealEffect*",
+						"as a side effect, causes *mealEffect*"
+					],
+	
+					"q" : [
+						"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_effect.!random>?"
+					],
+					"q_preservable" : [
+						"I've heard that *sample* can be <^.preserved.!random> into *samplePreserved*."
+					],
+					"q_eating" : [
+						"I've heard that some people eat *sample* as a *sampleSatiation*."
+					],
+					"a_like" : {
+						"choice" : [
+							"Yes, it's amazing.",
+							"Indeed, it's wonderful.",
+							"I think it's quite nice."
+						],
+						"agree" : [
+							"How fascinating!",
+							"I'm hungry just thinking about it!"
+						],
+						"disagree" : [
+							"It sounds horrible!",
+							"It's not for me"
+						]
+					},
+					"a_dislike" : {
+						"choice" : [
+							"That is, unfortunately, true.",
+							"Yes, it's awful.",
+							"Indeed, it's despicable."
+						],
+						"agree" : [
+							"Yes it seems quite unsettling.",
+							"It's total madness!",
+							"Some things I will never understand"
+						],
+						"disagree" : [
+							"Oh? I think it sounds wonderful."
+						]
+					},
+					"a_no" : {
+						"choice" : [
+							"I'm not sure that is true.",
+							"I find that hard to believe."
+						],
+						"agree" : [
+							"Oh, isn't it? How odd."
+						],
+						"disagree" : [
+							"Oh, isn't it? How odd."
+						]
+					}
+				},
+				"show_food" : {
+					"interesting" : [
+						"interesting",
+						"tasty",
+						"exotic"
+					],
+
+					"q" : [
+						"Do you have any <^.interesting.!random> food?"
+					],
+					
+					"a_showItem" : {
+						"show_include" : [
+							"PreparedCookingIngredient",
+							"PreservableItem"
+						],
+						"show_exclude" : [
+							"Salve_Tonic_Applicator"
+						],
+
+						"a" : ["I have this *showItem*."],
+
+						"agree" : [
+							"Wow, that looks delicious!",
+						],
+						"disagree" : [
+							"Oh, that's disgusting!"
+						],
+						"neutral" : [
+							"Oh, is that all?"
+						]
+					},
+
+					"a_no" : {
+						"a" : ["Not really, no."],
+
+						"agree" : [
+							"I'm sure you find enough to get by."
+						],
+						"disagree" : [
+							"That's a pity."
+						]
+					}
+				}
+			},
+
 			"like" : {
 				"tasty" : [
 					"delicious",
@@ -1073,11 +1255,11 @@
 				],
 
 				"story" : [
-					"Once, I had a dream about eating a *sample*. It was <^.tasty.!random>.",
+					"Once, I had a dream about eating *a_sample*. It was <^.tasty.!random>.",
 					"Once, I ate so much *sample* I made myself sick."
 				],
 				"goodThingHappen" : [
-					"I ate *sample*"
+					"I ate *a_sample*"
 				],
 				"badThingHappen" : [
 					"I ran out of *sample*"
@@ -1093,44 +1275,75 @@
 				],
 
 				"story" : [
-					"Once, I had a dream about eating a *sample*. It was <^.gross.!random>.",
-					"I think I might be allergic to *sample*."
+					"Once, I had a dream about eating *a_sample*. It was <^.gross.!random>.",
+					"I think I might be allergic to *the_sample*."
 				],
-				"badThingHappen" : ["I ate *sample*"],
+				"badThingHappen" : ["I ate *a_sample*"],
 				"badObject" : ["*sample*"]
 			}
 		},
 		"armor" :
 		{
+			"name" : {
+				// Should pluralize with -s suffix
+				"Body" : ["vestment", "chain mail"],
+				"Head" : ["hat", "helmet"],
+				"Back" : ["cloak"],
+				"Floating Nearby" : ["floating artifact", "glowsphere"],
+				"Tread" : ["tread decoration"],
+				"Hands" : ["glove"],
+				"Feet" : ["boot", "shoe"],
+				"Arm" : ["armlet", "bracer", "bracelet"],
+				"Face" : ["mask", "veil"],
+				"?Root" : ["pot", "vase"],
+				"unknown" : ["*type*-covering"],
+				"_staticfailureredirect" : "spice.eros.opinion.armor.name.unknown.!random"
+			},
+			"smith" : {
+				// Should pluralize with -s suffix
+				"Body" : ["armorer", "clothier"],
+				"Head" : ["armorer", "hatter", "tanner"],
+				"Back" : ["haberdasher", "clothier"],
+				"Floating Nearby" : ["engineer", "arconaut"],
+				"Tread" : ["roboticist", "cyborg"],
+				"Hands" : ["glover", "tanner"],
+				"Feet" : ["cobbler", "tanner"],
+				"Arm" : ["jeweler", "silversmith"],
+				"Face" : ["carver", "sculptor"],
+				"?Root" : ["potter", "sculptor"],
+				"unknown" : ["*type*-maker"],
+				"_staticfailureredirect" : "spice.eros.opinion.armor.smith.unknown.!random"
+			},
+
 			"like" : {
 				"story" : [
 					"<spice.eros.opinion.something.like.story.!random>",
-					"I think I could probably make *sample*.",
-					"I think *type*s are kind of neat.",
-					"You look like the kind of person that appreciates a good *type*.",
-					"My best friend used to wear a fine *type*."
+					"I think I could probably make *a_sample*.",
+					"I think <spice.eros.opinion.armor.name.*type*.!random>s are kind of neat.",
+					"You look like the kind of person that appreciates a good <spice.eros.opinion.armor.name.*type*.!random>.",
+					"My best friend used to wear a fine <spice.eros.opinion.armor.name.*type*.!random>."
 				],
 				"goodThingHappen" : [
-					"I saw *sample*"
+					"I saw *a_sample*"
 				],
 				"badThingHappen" : [
 					"I lost my precious *sample*"
 				],
-				"goodPerson" : ["*type*-maker", "*type* merchant"],
+				"goodPerson"  : ["<spice.eros.opinion.armor.smith.*type*.!random>", "<spice.eros.opinion.armor.name.*type*.!random> merchant"],
 				"goodObject" : ["*sample*"],
 				"goodArmor" : ["*sample*"]
 			},
 			"dislike" : {
 				"story" : [
 					"<spice.eros.opinion.something.dislike.story.!random>",
-					"I just don't like the look of *type*s.",
-					"You look like the kind of person that wears a lot of *type*s.",
-					"My greatest enemy used to wear a *type*."
+					"I just don't like the look of <spice.eros.opinion.armor.name.*type*.!random>s.",
+					"You look like the kind of person that wears a lot of <spice.eros.opinion.armor.name.*type*.!random>s.",
+					"My greatest enemy used to wear <spice.eros.opinion.armor.name.*type*.!random.article>."
 				],
 				"badThingHappen" : [
-					"I had to wear *sample*"
+					"I had to wear *a_sample*"
 				],
-				"badPerson"  : ["*type*-maker", "*type* merchant"],
+				"badPerson"  : ["<spice.eros.opinion.armor.smith.*type*.!random>", "<spice.eros.opinion.armor.name.*type*.!random> merchant"],
 				"badObject"  : ["*sample*"],
 				"badArmor"  : ["*sample*"]
 			}
@@ -1138,15 +1351,32 @@
 		"weapon" : 
 		{
 			"name" : {
-				"Cudgel" : "cudgel",
-				"ShortBlades" : "short blade",
-				"LongBlades" : "long blade",
-				"Axe" : "axe",
-				"Whip" : "whip",
-				"Chain" : "chain",
-				"Pistol" : "pistol",
-				"HeavyWeapons" : "heavy weapon",
-				"Rifle" : "rifle"
+				// Should pluralize with -s suffix
+				"Cudgel" : ["cudgel", "mace"],
+				"ShortBlades" : ["short blade", "dagger"],
+				"LongBlades" : ["long blade", "sword"],
+				"Axe" : ["axe", "greataxe"],
+				"Whip" : ["whip"],
+				"Chain" : ["chain"],
+				"Pistol" : ["pistol", "small gun", "sidearm"],
+				"HeavyWeapons" : ["heavy weapon", "big gun", "destructive weapon"],
+				"Rifle" : ["rifle", "bow", "long-range gun"],
+				"unknown" : ["*type* weapon"],
+				"_staticfailureredirect" : "spice.eros.opinion.weapon.name.unknown.!random"
+			},
+			"master" : {
+				// Should pluralize with -s suffix
+				"Cudgel" : ["cudgel-master", "skullcrusher", "greybeard", "greybeard", "priest of all suns", "child of the hearth"],
+				"ShortBlades" : ["knife-fighter", "thief", "arconaut", "arconaut", "eunuch", "child of the wheel"],
+				"LongBlades" : ["swordmaster", "fencer", "warden", "warden", "praetorian"],
+				"Axe" : ["axe-master", "lumberjack", "marauder", "marauder", "horticulturist", "priest of all moons", "child of the wheel"],
+				"Whip" : ["houndmaster", "dominatrix", "animal trainer"],
+				"Chain" : ["dungeon-master", "chain-fighter"],
+				"Pistol" : ["mysterious stranger", "gunslinger", "gunslinger", "eunuch"],
+				"HeavyWeapons" : ["demolitions expert", "wild-eyed tinker", "child of the hearth", "child of the deep"],
+				"Rifle" : ["sniper", "hunter", "warden", "warden", "horiculturist", "praetorian"],
+				"unknown" : ["*type*-master", "*type*-fighter"],
+				"_staticfailureredirect" : "spice.eros.opinion.weapon.master.unknown.!random"
 			},
 			"verb" : {
 				"Cudgel" : ["bashing", "clobbering", "crushing"],
@@ -1157,40 +1387,42 @@
 				"Chain" : ["chain-beating", "chaining up"],
 				"Pistol" : ["shooting", "peppering", "run-and-gunning"],
 				"HeavyWeapons" : ["exploding", "laying waste to", "obliterating", "incinerating"],
-				"Rifle" : ["sniping", "sharpshooting", ""]
+				"Rifle" : ["sniping", "sharpshooting", "picking off"],
+				"unknown" : ["attacking"],
+				"_staticfailureredirect" : "spice.eros.opinion.weapon.verb.unknown.!random"
 			},
 
 			"like" : {
 				"story" : [
 					"<spice.eros.opinion.something.like.story.!random>",
 					"I really love <spice.eros.opinion.weapon.verb.*type*.!random> my enemies.",
-					"I think I could probably make *sample*.",
-					"I think *type*s are kind of neat.",
-					"You look like the kind of person that might carry a *type*.",
-					"My friend used to carry a *type*."
+					"I think I could probably make *a_sample*.",
+					"I think <spice.eros.opinion.weapon.name.*type*.!random>s are kind of neat.",
+					"You look like the kind of person that might carry <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+					"My friend used to carry <spice.eros.opinion.weapon.name.*type*.!random.article>."
 				],
-				"goodThingHappen" : ["I saw *sample*"],
-				"badThingHappen" : ["I saw a *sample* get destroyed"],
-				"goodPerson" : ["*type*-smith", "*type* master"],
+				"goodThingHappen" : ["I saw *a_sample*"],
+				"badThingHappen" : ["I saw *a_sample* get destroyed"],
+				"goodPerson" : ["<spice.eros.opinion.weapon.name.*type*.!random>-smith", "<spice.eros.opinion.weapon.master.*type*.!random>"],
 				"goodObject" : ["*sample*"],
 				"goodWeapon" : ["*sample*"]
 			},
 			"dislike" : {
 				"story" : [
 					"<spice.eros.opinion.something.dislike.story.!random>",
-					"I worry about people attacking me with a *type*.",
-					"A <entity.badPerson[random]> once attacked me with a *type*",
-					"I just don't feel safe around *type*s.",
-					"You look like the kind of person that might carry a *type*.",
-					"My greatest enemy used to carry a *type*."
+					"I worry about people attacking me with <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+					"A <entity.badPerson[random]> once attacked me with <spice.eros.opinion.weapon.name.*type*.!random.article>",
+					"I just don't feel safe around <spice.eros.opinion.weapon.name.*type*.!random>s.",
+					"You look like the kind of person that might carry <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+					"My greatest enemy used to carry <spice.eros.opinion.weapon.name.*type*.!random.article>."
 				],
 				"goodThingHappen" : [
-					"I saw a *sample* get destroyed"
+					"I saw *a_sample* get destroyed"
 				],
 				"badThingHappen" : [
-					"I was attacked with *sample*"
+					"I was attacked with *a_sample*"
 				],
-				"badPerson"  : ["*type*-smith", "*type* master"],
+				"badPerson"  : ["<spice.eros.opinion.weapon.name.*type*.!random>-smith", "<spice.eros.opinion.weapon.master.*type*.!random>"],
 				"badObject"  : ["*sample*"],
 				"badWeapon"  : ["*sample*"]
 			}
@@ -1211,14 +1443,14 @@
 
 				"story" : [
 					"<spice.eros.opinion.something.like.story.!random>",
-					"Once, a *sample* <^.sharedWithMe.!random> <entity.goodObject[random]>.",
+					"Once, *a_sample* <^.sharedWithMe.!random> <entity.goodObject[random]>.",
 					"I think *type* are neat."
 				],
 				"goodThingHappen" : [
-					"I met *sample*"
+					"I met *a_sample*"
 				],
 				"badThingHappen" : [
-					"I saw *sample* suffer a terrible misfortune"
+					"I saw *a_sample* suffer a terrible misfortune"
 				],
 				"goodPerson" : ["*sample*"]
 			},
@@ -1239,14 +1471,14 @@
 
 				"story" : [
 					"<spice.eros.opinion.something.dislike.story.!random>",
-					"Once, a *sample* <^.menacedMeWith.!random> <entity.badWeapon[random]>.",
+					"Once, *a_sample* <^.menacedMeWith.!random> <entity.badWeapon[random]>.",
 					"I just <^.disdain.!random> *type*."
 				],
 				"goodThingHappen" : [
-					"I saw *sample* suffer a terrible misfortune"
+					"I saw *a_sample* suffer a terrible misfortune"
 				],
 				"badThingHappen" : [
-					"I met *sample*"
+					"I met *a_sample*"
 				],
 				"badPerson"  : ["*sample*"]
 			}
@@ -1258,8 +1490,8 @@
 				"story" : [
 					"Once, I had a dream about *sacredThing*.  The next day, <entity.goodThingHappen[random]>!",
 					"Once, I had a dream about *profaneThing*.  The next day, <entity.badThingHappen[random]>!",
-					"Once, a *sacredThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
-					"Once, a *profaneThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
+					"Once, *sacredThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
+					"Once, *profaneThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
 				],
 				"goodObject" : ["*sacredThing*"],
 				"badObject"  : ["*profaneThing"]
@@ -1268,8 +1500,8 @@
 				"story" : [
 					"Once, I had a dream about *profaneyhing*.  The next day, <entity.goodThingHappen[random]>!",
 					"Once, I had a dream about *sacredThing*.  The next day, <entity.badThingHappen[random]>!",
-					"Once, a *profaneThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
-					"Once, a *sacredThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
+					"Once, *profaneThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
+					"Once, *sacredThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
 				],
 				"goodObject" : ["*profaneThing*"],
 				"badObject"  : ["*sacredThing*"]
@@ -1305,7 +1537,7 @@
 					"I just <^.resent.!random> *sultan*."
 				],
 				"badThingHappen" : [
-					"I had a frightening vision of *sultan*."
+					"I had a frightening vision of *sultan*"
 				],
 				"badObject"  : ["*sultanObject*"]
 			}

@@ -344,15 +344,11 @@ namespace XRL.World.Parts
 		}
 
 		public string GetStory(acegiak_RomanceChatNode node){
-			string story;
-			for (int i = 0; i < 5; ++i)
-			{
-				story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
-					.GetStory(node, GetSelfEntity());
-				story = ConsoleLib.Console.ColorUtility.StripFormatting(story);
-				if (story.Count() > 0) return story;
-			} 
-			return "&RI AM EXPERIENCING TEMPORARY AMNESIA.&y";
+			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
+				.GetStory(node, GetSelfEntity());
+			story = ConsoleLib.Console.ColorUtility.StripFormatting(story);
+			if (story.Count() > 0) return story;
+			return "&RI was going to tell you a story, but I forgot it.&y";
 		}
 
 
@@ -506,11 +502,19 @@ namespace XRL.World.Parts
 				if (values.Count() == 0)
 				{
 					// Backup
-					string vague = HistoricStringExpander.ExpandString(
-						"<spice.eros.opinion.storyOption." + option + ".!random>",
-						selfEntity, null, null);
-					if (vague == null || vague.Count() == 0) // || vague[0] == '<')
-						vague = "...";
+					string vague = null;
+					for (int i = 0; i < 5; ++i)
+					{
+						vague = acegiak_RomanceText.ExpandString(
+							"<spice.eros.opinion.storyOption." + option + ".!random>",
+							selfEntity, null, null);
+						if (vague != null && vague.Count() > 0) break;
+					}
+					
+					if (vague == null || vague.Count() == 0)
+						vague = "(&R" + option + "&y)";
+					else if (vague[0] == '<')
+						vague = "(&R" + vague.Substring(1,vague.Count()-2) + "&y)";
 					values.Add(vague);
 				}
 				selfEntity.listProperties.Add(option, values);

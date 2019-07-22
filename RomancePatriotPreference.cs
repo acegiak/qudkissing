@@ -179,8 +179,8 @@ namespace XRL.World.Parts
                     vars["*sacredThing*"]  = randomGood();
                     vars["*profaneThing*"] = randomBad();
                     this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
-                        HistoricStringExpander.ExpandString(
-                        storyTag, entity, null, vars));
+                        acegiak_RomanceText.ExpandString(
+                        storyTag, entity, vars));
                 }
                 /*while(this.tales.Count < 5){
                     List<string> Stories = null;
@@ -220,12 +220,12 @@ namespace XRL.World.Parts
         }
         public override string getstoryoption(string key){
             var vars = new Dictionary<string, string>();
-            vars["*sacredthing*"] = randomGood();
-            vars["*profanething*"] = randomBad();
+            vars["*sacredThing*"] = randomGood();
+            vars["*profaneThing*"] = randomBad();
             
-            return HistoricStringExpander.ExpandString(
+            return acegiak_RomanceText.ExpandString(
                 "<spice.eros.opinion.patriot." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
-                null, null, vars);
+                vars);
         }
          public override void Save(SerializationWriter Writer){
             base.Save(Writer);
