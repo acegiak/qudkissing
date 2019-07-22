@@ -65,8 +65,13 @@ namespace XRL.World
             acegiak_KissingPreferenceResult assess = null;
             for (int i = 0; i < 1; ++i)
             {
-                var preference = kissable.preferences
-                    [Stat.Rnd2.Next(kissable.preferences.Count)];
+                var preference = kissable.preferences.GetRandomElement(Stat.Rnd2);
+                if (preference == null)
+                {
+                    acegiak_RomanceText.Log("ERROR drew a null kissing preference");
+                    return;
+                }
+                    //[Stat.Rnd2.Next(kissable.preferences.Count)];
                 assess = preference.attractionAmount(me, them);
                 if (assess.amount != 0f) break;
             }

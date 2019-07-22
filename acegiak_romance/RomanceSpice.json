@@ -950,6 +950,10 @@
 					"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
 				}
 			},
+			"Foot" : {
+				// Redirect children to "Hands".
+				"_failureredirect" : "spice.eros.react.part.Feet"
+			},
 
 			"Floating Nearby" : {
 				"have" : {
@@ -1071,14 +1075,26 @@
 		"food" :
 		{
 			"qa" : {
+				"gen_good" : [
+					"<^.tasted.gen_good>",
+					"<^.practice_cooking.gen_good>"
+				],
+				"gen_bad" : [
+					"<^.tasted.gen_bad>",
+					"<^.practice_cooking.gen_bad>"
+				],
+
 				"tasted" : {
+					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$no;disagree;-1"],
+					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$no;agree;1"],
+
 					"q" : [
 						"Have you ever eaten *a_sample*?",
 						"Ever tried cooking with *sample*?",
 						"Have you tasted *a_sample*?"
 					],
-					"a_like" : {
-						"choice" : [
+					"like" : {
+						"a" : [
 							"Oh yes, it was delicious.",
 							"Yes, and I would again!",
 							"I would like to have some now."
@@ -1091,8 +1107,8 @@
 							"Oh, I don't think I would agree."
 						]
 					},
-					"a_dislike" : {
-						"choice" : [
+					"dislike" : {
+						"a" : [
 							"I have but it was disgusting.",
 							"Oh, it was awful!",
 							"I regret it to this day."
@@ -1105,8 +1121,8 @@
 							"Oh, I don't think I would agree."
 						]
 					},
-					"a_no" : {
-						"choice" : [
+					"no" : {
+						"a" : [
 							"No, I've not seen such a thing.",
 							"I have not.",
 							"I'm afraid I haven't."
@@ -1124,41 +1140,9 @@
 						]
 					}
 				},
-				"cookingEffect" : {
-					"cooking" : [
-						// I'm hungry ok
-						"cooking", "broiling", "baking",
-						"frying", "heating", "charring",
-						"brewing", "infusing", "fermenting",
-						"stomping", "pressing", "hand-rolling"
-					],
-					"preserved" : [
-						"preserved", "cooked", "made",
-						"aged", "salted", "distilled",
-						"enhanced", "reduced", "transformed"
-					],
-					"a_meal" : [
-						"a meal", "food", "a residue",
-						"a powder", "cakes", "a stew"
-					],
-					"bestows_meal_effect" : [
-						"bestows *mealEffect* on whoever eats it",
-						"imbues one with *mealEffect*",
-						"invigorates the diner with *mealEffect*",
-						"as a side effect, causes *mealEffect*"
-					],
-	
-					"q" : [
-						"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_effect.!random>?"
-					],
-					"q_preservable" : [
-						"I've heard that *sample* can be <^.preserved.!random> into *samplePreserved*."
-					],
-					"q_eating" : [
-						"I've heard that some people eat *sample* as a *sampleSatiation*."
-					],
-					"a_like" : {
-						"choice" : [
+				"practice_base" : {
+					"like" : {
+						"a" : [
 							"Yes, it's amazing.",
 							"Indeed, it's wonderful.",
 							"I think it's quite nice."
@@ -1172,8 +1156,8 @@
 							"It's not for me"
 						]
 					},
-					"a_dislike" : {
-						"choice" : [
+					"dislike" : {
+						"a" : [
 							"That is, unfortunately, true.",
 							"Yes, it's awful.",
 							"Indeed, it's despicable."
@@ -1187,19 +1171,85 @@
 							"Oh? I think it sounds wonderful."
 						]
 					},
-					"a_no" : {
+					"skeptic" : {
 						"choice" : [
 							"I'm not sure that is true.",
 							"I find that hard to believe."
 						],
-						"agree" : [
-							"Oh, isn't it? How odd."
-						],
-						"disagree" : [
+						"response" : [
 							"Oh, isn't it? How odd."
 						]
 					}
 				},
+				"practice_cooking" : {
+					// inherit responses from somePractice
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
+
+					"cooking" : [
+						// I'm hungry ok
+						"cooking", "broiling", "baking",
+						"frying", "heating", "charring",
+						"brewing", "infusing", "fermenting",
+						"stomping", "pressing", "hand-rolling"
+					],
+					"a_meal" : [
+						"a meal", "food", "a residue",
+						"a powder", "cakes", "a stew"
+					],
+					"bestows_meal_effect" : [
+						"bestows *sampleResult* on whoever eats it",
+						"imbues one with *sampleResult*",
+						"invigorates the diner with *sampleResult*",
+						"as a side effect, causes *sampleResult*"
+					],
+	
+					"q" : [
+						"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_effect.!random>?"
+					]
+				},
+				"practice_preserving" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
+
+					"preserved" : [
+						"preserved", "cooked", "made",
+						"aged", "salted", "distilled",
+						"enhanced", "reduced", "transformed"
+					],
+					"q" : [
+						"I've heard that *sample* can be <^.preserved.!random> into *sampleResult*."
+					]
+				},
+				"practice_eating" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
+
+					"q_eating" : [
+						"I've heard that some people eat *sample* as a *sampleResult*."
+					]
+				},
+				"practice_default" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
+
+					"q_eating" : [
+						"I heard that some foods can be preserved over a campfire."
+					]
+				},
+				
+
 				"show_food" : {
 					"interesting" : [
 						"interesting",
@@ -1498,7 +1548,7 @@
 			},
 			"dislike" : {
 				"story" : [
-					"Once, I had a dream about *profaneyhing*.  The next day, <entity.goodThingHappen[random]>!",
+					"Once, I had a dream about *profaneThing*.  The next day, <entity.goodThingHappen[random]>!",
 					"Once, I had a dream about *sacredThing*.  The next day, <entity.badThingHappen[random]>!",
 					"Once, *profaneThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.goodObject[random]>.",
 					"Once, *sacredThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."

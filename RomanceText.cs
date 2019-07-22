@@ -52,12 +52,36 @@ namespace HistoryKit
 		{
 			return ExpandString(input, entity, null, vars);
 		}
+
+		public static string ExpandQuery(string input, HistoricEntitySnapshot entity, History history, Dictionary<string, string> vars = null)
+		{
+			if (!initialized) Init();
+
+			string output = HistoricStringExpander.ExpandQuery(input, entity, history, vars, null);
+
+			LogQuery(input, output);
+
+			return output;
+		}
 		public static string ExpandString(string input, HistoricEntitySnapshot entity, History history, Dictionary<string, string> vars = null)
 		{
 			if (!initialized) Init();
 
 			string output = HistoricStringExpander.ExpandString(input, entity, history, vars);
 
+			LogQuery(input, output);
+
+			return output;
+		}
+
+		public static void Log(string line)
+		{
+			if (debugLogger != null)
+				debugLogger.WriteLine(line);
+		}
+
+		private static void LogQuery(string input, string output)
+		{
 			if (debugLogger != null && input != output)
 			{
 				if (input.First() == '<' && input.Last() == '>')
@@ -90,14 +114,6 @@ namespace HistoryKit
 				}
                 debugLogger.Flush();
 			}
-
-			return output;
-		}
-
-		public static void Log(string line)
-		{
-			if (debugLogger != null)
-				debugLogger.WriteLine(line);
 		}
     }
 }

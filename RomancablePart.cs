@@ -276,9 +276,16 @@ namespace XRL.World.Parts
 					node.Choices.Add(returntostart);
 			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
 				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
-				node = boon.BuildNode(node);
-				node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
-				node.ExpandText(GetSelfEntity());
+				try
+				{
+					node = boon.BuildNode(node);
+					node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
+					node.ExpandText(GetSelfEntity());
+				}
+				catch (Exception e)
+				{
+					node.Text = e.ToString() + "\n\n" + node.Text;
+				}
 			}else{
 				int c = 0;
 				int whichquestion = 0;
@@ -287,10 +294,16 @@ namespace XRL.World.Parts
 					c++;
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;
-				node = preferences[whichquestion].BuildNode(node);
-				node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
-				node.ExpandText(GetSelfEntity());
-
+				try
+				{
+					node = preferences[whichquestion].BuildNode(node);
+					node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
+					node.ExpandText(GetSelfEntity());
+				}
+				catch (Exception e)
+				{
+					node.Text = e.ToString() + "\n\n" + node.Text;
+				}
 
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
 					acegiak_RomanceChatChoice giftoption = new acegiak_RomanceChatChoice();

@@ -105,37 +105,54 @@ namespace XRL.World.Parts
 
             var vars = new Dictionary<string, string>();
             if(g<0.3 ){
-                //SetSampleObject(vars, exampleObject());
+
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "food.qa.tasted", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*//SetSampleObject(vars, exampleObject());
                 GameObject sample = exampleObject();
                 bodytext = "Have you ever eaten a "+sample.DisplayNameOnly+"?";
                 node.AddChoice("yesseen","Oh yes, it was delicious.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but it was disgusting.",amount>0?"Oh, I guess we have different tastes.":"I agree, I ate one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
-            }else if(g<0.6){
+                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
+            }else if (g<1.0) { //if(g<0.6){
                 //SetSampleObject(vars, exampleObject());
 
                 GameObject sample = exampleObject();
+                SetSampleObject(vars, sample);
+                string practice_name = "default";
+                string practice_result = null;
 
-                if(sample == null){
-                    bodytext = "I heard that some foods can be preserved over a campfire.";
-                }else{
+                if(sample != null){
                     sample.MakeUnderstood();
                     if(sample.GetPart<PreparedCookingIngredient>() != null){
-                        bodytext = "Did you know that <cooking|brewing|broiling|frying> "+sample.DisplayNameOnly+" can sometimes make <a meal|food> that bestows ";
-                        bodytext += GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
-                        bodytext += " effects on whoever eats it?";
+                        practice_name = "cooking";
+                        practice_result = GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
+                        //bodytext = "Did you know that <cooking|brewing|broiling|frying> "+sample.DisplayNameOnly+" can sometimes make <a meal|food> that bestows ";
+                        //bodytext += GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
+                        //bodytext += " effects on whoever eats it?";
                     }else
                     if(sample.GetPart<PreservableItem>() != null){
-                        bodytext = "I've heard that "+sample.DisplayNameOnly+" can be <preserved|cooked|made> into "+GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnly+".";
+                        practice_name = "preserving";
+                        practice_result = GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnlyDirect;
+                        //bodytext = "I've heard that "+sample.DisplayNameOnly+" can be <preserved|cooked|made> into "+GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnly+".";
                     }else
                     if(sample.GetPart<Food>() != null){
-                        bodytext = "I hear some people eat "+sample.DisplayNameOnly+" as a "+sample.GetPart<Food>().Satiation+".";
+                        practice_name = "eating";
+                        practice_result = sample.GetPart<Food>().Satiation;
+                        //bodytext = "I hear some people eat "+sample.DisplayNameOnly+" as a "+sample.GetPart<Food>().Satiation+".";
                     }
                 }
+
+                if (practice_result == null || practice_result.Count() == 0)
+                    practice_result = "a full belly";
+                vars["*sampleResult*"] = practice_result;
+
+                return Build_QA_Node(node, "food.qa.practice_"+practice_name, (amount > 0) ? "gen_good" : "gen_bad", vars);
                
-                node.AddChoice("approve","Yes, it's amazing.",amount>0?"How fascinating!":"It sounds horrible!",amount>0?1:-1);
-                node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds wonderful.":"Yes it seems quite unsettling.",amount>0?-1:1);
-                node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);
+                //node.AddChoice("approve","Yes, it's amazing.",amount>0?"How fascinating!":"It sounds horrible!",amount>0?1:-1);
+                //node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds wonderful.":"Yes it seems quite unsettling.",amount>0?-1:1);
+                //node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);*/
             }else{
                 bodytext = "Do you have any <interesting|tasty|exotic> food?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
