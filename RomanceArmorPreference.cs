@@ -73,17 +73,23 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
-
+            var vars = new Dictionary<string, string>();
+            vars["*type*"] = wantedType;
             
             if(g<0.50 ){
-                string sample = exampleObjectName();
+
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "armor.qa.seen", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*string sample = exampleObjectName();
                 bodytext = "Have you ever seen a "+sample+"?";
                 node.AddChoice("yesseen","Oh yes, I have seen a "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but I didn't like it.",amount>0?"Oh, I guess we have different tastes.":"I agree, I saw one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
+                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
             
             }else{
-                bodytext = "Do you have any interesting <clothing|armor|vestments>?";
+                return Build_QA_Node(node, "armor.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
+                /*bodytext = "Do you have any interesting <clothing|armor|vestments>?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
@@ -113,7 +119,7 @@ namespace XRL.World.Parts
                     // }
                     
                 }
-                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. You probably don't need any.",amount>0?-1:1);
+                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. You probably don't need any.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){

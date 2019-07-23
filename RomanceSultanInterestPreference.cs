@@ -74,11 +74,18 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
+            var vars = new Dictionary<string, string>();
+            vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
+            vars["*sultanLong*"] = vars["*sultan*"] + ", "
+                + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
+
             if(g<1){
-                bodytext = "Have you heard of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2)+"?";
+                return Build_QA_Node(node, "sultan.qa.heard", (amount > 0) ? "gen_good" : "gen_bad", vars, this.faveSultan.GetCurrentSnapshot());
+
+                /*bodytext = "Have you heard of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2)+"?";
                 node.AddChoice("likethem","I have! An admirable hero.",amount>0?"Wasn't "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" amazing?":"Oh, I think I disagree.",amount>0?1:-1);
                 node.AddChoice("dislikethem","I am familiar with the tales of this villain.",amount>0?"That's very judgemental.":"Wasn't "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" horrible?",amount>0?-1:1);
-                node.AddChoice("dontknow","I've not heard of this "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","sultan")+".",amount>0?"Well, "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a hero.":"Well "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a terror.",amount>0?-1:1);
+                node.AddChoice("dontknow","I've not heard of this "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","sultan")+".",amount>0?"Well, "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a hero.":"Well "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a terror.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
@@ -109,7 +116,7 @@ namespace XRL.World.Parts
                     "<spice.eros.opinion.sultan.dislike.story.!random>");
                 while(this.mytales.Count < 5){
                     vars["*sultanLong*"] = vars["*sultan*"] + ", "
-                        + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+                        + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
                     this.mytales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
                         acegiak_RomanceText.ExpandString(
                         storyTag, entity, vars));
@@ -129,7 +136,7 @@ namespace XRL.World.Parts
             var vars = new Dictionary<string, string>();
             vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
             vars["*sultanLong*"] = vars["*sultan*"] + ", "
-                + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+                + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
             vars["*sultanObject*"] = //"a " +
                 GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
             
@@ -144,10 +151,10 @@ namespace XRL.World.Parts
                 return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
             }
             if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw a vision of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+                return "I saw a vision of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
             }
             if(key == "badthinghappen" && this.amount > 0){
-                return "someone besmirched the name of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "really nice guy", Stat.Rnd2);
+                return "someone besmirched the name of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
             }
             return null;*/
         }

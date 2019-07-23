@@ -108,14 +108,8 @@ namespace XRL.World.Parts
 
                 SetSampleObject(vars, exampleObject());
                 return Build_QA_Node(node, "food.qa.tasted", (amount > 0) ? "gen_good" : "gen_bad", vars);
-
-                /*//SetSampleObject(vars, exampleObject());
-                GameObject sample = exampleObject();
-                bodytext = "Have you ever eaten a "+sample.DisplayNameOnly+"?";
-                node.AddChoice("yesseen","Oh yes, it was delicious.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
-                node.AddChoice("yesseendislike","I have but it was disgusting.",amount>0?"Oh, I guess we have different tastes.":"I agree, I ate one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
-            }else if (g<1.0) { //if(g<0.6){
+                
+            }else if(g<0.6){
                 //SetSampleObject(vars, exampleObject());
 
                 GameObject sample = exampleObject();
@@ -128,19 +122,17 @@ namespace XRL.World.Parts
                     if(sample.GetPart<PreparedCookingIngredient>() != null){
                         practice_name = "cooking";
                         practice_result = GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
-                        //bodytext = "Did you know that <cooking|brewing|broiling|frying> "+sample.DisplayNameOnly+" can sometimes make <a meal|food> that bestows ";
-                        //bodytext += GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
-                        //bodytext += " effects on whoever eats it?";
+                        if (practice_result != null) practice_result = practice_result.ToString();
+                        if (practice_result == null || practice_result.Count() == 0)
+                            practice_result = "&RERROR:" + sample.GetPart<PreparedCookingIngredient>().type + "&y";
                     }else
                     if(sample.GetPart<PreservableItem>() != null){
                         practice_name = "preserving";
                         practice_result = GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnlyDirect;
-                        //bodytext = "I've heard that "+sample.DisplayNameOnly+" can be <preserved|cooked|made> into "+GameObjectFactory.Factory.CreateSampleObject(sample.GetPart<PreservableItem>().Result).DisplayNameOnly+".";
                     }else
                     if(sample.GetPart<Food>() != null){
                         practice_name = "eating";
                         practice_result = sample.GetPart<Food>().Satiation;
-                        //bodytext = "I hear some people eat "+sample.DisplayNameOnly+" as a "+sample.GetPart<Food>().Satiation+".";
                     }
                 }
 
@@ -149,45 +141,8 @@ namespace XRL.World.Parts
                 vars["*sampleResult*"] = practice_result;
 
                 return Build_QA_Node(node, "food.qa.practice_"+practice_name, (amount > 0) ? "gen_good" : "gen_bad", vars);
-               
-                //node.AddChoice("approve","Yes, it's amazing.",amount>0?"How fascinating!":"It sounds horrible!",amount>0?1:-1);
-                //node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds wonderful.":"Yes it seems quite unsettling.",amount>0?-1:1);
-                //node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);*/
             }else{
-                bodytext = "Do you have any <interesting|tasty|exotic> food?";
-                List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
-
-                List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
-                foreach (BodyPart item in equippedParts)
-                {
-                    if(item.Equipped != null){
-                        part2.Add(item.Equipped);
-                    }
-                }
-
-                int c = 0;
-                int s = 0;
-                foreach(GameObject GO in part2)
-                {
-                    PreparedCookingIngredient mw = null;
-                    mw = GO.GetPart<PreparedCookingIngredient>();
-                    PreservableItem rw = null;
-                    rw = GO.GetPart<PreservableItem>();
-                    if((rw != null || mw != null) && GO.GetPart<Salve_Tonic_Applicator>()==null){
-                        if(Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount > 0){
-                            node.AddChoice("food"+c.ToString(),"I have <this|a> "+GO.DisplayName+".",amount>0?"Wow, that looks delicious!":"Oh, that's disgusting!",amount>0?2:-1);
-                            s++;
-                        }else{
-                            node.AddChoice("food"+c.ToString(),"I have <this|a> "+GO.DisplayName+".",amount>0?"Oh, is that all?":"Oh, I guess that IS edible.",amount>0?0:0);
-                            s++;
-                        }
-                    }
-                    if(s>5){
-                        break;
-                    }
-                    
-                }
-                node.AddChoice("nofoods","Not really, no.",amount>0?"That's a pity.":"I'm sure you find enough to get by.",amount>0?-1:0);
+                return Build_QA_Node(node, "food.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
             }
 
             if(Romancable != null){

@@ -106,31 +106,42 @@ namespace XRL.World.Parts
                 }
             }
 
+            var vars = new Dictionary<string, string>();
+            vars["*type*"] = wantedType;
+
             if(g<0.2 && haskey){
-                bodytext = "Do you ever <think about|fantasize about|ponder|dream about> just "+verbs[wantedType]+" people?";
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "weapon.qa.postal", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "Do you ever <think about|fantasize about|ponder|dream about> just "+verbs[wantedType]+" people?";
                 node.AddChoice("yeahcleave","Oh yes, quite often.",amount>0?"Oh good. I thought I was the only one.":"Really? That is troubling.",amount>0?1:-1);
-                node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);
+                node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);*/
             }else if(g<0.4 && haskey){
                 bodytext = "How do you like to <slay|attack|fight|combat> your enemies?";
                 foreach(var item in verbs){
                     if((item.Key  == wantedType || Stat.Rnd2.NextDouble() < 0.5)){
                         GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter("MeleeWeapon","Skill")==item.Key ||b.GetPartParameter("MissileWeapon","Skill")==item.Key );
                         if(item.Key == wantedType || (GO != null && Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount>0)){
-                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"&cI <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                         }else{
-                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"&cI <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
                         }
                     }
                 }
-                node.AddChoice("notmelee","I prefer to avoid combat entirely.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
+                node.AddChoice("notmelee","&rI prefer to avoid combat entirely.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
             }else if(g<0.60 && haskey){
-                string sample = exampleObjectName();
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "armor.qa.seen", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*string sample = exampleObjectName();
                 bodytext = "Have you ever seen "+sample+"?";
                 node.AddChoice("yesseen","Oh yes, I have seen "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but I didn't like it.",amount>0?"Oh, I guess we have different tastes.":"I agree, I saw one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
+                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
             }else if(g<0.80 ){
-                if(wantedType == "Cudgel"){
+                return Build_QA_Node(node, "weapon.qa.factoid", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*if(wantedType == "Cudgel"){
                     bodytext = "Did you know that heavy weapons like maces and clubs can sometimes stun people when they hit?";}
                 if(wantedType == "ShortBlades"){
                     bodytext = "Are you familiar with short blades like daggers and knives? I hear that they make wounds that bleed profusely";}
@@ -150,9 +161,10 @@ namespace XRL.World.Parts
                     bodytext = "Did you know some folks weild a pistol in each hand?";}
                 node.AddChoice("approve","I have seen as much. It is <glorious|wonderful|fantastic>.",amount>0?"So fascinating!":"Oh, how scary.",amount>0?1:-1);
                 node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds very impressive.":"Yes it seems quite dangerous.",amount>0?-1:1);
-                node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);
+                node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);*/
             }else{
-                bodytext = "Do you have any interesting weapons?";
+                return Build_QA_Node(node, "weapon.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
+                /*bodytext = "Do you have any interesting weapons?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
@@ -183,7 +195,7 @@ namespace XRL.World.Parts
                     // }
                     
                 }
-                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. Weapons are dangerous.",amount>0?-1:1);
+                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. Weapons are dangerous.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){

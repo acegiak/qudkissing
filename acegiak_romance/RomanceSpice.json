@@ -1074,228 +1074,6 @@
 
 		"food" :
 		{
-			"qa" : {
-				"gen_good" : [
-					"<^.tasted.gen_good>",
-					"<^.practice_cooking.gen_good>"
-				],
-				"gen_bad" : [
-					"<^.tasted.gen_bad>",
-					"<^.practice_cooking.gen_bad>"
-				],
-
-				"tasted" : {
-					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$no;disagree;-1"],
-					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$no;agree;1"],
-
-					"q" : [
-						"Have you ever eaten *a_sample*?",
-						"Ever tried cooking with *sample*?",
-						"Have you tasted *a_sample*?"
-					],
-					"like" : {
-						"a" : [
-							"Oh yes, it was delicious.",
-							"Yes, and I would again!",
-							"I would like to have some now."
-						],
-						"agree" : [
-							"Wow, how excellent!"
-						],
-						"disagree" : [
-							"Oh, I guess we have different tastes.",
-							"Oh, I don't think I would agree."
-						]
-					},
-					"dislike" : {
-						"a" : [
-							"I have but it was disgusting.",
-							"Oh, it was awful!",
-							"I regret it to this day."
-						],
-						"agree" : [
-							"I agree, I ate one once and didn't like it."
-						],
-						"disagree" : [
-							"Oh, I guess we have different tastes.",
-							"Oh, I don't think I would agree."
-						]
-					},
-					"no" : {
-						"a" : [
-							"No, I've not seen such a thing.",
-							"I have not.",
-							"I'm afraid I haven't."
-						],
-						"agree" : [
-							"Oh, that's disappointing.",
-							"Perhaps someday you will.",
-							"You should expand your horizons."
-						],
-						"disagree" : [
-							"That's probably for the best.",
-							"You are not missing much.",
-							"Keep it that way.",
-							"Frankly, I'm jealous."
-						]
-					}
-				},
-				"practice_base" : {
-					"like" : {
-						"a" : [
-							"Yes, it's amazing.",
-							"Indeed, it's wonderful.",
-							"I think it's quite nice."
-						],
-						"agree" : [
-							"How fascinating!",
-							"I'm hungry just thinking about it!"
-						],
-						"disagree" : [
-							"It sounds horrible!",
-							"It's not for me"
-						]
-					},
-					"dislike" : {
-						"a" : [
-							"That is, unfortunately, true.",
-							"Yes, it's awful.",
-							"Indeed, it's despicable."
-						],
-						"agree" : [
-							"Yes it seems quite unsettling.",
-							"It's total madness!",
-							"Some things I will never understand"
-						],
-						"disagree" : [
-							"Oh? I think it sounds wonderful."
-						]
-					},
-					"skeptic" : {
-						"choice" : [
-							"I'm not sure that is true.",
-							"I find that hard to believe."
-						],
-						"response" : [
-							"Oh, isn't it? How odd."
-						]
-					}
-				},
-				"practice_cooking" : {
-					// inherit responses from somePractice
-					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
-
-					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
-					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
-
-					"cooking" : [
-						// I'm hungry ok
-						"cooking", "broiling", "baking",
-						"frying", "heating", "charring",
-						"brewing", "infusing", "fermenting",
-						"stomping", "pressing", "hand-rolling"
-					],
-					"a_meal" : [
-						"a meal", "food", "a residue",
-						"a powder", "cakes", "a stew"
-					],
-					"bestows_meal_effect" : [
-						"bestows *sampleResult* on whoever eats it",
-						"imbues one with *sampleResult*",
-						"invigorates the diner with *sampleResult*",
-						"as a side effect, causes *sampleResult*"
-					],
-	
-					"q" : [
-						"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_effect.!random>?"
-					]
-				},
-				"practice_preserving" : {
-					// inherit responses from practice_base
-					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
-
-					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
-					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
-
-					"preserved" : [
-						"preserved", "cooked", "made",
-						"aged", "salted", "distilled",
-						"enhanced", "reduced", "transformed"
-					],
-					"q" : [
-						"I've heard that *sample* can be <^.preserved.!random> into *sampleResult*."
-					]
-				},
-				"practice_eating" : {
-					// inherit responses from practice_base
-					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
-
-					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
-					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
-
-					"q_eating" : [
-						"I've heard that some people eat *sample* as a *sampleResult*."
-					]
-				},
-				"practice_default" : {
-					// inherit responses from practice_base
-					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
-
-					"gen_good" : ["Q$<^.q.!random>$like;agree;1$dislike;disagree;-1$skeptic;response;-1"],
-					"gen_bad"  : ["Q$<^.q.!random>$like;disagree;-1$dislike;agree;1$skeptic;response;-1"],
-
-					"q_eating" : [
-						"I heard that some foods can be preserved over a campfire."
-					]
-				},
-				
-
-				"show_food" : {
-					"interesting" : [
-						"interesting",
-						"tasty",
-						"exotic"
-					],
-
-					"q" : [
-						"Do you have any <^.interesting.!random> food?"
-					],
-					
-					"a_showItem" : {
-						"show_include" : [
-							"PreparedCookingIngredient",
-							"PreservableItem"
-						],
-						"show_exclude" : [
-							"Salve_Tonic_Applicator"
-						],
-
-						"a" : ["I have this *showItem*."],
-
-						"agree" : [
-							"Wow, that looks delicious!",
-						],
-						"disagree" : [
-							"Oh, that's disgusting!"
-						],
-						"neutral" : [
-							"Oh, is that all?"
-						]
-					},
-
-					"a_no" : {
-						"a" : ["Not really, no."],
-
-						"agree" : [
-							"I'm sure you find enough to get by."
-						],
-						"disagree" : [
-							"That's a pity."
-						]
-					}
-				}
-			},
-
 			"like" : {
 				"tasty" : [
 					"delicious",
@@ -1330,6 +1108,252 @@
 				],
 				"badThingHappen" : ["I ate *a_sample*"],
 				"badObject" : ["*sample*"]
+			},
+
+			"qa" : {
+				//"gen_good" : ["<^.tasted.gen_good>", "<^.practice_cooking.gen_good>"],
+				//"gen_bad" : ["<^.tasted.gen_bad>", "<^.practice_cooking.gen_bad>"],
+
+				"tasted" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$no;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$no;agree;+1"],
+
+					"question" : [
+						"Have you ever eaten *a_sample*?",
+						"Ever tried cooking with *sample*?",
+						"Have you tasted *a_sample*?"
+					],
+					"like" : {
+						"a" : [
+							"&cOh yes, it was delicious.",
+							"&cYes, and I would again!",
+							"&cI would like to have some now."
+						],
+						"agree" : [
+							"Wow, how excellent!"
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Oh, I don't think I would agree."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rI have but it was disgusting.",
+							"&rOh, it was awful!",
+							"&rI regret it to this day."
+						],
+						"agree" : [
+							"I agree, I ate one once and didn't like it."
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Oh, I don't think I would agree."
+						]
+					},
+					"no" : {
+						"a" : [
+							"&yNo, I've not seen such a thing.",
+							"&yI have not.",
+							"&yI'm afraid I haven't."
+						],
+						"agree" : [
+							"Oh, that's disappointing.",
+							"Perhaps someday you will.",
+							"You should expand your horizons."
+						],
+						"disagree" : [
+							"That's probably for the best.",
+							"You are not missing much.",
+							"Keep it that way.",
+							"Frankly, I'm jealous."
+						]
+					}
+				},
+				"practice_base" : {
+					"like" : {
+						"a" : [
+							"&cYes, it's amazing.",
+							"&cIndeed, it's wonderful.",
+							"&cI think it's quite nice."
+						],
+						"agree" : [
+							"How fascinating!",
+							"I'm hungry just thinking about it!",
+							"Oh, I'll have to give it a try!"
+						],
+						"disagree" : [
+							"It sounds horrible!",
+							"It's not for me.",
+							"Oh, we must have different tastes."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rThat is, unfortunately, true.",
+							"&rYes, it's awful.",
+							"&rIndeed, it's despicable.",
+							"&rHow bizarre!"
+						],
+						"agree" : [
+							"Yes it seems quite unsettling.",
+							"It's total madness!",
+							"Some things I will never understand..."
+						],
+						"disagree" : [
+							"Oh? I think it sounds wonderful.",
+							"Really? Personally I'd love to try it."
+						]
+					},
+					"skeptic" : {
+						"a" : [
+							"&yI'm not sure that is true.",
+							"&yI find that hard to believe."
+						],
+						"response" : [
+							"Oh, isn't it? How odd.",
+							"I have that on good authority!",
+							"I know what I'm talking about.",
+							"Why would I misinform you?"
+						]
+					}
+				},
+				"practice_cooking" : {
+					// inherit responses from somePractice
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$skeptic;response;-1"],
+
+					"cooking" : [
+						// I'm hungry ok
+						"cooking", "broiling", "baking",
+						"frying", "heating", "charring",
+						"brewing", "infusing", "fermenting",
+						"stomping", "pressing", "hand-rolling"
+					],
+					"a_meal" : [
+						"a meal", "food", "a residue",
+						"a powder", "cakes", "a stew"
+					],
+					"bestows_meal_effect" : [
+						"bestows *sampleResult* on whoever eats it",
+						"imbues one with *sampleResult*",
+						"invigorates the diner with *sampleResult*",
+						"as a side effect, causes *sampleResult*"
+					],
+	
+					"question" : [
+						"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_effect.!random>?"
+					]
+				},
+				"practice_preserving" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$skeptic;response;-1"],
+
+					"preserved" : [
+						"preserved", "cooked", "made",
+						"aged", "salted", "distilled",
+						"enhanced", "reduced", "transformed"
+					],
+					"question" : [
+						"I've heard that *sample* can be <^.preserved.!random> into *sampleResult*."
+					]
+				},
+				"practice_eating" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$skeptic;response;-1"],
+
+					"question" : [
+						"I've heard that some people eat *sample* as a *sampleResult*."
+					]
+				},
+				"practice_default" : {
+					// inherit responses from practice_base
+					"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$skeptic;response;-1"],
+
+					"question" : [
+						"I heard that some foods can be preserved over a campfire."
+					]
+				},
+
+				"show_me" : {
+					"item_types" : "PreparedCookingIngredient;PreservableItem;-Salve_Tonic_Applicator",
+					"show_prompt" : "show;approve;+2;neutral;0;disapprove;-1",
+					"gen_good" : ["S$question_good$<^.item_types>$<^.show_prompt>$none;disapprove;-1"],
+					"gen_bad"  : ["S$question_bad$<^.item_types>$<^.show_prompt>$none;approve;0"],
+
+					"interesting" : [
+						"interesting",
+						"tasty",
+						"exotic"
+					],
+					"peculiar" : [
+						"peculiar",
+						"strange",
+						"exotic"
+					],
+
+					"question_good" : [
+						"Do you have any <^.interesting.!random> food?"
+					],
+					"question_bad" : [
+						"Do you have any <^.peculiar.!random> food?"
+					],
+					
+					"show" : {
+						"a" : [
+							"I have this *sample*.",
+							"I have *a_sample*.",
+							"How about this *sample*?",
+							"*A_sample*, maybe?",
+							"Smell this *the_sample*!"
+						],
+
+						"approve" : [
+							"Wow, that looks delicious!",
+							"How wonderful!",
+							"Oh, I'm quite fond of those!",
+							"Marvellous!"
+						],
+						"disapprove" : [
+							"Oh, that's disgusting!",
+							"Please, put that away.",
+							"You have questionable tastes.",
+							"Don't tell me you eat that stuff."
+						],
+						"neutral" : [
+							"Oh, is that all?",
+							"That's not very interesting.",
+							"You should try something new."
+						]
+					},
+
+					"none" : {
+						"a" : [
+							"&rNot really, no.",
+							"&rJust the necessities.",
+							"&rNothing worth mentioning."
+						],
+
+						"approve" : [
+							"I'm sure you find enough to get by."
+						],
+						"disapprove" : [
+							"That's a pity.",
+							"Ah, I had my hopes up."
+						]
+					}
+				}
 			}
 		},
 		"armor" :
@@ -1396,6 +1420,117 @@
 				"badPerson"  : ["<spice.eros.opinion.armor.smith.*type*.!random>", "<spice.eros.opinion.armor.name.*type*.!random> merchant"],
 				"badObject"  : ["*sample*"],
 				"badArmor"  : ["*sample*"]
+			},
+
+			"qa" : {
+				"seen" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$no;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$no;agree;+1"],
+
+					"question" : [
+						"Have you ever seen *a_sample*?"
+					],
+					"like" : {
+						"a" : [
+							"&cOh yes, I have seen *a_sample*. It was great."
+						],
+						"agree" : [
+							"Wow, how excellent!"
+						],
+						"disagree" : [
+							"Oh, I don't think I would agree.",
+							"Oh, I guess we have different tastes."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rI have but I didn't like it."
+						],
+						"agree" : [
+							"I agree, I saw one once and didn't like it."
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Really? That's a shame."
+						]
+					},
+					"no" : {
+						"a" : [
+							"&yNo, I've not seen such a thing.",
+							"&yI have not.",
+							"&yI'm afraid I haven't."
+						],
+						"agree" : [
+							"Oh, that's disappointing.",
+							"Perhaps someday you will.",
+							"Well, you're missing out."
+						],
+						"disagree" : [
+							"That's probably for the best.",
+							"You are not missing much.",
+							"Keep it that way.",
+							"Frankly, I'm jealous."
+						]
+					}
+				},
+
+				"show_me" : {
+					"item_types" : "Armor",
+					"show_prompt" : "show;approve;+2;neutral;0;disapprove;-1",
+					"gen_good" : ["S$question_good$<^.item_types>$<^.show_prompt>$none;disapprove;-1"],
+					"gen_bad"  : ["S$question_bad$<^.item_types>$<^.show_prompt>$none;approve;1"],
+
+					"interesting" : [ "interesting", "tasteful", "exotic"],
+					"peculiar" : ["interesting", "strange", "exotic"],
+					"armor" : ["armor", "clothing", "vestments", "outerwear"],
+
+					"question_good" : ["Do you have any <^.interesting.!random> <^.armor.!random>?"],
+					"question_bad" : ["Do you have any <^.peculiar.!random> <^.armor.!random>?"],
+					
+					"show" : {
+						"a" : [
+							"I have this *sample*.",
+							"I have *a_sample*.",
+							"How about this *sample*?",
+							"*A_sample*, maybe?",
+							"Feel this *sample*."
+						],
+
+						"approve" : [
+							"Wow, that's very interesting!",
+							"That's a nice piece of gear.",
+							"I think it suits you!"
+						],
+						"disapprove" : [
+							"Oh, that's quite ugly.",
+							"Please, put that away.",
+							"You have questionable tastes.",
+							"Don't tell me you wear that."
+						],
+						"neutral" : [
+							"Oh, is that all?",
+							"That's not very interesting.",
+							"I suppose it gets the job done."
+						]
+					},
+
+					"none" : {
+						"a" : [
+							"&rNot really, no.",
+							"&rI just try to be careful.",
+							"&rNothing worth mentioning."
+						],
+
+						"approve" : [
+							"That's sensible. You probably don't need any.",
+							"Well, no sense weighing yourself down."
+						],
+						"disapprove" : [
+							"That's a pity.",
+							"Ah, I had my hopes up."
+						]
+					}
+				}
 			}
 		},
 		"weapon" : 
@@ -1414,6 +1549,19 @@
 				"unknown" : ["*type* weapon"],
 				"_staticfailureredirect" : "spice.eros.opinion.weapon.name.unknown.!random"
 			},
+			"factoid" : {
+				"Cudgel" : ["Did you know that heavy weapons like maces and clubs can sometimes stun people when they hit?"],
+                "ShortBlades" : ["Are you familiar with short blades like daggers and knives? I hear that they make wounds that bleed profusely."],
+                "LongBlades" : ["I hear long blades are very versatile. Talented swordsmen can use them for defence as well offence."],
+                "Axe" : ["Axes are very dangerous. No only can they crack armour but they can also cleave off whole limbs!"],
+                "Whip" : ["I hear whips are usually used to keep dogs in line?"],
+                "Chain" : ["I hear some people just beat their enemies with chains?"],
+                "HeavyWeapons" : ["I heard heavy ranged weapons often fire explosives!"],
+                "Rifle" : ["I hear bows and rifles are very good for shooting folks at long range."],
+				"Pistol" : ["Did you know some folks weild a pistol in each hand?"],
+				"unknown" : ["Did you know it takes extensive training to master *type*?"],
+				"_staticfailureredirect" : "spice.eros.opinion.weapon.factoid.unknown.!random"
+			},
 			"master" : {
 				// Should pluralize with -s suffix
 				"Cudgel" : ["cudgel-master", "skullcrusher", "greybeard", "greybeard", "priest of all suns", "child of the hearth"],
@@ -1429,13 +1577,14 @@
 				"_staticfailureredirect" : "spice.eros.opinion.weapon.master.unknown.!random"
 			},
 			"verb" : {
+				// Should be rather violent words
 				"Cudgel" : ["bashing", "clobbering", "crushing"],
 				"ShortBlades" : ["stabbing", "piercing", "hobbling", "shanking"],
-				"LongBlades" : ["slashing", "parrying", "fencing"],
+				"LongBlades" : ["slashing", "impaling", "chopping"],
 				"Axe" : ["cleaving", "chopping", "dismembering"],
 				"Whip" : ["whipping", "flaying", "flogging"],
 				"Chain" : ["chain-beating", "chaining up"],
-				"Pistol" : ["shooting", "peppering", "run-and-gunning"],
+				"Pistol" : ["shooting", "peppering", "gunfighting"],
 				"HeavyWeapons" : ["exploding", "laying waste to", "obliterating", "incinerating"],
 				"Rifle" : ["sniping", "sharpshooting", "picking off"],
 				"unknown" : ["attacking"],
@@ -1461,7 +1610,7 @@
 				"story" : [
 					"<spice.eros.opinion.something.dislike.story.!random>",
 					"I worry about people attacking me with <spice.eros.opinion.weapon.name.*type*.!random.article>.",
-					"A <entity.badPerson[random]> once attacked me with <spice.eros.opinion.weapon.name.*type*.!random.article>",
+					"A <entity.badPerson[random]> once attacked me with <spice.eros.opinion.weapon.name.*type*.!random.article>.",
 					"I just don't feel safe around <spice.eros.opinion.weapon.name.*type*.!random>s.",
 					"You look like the kind of person that might carry <spice.eros.opinion.weapon.name.*type*.!random.article>.",
 					"My greatest enemy used to carry <spice.eros.opinion.weapon.name.*type*.!random.article>."
@@ -1475,6 +1624,234 @@
 				"badPerson"  : ["<spice.eros.opinion.weapon.name.*type*.!random>-smith", "<spice.eros.opinion.weapon.master.*type*.!random>"],
 				"badObject"  : ["*sample*"],
 				"badWeapon"  : ["*sample*"]
+			},
+
+			"qa" : {
+				"postal" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1"],
+
+					"contemplate" : [
+						"contemplate",
+						"think about",
+						"fantasize about",
+						"ponder",
+						"dream about"
+					],
+
+					"question" : [
+						"Do you ever <^.contemplate.!random> just <spice.eros.opinion.weapon.verb.*type*.!random> people?",
+						"Would you <^.contemplate.!random> <spice.eros.opinion.weapon.verb.*type*.!random> a stranger?"
+					],
+					"like" : {
+						"a" : [
+							"&cOh yes, quite often.",
+							"&cAbsolutely, if I'm in the frame of mind.",
+							"&cI essentially do that for a living.",
+							"&cOn bad days."
+						],
+						"agree" : [
+							"Oh good. I thought I was the only one.",
+							"Thanks for letting me vent.",
+							"Ha ha. Glad I got that off my chest. Ha."
+						],
+						"disagree" : [
+							"Really? That is troubling.",
+							"Well, you had better do it far away from me.",
+							"That's horrible!"
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rNo, that sounds bad.",
+							"&rWhat? No!",
+							"&rNo, only in self-defense."
+						],
+						"agree" : [
+							"It's awful just to think about, isn't it? How scary!",
+							"Then you have good moral sensibilities.",
+							"You're better than most."
+						],
+						"disagree" : [
+							"Oh, I guess that's bad. Sorry.",
+							"Just... Forget I said anything.",
+							"Everybody thinks about it, you know.",
+							"We'll see how far that thinking gets you in Qud."
+						]
+					}
+				},
+
+				"factoid" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$no;disagree;-1$skeptic;response;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$no;agree;+1$skeptic;response;-1"],
+
+					"question" : [
+						"<spice.eros.opinion.weapon.factoid.*type*.!random>",
+						"<spice.eros.opinion.weapon.factoid.*type*.!random>"
+					],
+					"like" : {
+						"good" : ["good", "great", "glorious", "wonderful", "fantastic", "magnificent"],
+
+						"a" : [
+							"&cI have seen as much.  It is <^.good.!random>.",
+							"&cIndeed, they are <^.good.!random> weapons.",
+							"&cThat is useful knowledge in the right hands.",
+							"&cI get excited just thinking about it."
+						],
+						"agree" : [
+							"So fascinating!",
+							"It makes me feel like practicing!",
+							"Thanks, I've been studying."
+						],
+						"disagree" : [
+							"Oh, how scary.",
+							"Really? I think it's rather violent.",
+							"I must disagree."
+						]
+					},
+					"dislike" : {
+						"bad" : ["bad", "awful", "piteous", "terrible", "nightmarish", "horrific"],
+
+						"a" : [
+							"&rI have seen as much.  It is <^.bad.!random>.",
+							"&rIndeed, they are <^.bad.!random> weapons.",
+							"&rThat is, unfortunately, true.",
+							"&rI shudder to think about it."
+						],
+						"agree" : [
+							"Yes it seems quite dangerous.",
+							"Indeed, who would stoop to such violence?",
+							"There are wicked things out there."
+						],
+						"disagree" : [
+							"Oh? I think it sounds very impressive.",
+							"I must disagree.",
+							"That's a rather cowardly attitude, isn't it?"
+						]
+					},
+					"skeptic" : {
+						"a" : [
+							"&yI'm not sure that is true.",
+							"&yI find that hard to believe."
+						],
+						"response" : [
+							"Oh, isn't it? How odd.",
+							"I have that on good authority!",
+							"I know what I'm talking about.",
+							"Why would I misinform you?"
+						]
+					}
+				},
+
+				"seen" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$no;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$no;agree;+1"],
+
+					"question" : [
+						"Have you ever seen *a_sample*?"
+					],
+					"like" : {
+						"a" : [
+							"&cOh yes, I have seen *a_sample*. It was great."
+						],
+						"agree" : [
+							"Wow, how excellent!"
+						],
+						"disagree" : [
+							"Oh, I don't think I would agree.",
+							"Oh, I guess we have different tastes."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rI have but I didn't like it."
+						],
+						"agree" : [
+							"I agree, I saw one once and didn't like it."
+						],
+						"disagree" : [
+							"Oh, I guess we have different tastes.",
+							"Really? That's a shame."
+						]
+					},
+					"no" : {
+						"a" : [
+							"&yNo, I've not seen such a thing.",
+							"&yI have not.",
+							"&yI'm afraid I haven't."
+						],
+						"agree" : [
+							"Oh, that's disappointing.",
+							"Perhaps someday you will.",
+							"Well, you're missing out."
+						],
+						"disagree" : [
+							"That's probably for the best.",
+							"You are not missing much.",
+							"Keep it that way.",
+							"Frankly, I'm jealous."
+						]
+					}
+				},
+
+				"show_me" : {
+					"item_types" : "MeleeWeapon;MissileWeapon",
+					"show_prompt" : "show;approve;+2;neutral;0;disapprove;-1",
+					"gen_good" : ["S$question_good$<^.item_types>$<^.show_prompt>$none;disapprove;-1"],
+					"gen_bad"  : ["S$question_bad$<^.item_types>$<^.show_prompt>$none;approve;1"],
+
+					"interesting" : [ "interesting", "fearsome", "exotic"],
+					"peculiar" : ["interesting", "strange", "exotic"],
+					"weapons" : ["weapons", "armaments", "combat gear"],
+
+					"question_good" : ["Do you have any <^.interesting.!random> <^.weapons.!random>?"],
+					"question_bad" : ["Do you have any <^.peculiar.!random> <^.weapons.!random>?"],
+					
+					"show" : {
+						"a" : [
+							"I have this *sample*.",
+							"I have *a_sample*.",
+							"How about this *sample*?",
+							"This *sample* serves me well.",
+							"*A_sample*; look, don't touch."
+						],
+
+						"approve" : [
+							"Wow, that's very interesting!",
+							"That's a nice piece of gear.",
+							"You must feel safe carrying one of those!",
+							"Nice, very nice."
+						],
+						"disapprove" : [
+							"Hmm, that seems dangerous.",
+							"Watch where you're pointing that.",
+							"Please, put that away.",
+							"Don't tell me you use that."
+						],
+						"neutral" : [
+							"Oh, is that all?",
+							"That's not very interesting.",
+							"I suppose it gets the job done."
+						]
+					},
+
+					"none" : {
+						"a" : [
+							"&rNot really, no.",
+							"&rI prefer to avoid them.",
+							"&rNothing worth mentioning."
+						],
+
+						"approve" : [
+							"That's sensible. You probably don't need any.",
+							"Well, no sense weighing yourself down."
+						],
+						"disapprove" : [
+							"That's a pity.",
+							"Ah, I had my hopes up."
+						]
+					}
+				}
 			}
 		},
 
@@ -1531,6 +1908,54 @@
 					"I met *a_sample*"
 				],
 				"badPerson"  : ["*sample*"]
+			},
+
+			"qa" : {
+				"them" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1"],
+
+					"question" : [
+						"What do you think of *type*?",
+						"How do you feel about *type*?",
+						"What is your opinion of *type*?"
+					],
+					"like" : {
+						"a" : [
+							"&cI am quite fond of them.",
+							"&cI find them admirable.",
+							"&c*type* are close to my heart."
+						],
+						"agree" : [
+							"They are lovely, aren't they?",
+							"If only everyone thought like you.",
+							"You are a good judge of character."
+						],
+						"disagree" : [
+							// Not gonna lie, sib is kinda racist
+							"Oh, You must keep awful company.",
+							"Well, I could care less about them.",
+							"Don't turn your back on one."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rLoathsome creatures, one and all.",
+							"&rThey are wretched.",
+							"&rI can't stand them."
+						],
+						"agree" : [
+							"Aren't they horrible?",
+							"You can say that again!",
+							"You are a good judge of character."
+						],
+						"disagree" : [
+							"That's very judgemental.",
+							"Perhaps you should open your mind.",
+							"What terrible prejudice!"
+						]
+					}
+				}
 			}
 		},
 
@@ -1544,7 +1969,7 @@
 					"Once, *profaneThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.badWeapon[random]>."
 				],
 				"goodObject" : ["*sacredThing*"],
-				"badObject"  : ["*profaneThing"]
+				"badObject"  : ["*profaneThing*"]
 			},
 			"dislike" : {
 				"story" : [
@@ -1555,6 +1980,93 @@
 				],
 				"goodObject" : ["*profaneThing*"],
 				"badObject"  : ["*sacredThing*"]
+			},
+
+			"qa" : {
+				"sacredThing" : {
+					"gen_good"  : ["Q$question$like;agree;+1$dislike;disagree;-1"],
+					"gen_bad"   : ["Q$question$like;disagree;-1$dislike;agree;+1"],
+
+					"what_about" : [
+						"What do you think of",
+						"How do you feel about",
+						"What is your opinion of"
+					],
+
+					"question" : ["<^.what_about.!random> *sacredThing*?"],
+					
+					"like" : {
+						"a" : [
+							"&cI approve.",
+							"&cI am supportive.",
+							"&cI find the thought reassuring."
+						],
+						"agree" : [
+							// RC patriotic
+							"Really lovely, no?",
+							"It's the way things were meant to be.",
+							"I'm glad you understand us."
+						],
+						"disagree" : [
+							"Oh, You must keep awful company.",
+							"You're no different from the others!",
+							"You should try thinking for yourself."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rIt is terrible.",
+							"&rCompletely unacceptable.",
+							"&rI find the thought disturbing."
+						],
+						"agree" : [
+							"Isn't it horrible?",
+							"At least someone thinks so.",
+							"Haha!  But keep your voice down."
+						],
+						"disagree" : [
+							// RC patriotic
+							"That's very judgemental.",
+							"You shouldn't say things like that!",
+							"You do not understand our ways."
+						]
+					}
+				},
+				"profaneThing" : {
+					"gen_good"  : ["Q$question$like;disagree;-1$dislike;agree;+1"],
+					"gen_bad"   : ["Q$question$like;agree;+1$dislike;disagree;-1"],
+
+					"question" : ["<spice.eros.opinion.patriot.qa.sacredThing.what_about.!random> *profaneThing*?"],
+
+					"like" : {
+						"a" : ["<spice.eros.opinion.patriot.qa.sacredThing.like.a.!random>"],
+						"agree" : [
+							"They aren't so bad, are they?",
+							"I'm glad you have an open mind.",
+							"At least someone thinks so."
+						],
+						"disagree" : [
+							// RC patriotic
+							"Such blasphemy!",
+							"That's not going to fly around here.",
+							"I suggest you rethink your values."
+						]
+					},
+					"dislike" : {
+						"a" : ["<spice.eros.opinion.patriot.qa.sacredThing.dislike.a.!random>"],
+						"agree" : [
+							// RC patriotic
+							"Isn't it horrid?",
+							"I'm glad we don't tolerate it here.",
+							"It makes me sick just thinking about it."
+						],
+						"disagree" : [
+							"Then you are a fool.",
+							"You should try thinking for yourself.",
+							"You're no different from the others!"
+						]
+					}
+				}
 			}
 		},
 
@@ -1590,6 +2102,68 @@
 					"I had a frightening vision of *sultan*"
 				],
 				"badObject"  : ["*sultanObject*"]
+			},
+
+			"qa" : {
+				"heard" : {
+					"gen_good" : ["Q$question$like;agree;+1$dislike;disagree;-1$no;disagree;-1"],
+					"gen_bad"  : ["Q$question$like;disagree;-1$dislike;agree;+1$no;agree;+1"],
+
+					"question" : [
+						"Have you heard of *sultanLong*?",
+						"Do you know the tales of *sultanLong*?",
+						"Do you ever think about *sultanLong*?"
+					],
+					"like" : {
+						"a" : [
+							"&cI have! An admirable hero.",
+							"&cA truly great leader.",
+							"&cI think of <entity.objectPronoun> often."
+						],
+						"agree" : [
+							"Wasn't <entity.subjectPronoun> amazing?",
+							"Sometimes I think Qud needs another leader like that.",
+							"To think such a person could have lived!"
+						],
+						"disagree" : [
+							"Oh, I think I disagree.",
+							"You do know *sultan* killed a lot of people, right?",
+							"Only a fool believes that."
+						]
+					},
+					"dislike" : {
+						"a" : [
+							"&rI am familiar with the tales of this villain.",
+							"&rMay <entity.subjectPronoun> stay dead.",
+							"&rUnfortunately, yes."
+						],
+						"agree" : [
+							"Wasn't <entity.subjectPronoun> horrible?",
+							"Why anyone venerates <entity.objectPronoun> I will never understand.",
+							"Sometimes I have nightmares about <entity.objectPronoun>."
+						],
+						"disagree" : [
+							"That's very judgmental.",
+							"I'd like to see you do better.",
+							"What a thing to say!"
+						]
+					},
+					"no" : {
+						"a" : [
+							"&yI've not heard of this *sultan*."
+						],
+						"agree" : [
+							"Well <entity.subjectPronoun> was a terror.",
+							"It was a dark chapter in Qud's history.",
+							"Maybe it's better that way."
+						],
+						"disagree" : [
+							"Well <entity.subjectPronoun> was a hero.",
+							"Gracious, you should educate yourself!",
+							"Gracious, you should educate yourself!"
+						]
+					}
+				}
 			}
 		}
 	}

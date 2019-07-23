@@ -93,7 +93,7 @@ namespace XRL.World.Parts
         }
 
         public string randomGood(){
-            string element = goods().GetRandomElement();
+            string element = goods().GetRandomElement(Stat.Rnd2);
             // GameObject GO = GameObject.create(element);
             // if(GO == null){
                 return element;
@@ -101,7 +101,7 @@ namespace XRL.World.Parts
             // return GO.a+GO.DisplayNameOnly;
         }
         public string randomBad(){
-            string element = bads().GetRandomElement();
+            string element = bads().GetRandomElement(Stat.Rnd2);
             // GameObject GO = GameObject.create(element);
             // if(GO == null){
                 return element;
@@ -140,15 +140,23 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
+            var vars = new Dictionary<string, string>();
+
             if(g<0.5){
-                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomGood()+"?";
+                vars["*sacredThing*"] = randomGood();
+                return Build_QA_Node(node, "patriot.qa.sacredThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomGood()+"?";
                 node.AddChoice("likethem","I approve.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
-                node.AddChoice("dislikethem","It is terrible.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);
+                node.AddChoice("dislikethem","It is terrible.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
             }else
             if(g<1){
-                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomBad()+"?";
+                vars["*profaneThing*"] = randomBad();
+                return Build_QA_Node(node, "patriot.qa.profaneThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomBad()+"?";
                 node.AddChoice("likethem","I approve.",amount>0?"Such blasphemy!":"They aren't so bad, are they?.",amount>0?1:-1);
-                node.AddChoice("dislikethem","It is terrible.",amount>0?"Isn't it horrid?":"Then you are a fool.",amount>0?-1:1);
+                node.AddChoice("dislikethem","It is terrible.",amount>0?"Isn't it horrid?":"Then you are a fool.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
