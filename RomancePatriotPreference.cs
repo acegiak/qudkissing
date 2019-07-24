@@ -93,7 +93,7 @@ namespace XRL.World.Parts
         }
 
         public string randomGood(){
-            string element = goods().GetRandomElement();
+            string element = goods().GetRandomElement(Stat.Rnd2);
             // GameObject GO = GameObject.create(element);
             // if(GO == null){
                 return element;
@@ -101,7 +101,7 @@ namespace XRL.World.Parts
             // return GO.a+GO.DisplayNameOnly;
         }
         public string randomBad(){
-            string element = bads().GetRandomElement();
+            string element = bads().GetRandomElement(Stat.Rnd2);
             // GameObject GO = GameObject.create(element);
             // if(GO == null){
                 return element;
@@ -140,15 +140,23 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
+            var vars = new Dictionary<string, string>();
+
             if(g<0.5){
-                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomGood()+"?";
+                vars["*sacredThing*"] = randomGood();
+                return Build_QA_Node(node, "patriot.qa.sacredThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomGood()+"?";
                 node.AddChoice("likethem","I approve.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
-                node.AddChoice("dislikethem","It is terrible.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);
+                node.AddChoice("dislikethem","It is terrible.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
             }else
             if(g<1){
-                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomBad()+"?";
+                vars["*profaneThing*"] = randomBad();
+                return Build_QA_Node(node, "patriot.qa.profaneThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomBad()+"?";
                 node.AddChoice("likethem","I approve.",amount>0?"Such blasphemy!":"They aren't so bad, are they?.",amount>0?1:-1);
-                node.AddChoice("dislikethem","It is terrible.",amount>0?"Isn't it horrid?":"Then you are a fool.",amount>0?-1:1);
+                node.AddChoice("dislikethem","It is terrible.",amount>0?"Isn't it horrid?":"Then you are a fool.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
@@ -169,32 +177,18 @@ namespace XRL.World.Parts
 
         
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
             if(Stat.Rnd2.NextDouble()<0.5f){
+                var vars = new Dictionary<string, string>();
+                string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.patriot.like.story.!random>" :
+                    "<spice.eros.opinion.patriot.dislike.story.!random>");
                 while(this.tales.Count < 5){
-                    List<string> Stories = null;
-                    if(amount>0){
-                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-                        item.MakeUnderstood();
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about  ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once,  ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
-
-                            "Once, I had a dream about a ==examplebad==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once,  ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
-                        });
-                    }else{
-                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
-                        item.MakeUnderstood();
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about  ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once,  ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
-
-                            "Once, I had a dream about a ==examplebad==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once,  ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
-                        });
-                    }
-                    this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
+                    vars["*sacredThing*"]  = randomGood();
+                    vars["*profaneThing*"] = randomBad();
+                    this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                        acegiak_RomanceText.ExpandString(
+                        storyTag, entity, vars));
                 }
                 return tales[Stat.Rnd2.Next(tales.Count)];
             }
@@ -208,28 +202,13 @@ namespace XRL.World.Parts
 
         }
         public override string getstoryoption(string key){
-            // GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            // if(GO != null){
-                if(key == "goodobject" && this.amount > 0){
-                    return randomGood();
-                }
-                if(key == "badobject" && this.amount > 0){
-                    return randomBad();
-                }
-                if(key == "badobject" && this.amount < 0){
-                    return randomGood();
-                }
-                if(key == "goodobject" && this.amount < 0){
-                    return randomBad();
-                }
-                // if(key == "goodthinghappen" && this.amount > 0){
-                //     return "I met "+GO.a+GO.ShortDisplayName;
-                // }
-                // if(key == "badthinghappen" && this.amount < 0){
-                //     return "I met "+GO.a+GO.ShortDisplayName;
-                // }
-            // }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*sacredThing*"] = randomGood();
+            vars["*profaneThing*"] = randomBad();
+            
+            return acegiak_RomanceText.ExpandString(
+                "<spice.eros.opinion.patriot." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                vars);
         }
          public override void Save(SerializationWriter Writer){
             base.Save(Writer);

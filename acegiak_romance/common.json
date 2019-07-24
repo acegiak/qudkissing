@@ -1,0 +1,194 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : {"eros" : {
+
+	// General Helpers
+	"Rc" : "=subject.The==subject.name=&M",
+	"rc" : "=subject.the==subject.name=&M",
+
+	"impatient" :
+	{
+		"generic" : [
+			"Sorry, I have other things to do.",
+			"Anyway, I'm very busy.",
+			"Maybe we could talk some more another time?"
+		]
+	},
+
+	"disposition" :
+	{
+		"now_poor": "<spice.eros.Rc> frowns.",
+		"now_good": "<spice.eros.Rc> smiles.",
+		"now_great": "<spice.eros.Rc> grins at you."
+	},
+
+	// General reactions and common code.
+	//    like & dislike reactions may be mixed.
+	//    most characters won't mix flirts and insults
+	"react" :
+	{
+		"jumble" : [
+			"<spice.eros.react.amorous.!random.!random>",
+			"<spice.eros.react.amorous.!random.!random>",
+			"<spice.eros.react.relationship.!random.!random.!random>",
+			"<spice.eros.react.relationship.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.stat.!random.!random.!random.!random>",
+			"<spice.eros.react.part.!random.!random.!random.!random>",
+			"<spice.eros.react.part.!random.!random.!random.!random>",
+			"<spice.eros.react.skill.!random.!random.!random.!random>"
+		],
+
+		"generic" :
+		{
+			"like" : [
+				"<spice.eros.Rc> =verb:lean= briefly toward you.",
+				"<spice.eros.Rc> =verb:smile=.",
+				"<spice.eros.Rc> =verb:sigh=.",
+				"<spice.eros.Rc> =verb:relax=."
+			],
+			"dislike" : [
+				"<spice.eros.Rc> =verb:shift= away from you.",
+				"<spice.eros.Rc> =verb:purse= =pronouns.possessive= lips.",
+				"<spice.eros.Rc> =verb:draw= a sharp breath.",
+				"<spice.eros.Rc> =verb:go= still."
+			],
+			"flirt" : [
+				"I've dreamt of finding someone like you, someplace, <spice.history.regions.terrain.!random.over.!random>...",
+				"It's nice to see you.",
+				"Stay a while, OK?"
+			],
+			"insult" : [
+				"Begone, to someplace far and <spice.history.regions.terrain.!random.over.!random>!",
+				"You're such a waste of time.",
+				"Are you finished?"
+			]
+		},
+
+		// Generic body reactions (could be to high/low stats, parts present/absent, etc)
+		"body" : {
+			"like" : [
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.Rc> =verb:look= you over approvingly.",
+				"<spice.eros.Rc> =verb:turn= to face you."
+			],
+			"dislike" : [
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.Rc> =verb:adopt= a closed posture.",
+				"<spice.eros.Rc> =verb:keep= some distance between you."
+			],
+			"flirt" : [
+				"<spice.eros.react.generic.flirt.!random>",
+				"You are just my type.",
+				"You're easy on the eyes, you know that?",
+				"I could look at you for hours.",
+				"By the eaters, where was such a likeness <spice.professions.!random.forged>?"
+			],
+			"insult" : [
+				"<spice.eros.react.generic.insult.!random>",
+				"You are not my type.",
+				"You are not my type.",
+				"Your form was <spice.professions.!random.forged> by someone, yes?  They should try again.",
+				"You would do well to study shapeshifting."
+			]
+		},
+
+		// Assuming RCs will only feel strongly about presence (not absence) of skills
+		"skill" :
+		{
+			"any" : {
+				"have" : {
+					"like"    : ["<spice.eros.react.generic.like.!random>",
+						"<spice.eros.Rc> =verb:seem= impressed with your skills.",
+						"<spice.eros.Rc> =verb:look= at you with curiosity."
+					],
+					"dislike" : ["<spice.eros.react.generic.dislike.!random>",
+						"<spice.eros.Rc> =verb:look= at you disapprovingly.",
+						"<spice.eros.Rc> =verb:betray= a hint of resentment."
+					],
+					"flirt"   : ["<spice.eros.react.generic.flirt.!random>",
+						"I really admire your knowledge of *skill*.",
+						"So, how did you learn *skill*?"
+					],
+					"insult"  : ["<spice.eros.react.generic.insult.!random>",
+						"Only fools and charlatans dabble in *skill*!",
+						"*skill* are not going to save you from Qud."
+					]
+				}
+			}
+		}
+	},
+
+	// Stories based on romance preferences
+	"opinion" :
+	{
+		// Story option defaults.
+		//   In the future, it may be possible to define new types of storyOption here.
+		"storyOption" :
+		{
+			"goodThingHappen" : [
+				"I saw a rainbow",
+				"all my anxieties seemed to melt away",
+				"I found a confidence I never knew I had"
+			],
+			"badThingHappen"  : [
+				"I got hit with a rock",
+				"I felt utterly devoid of energy",
+				"I became violently ill"
+			],
+			"aGoodPerson" : [
+				"a friendly person",
+				"a dear friend",
+				"a kind stranger"
+			],
+			"aBadPerson"  : [
+				"a wicked person",
+				"a terrible fiend",
+				"an unspeakable monster"
+			],
+			"aGoodObject" : [
+				"a wondrous thing",
+				"a prized possession",
+				"a spectacular artifact"
+			],
+			"aBadObject"  : [
+				"an unspeakable thing",
+				"a piece of suspicious merchandise",
+				"a cursed artifact"
+			],
+			"goodArmor"  : [
+				"magnificent clothing",
+				"artful dressings",
+				"heroic raiments"
+			],
+			"badArmor"   : [
+				"unspeakable adornments",
+				"villainous countenance",
+				"insidious garb"
+			],
+			"aGoodWeapon" : [
+				"righteous fury",
+				"sheer force of will"
+			],
+			"aBadWeapon"  : [
+				"murderous intent",
+				"a vicious malice"
+			]
+		},
+
+		"something" :
+		{
+			"like" : {
+				"story" : [
+					"Once, I had a dream about *a_sample*.  The next day, <entity.goodThingHappen[random]>!"
+				]
+			},
+			"dislike" : {
+				"story" : [
+					"Once, I had a dream about *a_sample*.  The next day, <entity.badThingHappen[random]>!"
+				]
+			}
+		}
+	}
+}}}

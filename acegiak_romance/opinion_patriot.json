@@ -1,0 +1,119 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	// Patriotic RCs share and reaffirm the values of their community.
+	// Unpatriotic RCs dissent against their community's values and think for themselves.
+	"patriot" :
+	{
+		"like" : {
+			"story" : [
+				"Once, I had a dream about *sacredThing*.  The next day, <entity.goodThingHappen[random]>!",
+				"Once, I had a dream about *profaneThing*.  The next day, <entity.badThingHappen[random]>!",
+				"Once, *sacredThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.aGoodObject[random]>.",
+				"Once, *profaneThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.aBadWeapon[random]>."
+			],
+			"aGoodObject" : ["*sacredThing*"],
+			"aBadObject"  : ["*profaneThing*"]
+		},
+		"dislike" : {
+			"story" : [
+				"Once, I had a dream about *profaneThing*.  The next day, <entity.goodThingHappen[random]>!",
+				"Once, I had a dream about *sacredThing*.  The next day, <entity.badThingHappen[random]>!",
+				"Once, *profaneThing* <spice.eros.opinion.faction.like.sharedWithMe.!random> <entity.aGoodObject[random]>.",
+				"Once, *sacredThing* <spice.eros.opinion.faction.dislike.menacedMeWith.!random> <entity.aBadWeapon[random]>."
+			],
+			"aGoodObject" : ["*profaneThing*"],
+			"aBadObject"  : ["*sacredThing*"]
+		},
+
+		"qa" : {
+			"sacredThing" : {
+				"gen_good"  : ["Q|question|like,agree,+1|dislike,disagree,-1"],
+				"gen_bad"   : ["Q|question|like,disagree,-1|dislike,agree,+1"],
+
+				"what_about" : [
+					"What do you think of",
+					"How do you feel about",
+					"What is your opinion of"
+				],
+
+				"question" : ["<^.what_about.!random> *sacredThing*?"],
+				
+				"like" : {
+					"a" : [
+						"&cI approve.",
+						"&cI am supportive.",
+						"&cI find the thought reassuring."
+					],
+					"agree" : [
+						// RC patriotic
+						"Really lovely, no?",
+						"It's the way things were meant to be.",
+						"I'm glad you understand us."
+					],
+					"disagree" : [
+						"Oh, You must keep awful company.",
+						"You're no different from the others!",
+						"You should try thinking for yourself."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rIt is terrible.",
+						"&rCompletely unacceptable.",
+						"&rI find the thought disturbing."
+					],
+					"agree" : [
+						"Isn't it horrible?",
+						"At least someone thinks so.",
+						"Haha!  But keep your voice down."
+					],
+					"disagree" : [
+						// RC patriotic
+						"That's very judgemental.",
+						"You shouldn't say things like that!",
+						"You do not understand our ways."
+					]
+				}
+			},
+			"profaneThing" : {
+				"gen_good"  : ["Q|question|like,disagree,-1|dislike,agree,+1"],
+				"gen_bad"   : ["Q|question|like,agree,+1|dislike,disagree,-1"],
+
+				"question" : ["<spice.eros.opinion.patriot.qa.sacredThing.what_about.!random> *profaneThing*?"],
+
+				"like" : {
+					"a" : ["<spice.eros.opinion.patriot.qa.sacredThing.like.a.!random>"],
+					"agree" : [
+						"They aren't so bad, are they?",
+						"I'm glad you have an open mind.",
+						"At least someone thinks so."
+					],
+					"disagree" : [
+						// RC patriotic
+						"Such blasphemy!",
+						"That's not going to fly around here.",
+						"I suggest you rethink your values."
+					]
+				},
+				"dislike" : {
+					"a" : ["<spice.eros.opinion.patriot.qa.sacredThing.dislike.a.!random>"],
+					"agree" : [
+						// RC patriotic
+						"Isn't it horrid?",
+						"I'm glad we don't tolerate it here.",
+						"It makes me sick just thinking about it."
+					],
+					"disagree" : [
+						"Then you are a fool.",
+						"You should try thinking for yourself.",
+						"You're no different from the others!"
+					]
+				}
+			}
+		}
+	}
+}}}}

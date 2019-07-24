@@ -19,7 +19,8 @@ namespace XRL.World.Parts
 
         public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             string explain = ((Amount>0)?"is generally amorous":"is &rnot very amorous");
-            return new acegiak_KissingPreferenceResult(Amount,explain);
+            string reactPath = "amorous";
+            return new acegiak_KissingPreferenceResult(Amount,explain,reactPath);
         }
 
     }

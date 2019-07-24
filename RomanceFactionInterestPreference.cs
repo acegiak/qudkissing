@@ -7,6 +7,7 @@ using XRL.World;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -92,12 +93,9 @@ namespace XRL.World.Parts
             return null;
         }
 
-        public string examplename(){
+        public GameObject exampleCreature() {
             GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            if(GO == null){
-                return "member of "+factionName();
-            }
-            return GO.ShortDisplayName;
+            return GO;
         }
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
@@ -105,10 +103,16 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+
             if(g<1){
-                bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+factionName()+"?";
+                //SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "faction.qa.them", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+factionName()+"?";
                 node.AddChoice("likethem","I am quite fond of them.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
-                node.AddChoice("dislikethem","<Loathsome creatures, one and all|They are wretched|I can't stand them>.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);
+                node.AddChoice("dislikethem","<Loathsome creatures, one and all|They are wretched|I can't stand them>.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
@@ -129,48 +133,31 @@ namespace XRL.World.Parts
 
         
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+            string storyTag = ((amount > 0) ?
+                "<spice.eros.opinion.faction.like.story.!random>" :
+                "<spice.eros.opinion.faction.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                        "Once, a ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
-                        "I think ==type== are neat."
-                    });
-                }else{
-                    GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
-                    item.MakeUnderstood();
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about a ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                        "Once, a ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
-                        "I just <hate|can't stand> ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",factionName()).Replace("==example==",examplename()));
+                SetSampleObject(vars, exampleCreature(), "member of " + factionName());
+                this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                    acegiak_RomanceText.ExpandString(
+                    storyTag, entity, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
 
         }
         public override string getstoryoption(string key){
             GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
-            if(GO != null){
-                if(key == "goodperson" && this.amount > 0){
-                    return GO.a+GO.ShortDisplayName;
-                }
-                if(key == "badperson" && this.amount < 0){
-                    return GO.a+GO.ShortDisplayName;
-                }
-                if(key == "goodthinghappen" && this.amount > 0){
-                    return "I met "+GO.a+GO.ShortDisplayName;
-                }
-                if(key == "badthinghappen" && this.amount < 0){
-                    return "I met "+GO.a+GO.ShortDisplayName;
-                }
-            }
-            return null;
+            if (GO == null) return null;
+
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+            SetSampleObject(vars, GO);
+            return acegiak_RomanceText.ExpandString(
+                "<spice.eros.opinion.faction." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                vars);
         }
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);

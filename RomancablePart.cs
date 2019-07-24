@@ -11,21 +11,23 @@ using System.Text.RegularExpressions;
 using XRL.World.AI.GoalHandlers;
 using Qud.API;
 using HistoryKit;
+using SimpleJSON;
 using System.ComponentModel;
 using UnityEngine;
+using ConsoleLib.Console;
 
 namespace XRL.World.Parts
 {
 	[Serializable]
 	public class acegiak_Romancable : IPart
 	{
-		public string useFactionForFeelingFloor;
+		//public string useFactionForFeelingFloor;
 
 		public bool kissableIfPositiveFeeling;
 
-		private bool bOnlyAllowIfLiked = true;
+		//private bool bOnlyAllowIfLiked = true;
 
-		private Dictionary<string,int> FavoriteThings = null;
+		//private Dictionary<string,int> FavoriteThings = null;
 
 		[NonSerialized]
 		public List<acegiak_RomancePreference> preferences = null;
@@ -49,15 +51,6 @@ namespace XRL.World.Parts
 		{
 			base.Name = "acegiak_Romancable";
 			
-		}
-
-		public static string FilterRandom(string s)
-    {
-			return Regex.Replace(s, @"<(.*?)>", delegate(Match match)
-			{
-				string[] v = match.Groups[1].ToString().Split('|');
-				return v[Stat.Rnd2.Next(v.Length)];
-			});
 		}
 
 		public void havePreference(){
@@ -283,10 +276,15 @@ namespace XRL.World.Parts
 					node.Choices.Add(returntostart);
 			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
 				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
-				node = boon.BuildNode(node);
-				node.Text = FilterRandom(node.Text);
-				foreach(ConversationChoice choice in node.Choices){
-					choice.Text = FilterRandom(choice.Text);
+				try
+				{
+					node = boon.BuildNode(node);
+					node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
+					node.ExpandText(GetSelfEntity());
+				}
+				catch (Exception e)
+				{
+					node.Text = e.ToString() + "\n\n" + node.Text;
 				}
 			}else{
 				int c = 0;
@@ -296,12 +294,16 @@ namespace XRL.World.Parts
 					c++;
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;
-				node = preferences[whichquestion].BuildNode(node);
-				node.Text = FilterRandom(node.Text);
-				foreach(ConversationChoice choice in node.Choices){
-					choice.Text = FilterRandom(choice.Text);
+				try
+				{
+					node = preferences[whichquestion].BuildNode(node);
+					node.InsertMyReaction(ParentObject,XRLCore.Core.Game.Player.Body);
+					node.ExpandText(GetSelfEntity());
 				}
-
+				catch (Exception e)
+				{
+					node.Text = e.ToString() + "\n\n" + node.Text;
+				}
 
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5){
 					acegiak_RomanceChatChoice giftoption = new acegiak_RomanceChatChoice();
@@ -355,8 +357,11 @@ namespace XRL.World.Parts
 		}
 
 		public string GetStory(acegiak_RomanceChatNode node){
-			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)].GetStory(node);
-			return story;
+			string story = preferences[Stat.Rnd2.Next(0,preferences.Count-1)]
+				.GetStory(node, GetSelfEntity());
+			story = ConsoleLib.Console.ColorUtility.StripFormatting(story);
+			if (story.Count() > 0) return story;
+			return "&RI was going to tell you a story, but I forgot it.&y";
 		}
 
 
@@ -458,7 +463,80 @@ namespace XRL.World.Parts
 			return base.FireEvent(E);
 		}
 
-		public string storyoptions(string key,string alt){
+		//private HistoricEntity selfHistory;
+		private HistoricEntitySnapshot selfEntity;
+
+		static string[] StoryOptionTags =
+		{
+			"goodThingHappen",
+			"badThingHappen",
+			"aGoodObject",
+			"aBadObject",
+			"aGoodPerson",
+			"aBadPerson",
+			"aGoodWeapon",
+			"aBadWeapon",
+			"goodArmor",
+			"badArmor"
+		};
+		private HistoricEntitySnapshot GetSelfEntity()
+		{
+			if (selfEntity != null) return selfEntity;
+
+			havePreference();
+
+			var myBody = ParentObject.GetPart<Body>().GetBody();
+			//PronounSet pronouns = ParentObject.GetPronounSet();
+
+			//selfHistory = new HistoricEntity();
+			selfEntity = new HistoricEntitySnapshot(null);
+			selfEntity.setProperty("name", ParentObject.The + ParentObject.DisplayNameOnlyDirect);
+
+			// Should not use these pronoun forms
+            selfEntity.setProperty("subjectPronoun", ParentObject.it);
+            selfEntity.setProperty("objectPronoun", ParentObject.them);
+            selfEntity.setProperty("possessivePronoun", ParentObject.its);
+			selfEntity.setProperty("substantivePossessivePronoun", ParentObject.theirs);
+
+			// Populate entity with storyoptions
+			foreach (string option in StoryOptionTags)
+			{
+				var values = new List<string>();
+				foreach (var preference in preferences)
+				{
+					// Three items from each preference?
+					for (int i = 0; i < 3; ++i)
+					{
+						string value = preference.getstoryoption(option);
+						if (value != null && value.Count() != 0)
+							values.Add(value);
+					}
+				}
+				if (values.Count() == 0)
+				{
+					// Backup
+					string vague = null;
+					for (int i = 0; i < 5; ++i)
+					{
+						vague = acegiak_RomanceText.ExpandString(
+							"<spice.eros.opinion.storyOption." + option + ".!random>",
+							selfEntity, null, null);
+						if (vague != null && vague.Count() > 0) break;
+					}
+					
+					if (vague == null || vague.Count() == 0)
+						vague = "(&R" + option + "&y)";
+					else if (vague[0] == '<')
+						vague = "(&R" + vague.Substring(1,vague.Count()-2) + "&y)";
+					values.Add(vague);
+				}
+				selfEntity.listProperties.Add(option, values);
+			}
+
+			return selfEntity;
+		}
+
+		/*public string storyoptions(string key,string alt){
 			List<string> output = new List<string>();
 			foreach(acegiak_RomancePreference preferece in preferences){
 				string newstring = preferece.getstoryoption(key);
@@ -470,7 +548,7 @@ namespace XRL.World.Parts
 				return output[Stat.Rnd2.Next(output.Count)];
 			}
 			return alt;
-		}
+		}*/
 
 		public void AssessDate(GameObject Date,GameObject DateObject){
 			havePreference();

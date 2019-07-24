@@ -1,0 +1,43 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"react" :
+{
+	// Amorous characters have a broad tendency toward attraction.
+	// Un-amorous characters tend to experience less attraction.
+	// Currently these are modeled as "like" and "dislike" but this could be more nuanced.
+	"amorous" :
+	{
+		// Passive amorous
+		"like" : [
+			"<spice.eros.react.generic.like.!random>",
+			"<spice.eros.react.generic.like.!random>",
+			"<spice.eros.Rc> shifts =pronouns.possessive= weight.",
+			"<spice.eros.Rc> =verb:look= around wistfully.",
+			"<spice.eros.Rc> =verb:rustle= softly."
+		],
+		// Passive unamorous
+		"dislike" : [
+			"<spice.eros.react.generic.dislike.!random>",
+			"<spice.eros.react.generic.dislike.!random>",
+			"<spice.eros.Rc> =verb:slouch= a little.",
+			"<spice.eros.Rc> =verb:look= around with a flat expression.",
+			"<spice.eros.Rc> =verb:are= still."
+		],
+		// Amorous flirtation
+		"flirt" : [
+			"<spice.eros.react.generic.flirt.!random>",
+			"Where have you been all my life?",
+			"Why don't you come a little closer?",
+			"You are just what I needed."
+		],
+		// Un-amorous insult.
+		"insult" : [
+			"<spice.eros.react.generic.insult.!random>",
+			"You really help me to appreciate my alone time.",
+			"Please don't touch me.",
+			"Don't get any ideas."
+		]
+	}
+}}}}

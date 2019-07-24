@@ -7,6 +7,7 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -19,20 +20,6 @@ namespace XRL.World.Parts
 
         string ExampleName = "Club";
         List<string> tales = new List<string>();
-
-
-        Dictionary<string, string> presentable = new Dictionary<string, string>()
-        {
-            { "Body", "vestment" },
-            { "Head", "hat" },
-            { "Back", "cloak" },
-            { "Floating Nearby", "floating artifact" },
-            { "Tread", "tread decoration" },
-            { "Hands", "glove" },
-            { "Feet", "boot" },
-            { "Arm", "armlet" },
-            { "Face", "mask" } //also bows :(
-        };
 
 
         public acegiak_ArmorPreference(acegiak_Romancable romancable){
@@ -50,13 +37,17 @@ namespace XRL.World.Parts
         
 
 
-        public string exampleObjectName(){
+        public GameObject exampleObject(){
             GameObject sample = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
             b.InheritsFrom("Armor")
             && (b.GetPartParameter("Armor","WornOn") == this.wantedType ));
 
             sample.MakeUnderstood();
-            return sample.a+sample.DisplayNameOnly;
+            return sample;
+        }
+        public string exampleObjectName(){
+            var obj = exampleObject();
+            return obj.a + obj.DisplayNameOnlyDirectAndStripped;
         }
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
@@ -82,17 +73,23 @@ namespace XRL.World.Parts
 
             float g = (float)Stat.Rnd2.NextDouble();
 
-
+            var vars = new Dictionary<string, string>();
+            vars["*type*"] = wantedType;
             
             if(g<0.50 ){
-                string sample = exampleObjectName();
+
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "armor.qa.seen", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*string sample = exampleObjectName();
                 bodytext = "Have you ever seen a "+sample+"?";
                 node.AddChoice("yesseen","Oh yes, I have seen a "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but I didn't like it.",amount>0?"Oh, I guess we have different tastes.":"I agree, I saw one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
+                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
             
             }else{
-                bodytext = "Do you have any interesting <clothing|armor|vestments>?";
+                return Build_QA_Node(node, "armor.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
+                /*bodytext = "Do you have any interesting <clothing|armor|vestments>?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
@@ -122,7 +119,7 @@ namespace XRL.World.Parts
                     // }
                     
                 }
-                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. You probably don't need any.",amount>0?-1:1);
+                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. You probably don't need any.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
@@ -149,60 +146,28 @@ namespace XRL.World.Parts
 
 
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"] = wantedType;
+            string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.armor.like.story.!random>" :
+                    "<spice.eros.opinion.armor.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+".",
-                        "I think I could probably make ==sample==.",
-                        "I think ==type==s are kind of neat.",
-                        "You look like the kind of person that appreciates a good ==type==.",
-                        "My friend used to wear a fine ==type==."
-                    });
-                }else{
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("badthinghappen","I got hit with a rock.")+".",
-                        "I just don't like the look of ==type==s.",
-                        "You look like the kind of person that wears a lot of ==type==s.",
-                        "My greatest enemy used to wear a ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==sample==",exampleObjectName()));
+                SetSampleObject(vars, exampleObject());
+                this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                    acegiak_RomanceText.ExpandString(
+                    storyTag, entity, null, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
 
-
-        string presentablec(string key){
-            if(!presentable.ContainsKey(key)){
-                return "?"+key;
-            }else{
-                return presentable[key];
-            }
-        }
-
         public override string getstoryoption(string key){
-
-            if(key == "goodobject" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badobject" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodarmor" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badarmor" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw "+exampleObjectName();
-            }
-            if(key == "badthinghappen" && this.amount > 0){
-                return "I had to wear "+exampleObjectName();
-            }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = wantedType;
+            SetSampleObject(vars, exampleObject());
+            return acegiak_RomanceText.ExpandString(
+                "<spice.eros.opinion.armor." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                null, null, vars);
         }
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);

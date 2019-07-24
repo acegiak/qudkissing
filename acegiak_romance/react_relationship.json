@@ -1,0 +1,68 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"react" :
+{
+	// Body language reflecting familiarity and how the RC feels about it
+	"relationship" :
+	{
+		"hi" : {
+			"like" : [
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.Rc> =verb:seem= at ease around you.",
+				"<spice.eros.Rc> =verb:give= you a look of fond familiarity.",
+				"<spice.eros.Rc> =verb:seem= glad to see you again."
+			],
+			"dislike" : [
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.Rc> =verb:seem= a little less interested in you now.",
+				"<spice.eros.Rc> =verb:eye= you with waning interest.",
+				"<spice.eros.Rc> =verb:give= you a look that makes you feel used up."
+			],
+			"flirt" : [
+				"<spice.eros.react.generic.flirt.!random>",
+				"I'm glad I took the time to get to know you.",
+				"Oh, never change."
+			],
+			"insult" : [
+				"<spice.eros.react.generic.insult.!random>",
+				"As I've gotten to know you, I've come to appreciate you're a terrible person.",
+				"I'm not interested anymore."
+			]
+		},
+		"lo" : {
+			// These are much more likely to apply
+			"like" : [
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.react.generic.like.!random>",
+				"<spice.eros.Rc> =verb:look= at you curiously.",
+				"<spice.eros.Rc> =verb:give= you a mysterious look.",
+				"<spice.eros.Rc> =verb:take= in your strangest details."
+			],
+			"dislike" : [
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.react.generic.dislike.!random>",
+				"<spice.eros.Rc> =verb:keep= =pronouns.possessive= distance.",
+				"<spice.eros.Rc> =verb:eye= you cautiously.",
+				"<spice.eros.Rc> =verb:respond= only with hesitation."
+			],
+			"flirt" : [
+				"<spice.eros.react.generic.flirt.!random>",
+				"Howdy, stranger.",
+				"Less talk, please.",
+				"What has the wind brought me today?",
+				"Qud is truly a wondrous place."
+			],
+			"insult" : [
+				"<spice.eros.react.generic.insult.!random>",
+				"Back off, creep!",
+				"I don't know you and I don't want to know you.",
+				"Don't get any ideas.",
+				"Keep your distance."
+			]
+		}
+	}
+}}}}

@@ -7,6 +7,7 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
+using HistoryKit;
 
 namespace XRL.World.Parts
 {
@@ -58,14 +59,18 @@ namespace XRL.World.Parts
             //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
 
         }
-        public string exampleObjectName(){
+        public GameObject exampleObject(){
             GameObject sample = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
             (b.InheritsFrom("MeleeWeapon") ||
             b.InheritsFrom("BaseMissileWeapon"))
             && (b.GetPartParameter("MeleeWeapon","Skill") == this.wantedType || b.GetPartParameter("MissileWeapon","Skill") == this.wantedType));
 
             sample.MakeUnderstood();
-            return sample.a+sample.ShortDisplayName;
+            return sample;
+        }
+        public string exampleObjectName(){
+            var obj = exampleObject();
+            return obj.a + obj.DisplayNameOnlyDirectAndStripped;
         }
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
@@ -101,31 +106,42 @@ namespace XRL.World.Parts
                 }
             }
 
+            var vars = new Dictionary<string, string>();
+            vars["*type*"] = wantedType;
+
             if(g<0.2 && haskey){
-                bodytext = "Do you ever <think about|fantasize about|ponder|dream about> just "+verbs[wantedType]+" people?";
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "weapon.qa.postal", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "Do you ever <think about|fantasize about|ponder|dream about> just "+verbs[wantedType]+" people?";
                 node.AddChoice("yeahcleave","Oh yes, quite often.",amount>0?"Oh good. I thought I was the only one.":"Really? That is troubling.",amount>0?1:-1);
-                node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);
+                node.AddChoice("nahcleave","No, that sounds bad.",amount>0?"Oh, I guess it is. Sorry.":"It does, doesn't it? How scary!",amount>0?-1:1);*/
             }else if(g<0.4 && haskey){
                 bodytext = "How do you like to <slay|attack|fight|combat> your enemies?";
                 foreach(var item in verbs){
                     if((item.Key  == wantedType || Stat.Rnd2.NextDouble() < 0.5)){
                         GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter("MeleeWeapon","Skill")==item.Key ||b.GetPartParameter("MissileWeapon","Skill")==item.Key );
                         if(item.Key == wantedType || (GO != null && Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount>0)){
-                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"&cI <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                         }else{
-                            node.AddChoice(item.Key,"I <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
+                            node.AddChoice(item.Key,"&cI <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"That sounds unpleasant.":"That's quite violent, isn't it?",amount>0?1:-1);
                         }
                     }
                 }
-                node.AddChoice("notmelee","I prefer to avoid combat entirely.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
+                node.AddChoice("notmelee","&rI prefer to avoid combat entirely.",amount>0?"That sounds cowardly.":"That sounds very wise.",amount>0?-1:1);
             }else if(g<0.60 && haskey){
-                string sample = exampleObjectName();
+                SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "armor.qa.seen", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*string sample = exampleObjectName();
                 bodytext = "Have you ever seen "+sample+"?";
                 node.AddChoice("yesseen","Oh yes, I have seen "+sample+". It was great.",amount>0?"Wow, how excellent!":"Oh, I don't think I would agree.",amount>0?1:-1);
                 node.AddChoice("yesseendislike","I have but I didn't like it.",amount>0?"Oh, I guess we have different tastes.":"I agree, I saw one once and didn't like it.",amount>0?-1:1);
-                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);
+                node.AddChoice("notseen","No, I've not seen such a thing.",amount>0?"Oh, that's disappointing.":"That's probably for the best.",amount>0?-1:1);*/
             }else if(g<0.80 ){
-                if(wantedType == "Cudgel"){
+                return Build_QA_Node(node, "weapon.qa.factoid", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*if(wantedType == "Cudgel"){
                     bodytext = "Did you know that heavy weapons like maces and clubs can sometimes stun people when they hit?";}
                 if(wantedType == "ShortBlades"){
                     bodytext = "Are you familiar with short blades like daggers and knives? I hear that they make wounds that bleed profusely";}
@@ -145,9 +161,10 @@ namespace XRL.World.Parts
                     bodytext = "Did you know some folks weild a pistol in each hand?";}
                 node.AddChoice("approve","I have seen as much. It is <glorious|wonderful|fantastic>.",amount>0?"So fascinating!":"Oh, how scary.",amount>0?1:-1);
                 node.AddChoice("disprove","That is, unfortunately, true.",amount>0?"Oh? I think it sounds very impressive.":"Yes it seems quite dangerous.",amount>0?-1:1);
-                node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);
+                node.AddChoice("disagree","I'm not sure that is true.","Oh, isn't it? How odd.",-1);*/
             }else{
-                bodytext = "Do you have any interesting weapons?";
+                return Build_QA_Node(node, "weapon.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
+                /*bodytext = "Do you have any interesting weapons?";
                 List<GameObject> part2 = XRLCore.Core.Game.Player.Body.GetPart<Inventory>().GetObjects();
 
                 List<BodyPart> equippedParts = XRLCore.Core.Game.Player.Body.GetPart<Body>().GetEquippedParts();
@@ -178,7 +195,7 @@ namespace XRL.World.Parts
                     // }
                     
                 }
-                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. Weapons are dangerous.",amount>0?-1:1);
+                node.AddChoice("noweapons","Not really, no.",amount>0?"That's a pity.":"That's sensible. Weapons are dangerous.",amount>0?-1:1);*/
             }
 
             if(Romancable != null){
@@ -208,70 +225,28 @@ namespace XRL.World.Parts
 
 
 
-        public override string GetStory(acegiak_RomanceChatNode node){
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = wantedType;
+            string storyTag = ((amount > 0) ?
+                    "<spice.eros.opinion.weapon.like.story.!random>" :
+                    "<spice.eros.opinion.weapon.dislike.story.!random>");
             while(this.tales.Count < 5){
-                List<string> Stories = null;
-                if(amount>0){
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+".",
-                        "I really love ==typeverb== my enemies.",
-                        "I think I could probably make ==sample==.",
-                        "I think ==type==s are kind of neat.",
-                        "You look like the kind of person that might carry a ==type==.",
-                        "My friend used to carry a ==type==."
-                    });
-                }else{
-                    Stories = new List<string>(new string[] {
-                        "Once, I had a dream about ==sample== and then the next day "+Romancable.storyoptions("badthinghappen","I got hit with a rock.")+".",
-                        "I worry about people attacking me with a ==type==.",
-                        "A "+Romancable.storyoptions("badperson",GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Creature")).ShortDisplayName)+" once attacked me with a ==type==",
-                        "I just don't feel safe around ==type==s.",
-                        "You look like the kind of person that might carry a ==type==.",
-                        "My greatest enemy used to carry a ==type==."
-                    });
-                }
-                this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==type==",presentablec(wantedType)).Replace("==typeverb==",verbsc(wantedType)).Replace("==sample==",exampleObjectName()));
+                SetSampleObject(vars, exampleObject());
+                this.tales.Add(//"  &K"+storyTag.Substring(1,storyTag.Count()-2)+"&y\n"+
+                    acegiak_RomanceText.ExpandString(
+                    storyTag, entity, vars));
             }
             return tales[Stat.Rnd2.Next(tales.Count)];
         }
 
-
-        string presentablec(string key){
-            if(!presentable.ContainsKey(key)){
-                return "?"+key;
-            }else{
-                return presentable[key];
-            }
-        }
-        string verbsc(string key){
-            if(!verbs.ContainsKey(key)){
-                return "?"+key;
-            }else{
-                return verbs[key];
-            }
-        }
-
         public override string getstoryoption(string key){
-
-            if(key == "goodobject" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badobject" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodweapon" && this.amount > 0){
-                return exampleObjectName();
-            }
-            if(key == "badweapon" && this.amount < 0){
-                return exampleObjectName();
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw "+exampleObjectName();
-            }
-            if(key == "badthinghappen" && this.amount < 0){
-                return "I was attacked with "+exampleObjectName();
-            }
-            return null;
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = wantedType;
+            SetSampleObject(vars, exampleObject());
+            return acegiak_RomanceText.ExpandString(
+                "<spice.eros.opinion.weapon." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                vars);
         }
 
 

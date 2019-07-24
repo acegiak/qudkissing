@@ -1,0 +1,465 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"react" :
+{
+	// Stat reactions
+	"stat" :
+	{
+		// Generic reactions to physical stats
+		"physical" : {
+			"hi" : {
+				"like" : [
+					// SHEER ANIMAL MAGNETISM
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.Rc> =verb:look= you up and down, and up again.",
+					"<spice.eros.Rc> =verb:admire= your physique."
+				],
+				"dislike" : [
+					// PLEASE DON'T HURT ME
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= to tense up when you move.",
+					"<spice.eros.Rc> =verb:watch= you cautiously."
+				],
+				"flirt" : [
+					"<spice.eros.react.body.flirt.!random>",
+					"Hmm, look at that body!",
+					"<spice.eros.Rc> =verb:take= a deep breath of you, and sighs."
+				],
+				"insult" : [
+					"<spice.eros.react.body.insult.!random>",
+					"Tried taking a bath lately?",
+					"If I was looking for a beast I wouldn't bother speaking."
+				]
+			},
+			"lo" : {
+				"like" : [
+					// MY TURTLE-DOVE
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.Rc> =verb:look= sympathetically at you.",
+					"<spice.eros.Rc> =verb:seem= at ease around you.",
+					"<spice.eros.Rc> =verb:seem= almost protective."
+				],
+				"dislike" : [
+					// GOD YOU'RE A MESS
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= you over disapprovingly.",
+					"<spice.eros.Rc> =verb:frown= at your posture.",
+					"<spice.eros.Rc> =verb:look= away for a while."
+				],
+				"flirt" : [
+					"<spice.eros.react.body.flirt.!random>",
+					"I hope you're being careful out there.",
+					"<spice.eros.Rc> =verb:take= a deep breath of you, and sighs."
+				],
+				"insult" : [
+					"<spice.eros.react.body.insult.!random>",
+					"You won't last ten seconds out there.",
+					"By the sultans, you're pathetic."
+				]
+			}
+		},
+
+		// Generic reactions to mental stats
+		"mental" : {
+			"hi" : {
+				"like" : [
+					// YOUR SPARKLING CHARACTER
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.Rc> =verb:listen= attentively.",
+					"<spice.eros.Rc> =verb:hang= on your words.",
+					"<spice.eros.Rc> =verb:seem= to enjoy the sound of your voice."
+				],
+				"dislike" : [
+					// YOUR OVERBEARING AURA
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= uneasy as you speak.",
+					"<spice.eros.Rc> =verb:seem= hesitant to respond.",
+					"<spice.eros.Rc> =verb:look= at you as if seeking permission to speak."
+				],
+				"flirt" : [
+					"<spice.eros.react.generic.flirt.!random>",
+					"Keep talking.  I like the sound of your voice.",
+					"I enjoy our conversations.",
+					"You never cease to intrigue me."
+				],
+				"insult" : [
+					"<spice.eros.react.generic.insult.!random>",
+					"You talk a lot, don't you?",
+					"Do you think you're better than me?",
+					"You are way, way too intense."
+				]
+			},
+			"lo" : {
+				"like" : [
+					// WHISPER TO ME OF SWEET NOTHINGS
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.react.generic.like.!random>",
+					"<spice.eros.Rc> half-=verb:listen= with a smile.",
+					"<spice.eros.Rc> =verb:admire= your surroundings.",
+					"<spice.eros.Rc> =verb:smile= and nods."
+				],
+				"dislike" : [
+					// YOU ARE A FRIGGIN DOOFUS
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.react.generic.dislike.!random>",
+					"<spice.eros.Rc> half-=verb:listen= with a patronizing expression.",
+					"<spice.eros.Rc> =verb:seem= distracted.",
+					"<spice.eros.Rc> =verb:seem= distracted, then =verb:perk= up when you finish speaking."
+				],
+				"flirt" : [
+					"<spice.eros.react.generic.flirt.!random>",
+					"Keep talking.  I like the sound of your voice.",
+					"You're easy to be around.",
+					"Mmm-hmm, yeah, mm-hmm!"
+				],
+				"insult" : [
+					"<spice.eros.react.generic.insult.!random>",
+					"You talk a lot, don't you?",
+					"You have a lot to learn.",
+					"You fool."
+				]
+			}
+		},
+		
+		"Strength" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.Rc>'s eyes trace your muscles.",
+					"<spice.eros.Rc> =verb:study= how you shoulder your equipment."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= to shrink away from you.",
+					"<spice.eros.Rc> =verb:gather= =pronouns.object=self."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.hi.flirt.!random>",
+					"Looks like someone's been working out.",
+					"Taking a break from moving mountains?",
+					"I'd like to put you to work."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.hi.insult.!random>",
+					"You horrible brute.",
+					"Sorry, I'm not a sports fan.",
+					"Shouldn't you be hauling cargo for the dromads?"
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.Rc> =verb:look= at your frame with endearment.",
+					"<spice.eros.Rc> =verb:look= at your burden sympathetically."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= at your frame with disappointment.",
+					"<spice.eros.Rc> =verb:look= at your burden with a patronizing expression."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.lo.flirt.!random>",
+					"Do you need help carrying anything?",
+					"I admire the one who travels light.",
+					"<spice.eros.Rc> casually flexes."
+					// "I wish I had ten of you." Better as a remark on fugue
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.lo.insult.!random>",
+					"You pathetic weakling.",
+					"I see now; you're unfit to work, so you roam the wastes.",
+					"Tell me, who carries your water for you?"
+				]
+			}
+		},
+		"Agility" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.Rc> =verb:follow= your movements with interest.",
+					"<spice.eros.Rc> =verb:nod= along with your gestures."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:watch= your movements warily.",
+					"<spice.eros.Rc> =verb:keep= an eye on you."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.hi.flirt.!random>",
+					"I hate to see you go, but I love to watch you leave.",
+					"You move like a dancer, you know that?",
+					"If you must leave... return to me switftly."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.hi.insult.!random>",
+					"Run away now, fast and far.",
+					"Shouldn't you be stealing something?",
+					"I sense you're good at avoiding things!  Could you avoid me, too?"
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.Rc> =verb:giggle= at your clumsy movements.",
+					"<spice.eros.Rc> =verb:let= their shoulders slacken."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:watch= your clumsy movements with a grim expression.",
+					"<spice.eros.Rc> =verb:roll= =pronouns.possessive= eyes."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.lo.flirt.!random>",
+					"You adorable klutz.",
+					"Remember to duck!  I would hate for anything to happen to that face.",
+					"Do me a favor and keep away from the slime."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.lo.insult.!random>",
+					"You awful klutz.",
+					"The dromads sell helmets for people like you.",
+					"Please, do us all a favor and fall down a shaft."
+				]
+			}
+		},
+		"Toughness" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.react.stat.physical.hi.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to be counting your scars.",
+					"<spice.eros.Rc> =verb:straighten= =pronouns.possessive= back.",
+					"<spice.eros.Rc> =verb:stare= you down like a fulcrete wall."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.react.stat.physical.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= at your scars uneasily.",
+					"<spice.eros.Rc> =verb:frown= at your overworked body."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.hi.flirt.!random>",
+					"So, what happens when you meet an unstoppable force?",
+					"You'll have to tell me how you got that scar.",
+					"You look like you've seen a fight or two."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.hi.insult.!random>",
+					"The leatherworkers would pay a fortune for your hide.",
+					"You look like an expert in getting kicked around.",
+					"You have thick skin, so I won't mince my words."
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.react.stat.physical.lo.like.!random>",
+					"<spice.eros.Rc> =verb:eye= your soft spots with affection.",
+					"<spice.eros.Rc> =verb:study= you like a desert flower."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.react.stat.physical.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= surprised you've lived this long.",
+					"<spice.eros.Rc> =verb:look= at you like a dead =player.personTerm= walking."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.physical.lo.flirt.!random>",
+					"Be careful out there, OK?",
+					"Oh, to find elusive softness in Qud...",
+					"I'll see you again, right?"
+				],
+				"insult" : [
+					"<spice.eros.react.stat.physical.lo.insult.!random>",
+					"I give you three days before they find your body <spice.history.regions.terrain.!random.over>",
+					"Is that the sound of your fragile heart breaking?",
+					"Gracious, what a wimp."
+				]
+			}
+		},
+		"Intelligence" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"<spice.eros.Rc> =verb:consider= =pronouns.possessive= next words carefully.",
+					"<spice.eros.Rc> =verb:look= thoughtful."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= a little annoyed with you.",
+					"<spice.eros.Rc> =verb:struggle= to find =pronouns.possessive= words."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.hi.flirt.!random>",
+					"You have a beautiful mind, you know that?",
+					"I like the way you think.",
+					"Good idea!"
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.hi.insult.!random>",
+					"You think you're so clever.",
+					"Your fancy words won't protect you out there.",
+					"I tire of your scheming."
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to follow.",
+					"<spice.eros.Rc> =verb:are= still listening to you."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:appear= unsurprised.",
+					"<spice.eros.Rc> =verb:are= still listening to you."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.lo.flirt.!random>",
+					"I like that you keep things simple.",
+					"I feel like I completely understand you.",
+					"You don't overthink things and I respect that."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.lo.insult.!random>",
+					"You idiot.",
+					"You aren't very bright, so I'll spell it out for you: not interested.",
+					"I'm getting very tired of your drivel."
+				]
+			}
+		},
+		"Willpower" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"<spice.eros.Rc> =verb:look= at you with admiration.",
+					"<spice.eros.Rc> =verb:pay= close attention to you."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= ready to turn away, but you keep talking.",
+					"<spice.eros.Rc> =verb:look= taxed by the conversation."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.hi.flirt.!random>",
+					"I admire how you know what you want and you go for it.",
+					"You always seem to know exactly what to do.",
+					"I'm behind you all the way."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.hi.insult.!random>",
+					"You're persistent, but you're wasting your breath.",
+					"You know, you have a special skill for creeping people out.",
+					"Hey, I heard about a good meditation spot.  It's far, far away."
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to have things figured out.",
+					"You nod, almost unconsciously.",
+					"You pay close attention to <spice.eros.rc>."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= at you with pity.",
+					"<spice.eros.Rc> =verb:seem= exasperated by your compliance.",
+					"You feel like you've done something wrong."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.lo.flirt.!random>",
+					"I admire how you go with the flow.",
+					"Can I rely on you?",
+					"Do you have any pleasant surprises for me?"
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.lo.insult.!random>",
+					"You should learn to think for yourself.",
+					"Leave me alone.",
+					"If you wish to woo me, bring me a gift."
+				]
+			}
+		},
+		"Ego" : {
+			"hi" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"<spice.eros.react.stat.mental.hi.like.!random>",
+					"Your voice makes <spice.eros.rc> smile.",
+					"<spice.eros.Rc> =verb:chuckle=.",
+					"<spice.eros.Rc> =verb:nod=, almost unconsciously."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.react.stat.mental.hi.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= suspicious of you.",
+					"<spice.eros.Rc> =verb:seem= a little overwhelmed.",
+					"<spice.eros.Rc> =verb:nod= reluctantly."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.hi.flirt.!random>",
+					"My, my, you have a way with words.",
+					"You can say that again.",
+					"Say, are you after my water?",
+					"Read my mind, friend."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.hi.insult.!random>",
+					"I won't be manipulated by you.",
+					"Save your silver tongue for the stiltgrounds.",
+					"You are disgustingly full of yourself.",
+					"You should try a slice of humble pie."
+				]
+			},
+			"lo" : {
+				"like" : [
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.react.stat.mental.lo.like.!random>",
+					"<spice.eros.Rc> =verb:roll= =pronouns.possessive= eyes sentimentally.",
+					"<spice.eros.Rc> =verb:purse= =pronouns.possessive= lips, but =verb:smile= faintly."
+				],
+				"dislike" : [
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.react.stat.mental.lo.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= to see right through you.",
+					"<spice.eros.Rc> =verb:seem= a little bored."
+				],
+				"flirt" : [
+					"<spice.eros.react.stat.mental.lo.flirt.!random>",
+					"I like that I can be myself around you.",
+					"I feel like I know the real you.  No facades.",
+					"If the water runs out, I'll drink you in instead."
+				],
+				"insult" : [
+					"<spice.eros.react.stat.mental.lo.insult.!random>",
+					"I've met blocks of fulcrete with more personality than you.",
+					"Please stop talking.  You're giving me a headache.",
+					"I should be charging you for this conversation."
+				]
+			}
+		}
+	}
+}}}}

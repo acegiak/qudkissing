@@ -12,13 +12,13 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_Kissable : IPart
 	{
-		public string useFactionForFeelingFloor;
+		//public string useFactionForFeelingFloor;
 
 		public bool kissableIfPositiveFeeling;
 
-		private bool bOnlyAllowIfLiked = true;
+		//private bool bOnlyAllowIfLiked = true;
 
-		private List<acegiak_KissingPreference> preferences = null;
+		public List<acegiak_KissingPreference> preferences = null;
 
 
 

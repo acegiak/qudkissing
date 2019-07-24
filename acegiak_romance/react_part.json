@@ -1,0 +1,370 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"react" :
+{
+	// RCs only have strong feelings about parts that exist on their own body.
+	//   "none" applies if the part does not exist in the player's body schematic.
+	//   "missing" applies if the player is missing at least one of the part.
+	//   "have" applies if the player has the part type and none dismembered.
+	"part" :
+	{
+		// Generic part-oriented lines
+		"any" : {
+			"have" : {
+				"like" : [
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.Rc> =verb:glance= at your *part* and quickly looks away.",
+					"<spice.eros.Rc> =verb:linger= on the little details of you."
+				],
+				"dislike" : [
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.Rc> =verb:avert= =pronouns.possessive= eyes from your *part*.",
+					"<spice.eros.Rc> =verb:avoid= looking at you too closely."
+				],
+				"flirt" : [
+					"<spice.eros.react.body.flirt.!random>",
+					"Hey, take good care of your *part* for me, OK?",
+					"Your *part* must have been <spice.professions.!random.forged> by the Eaters themselves.",
+					"One of these days you'll tell me how you got your *part* to look that good."
+				],
+				"insult" : [
+					"<spice.eros.react.body.insult.!random>",
+					"I find *part* disgusting.",
+					"I hope you get your *part* stuck in a trash chute.",
+					"It would be a... shame... if something were to happen to your *part*."
+				]
+			},
+			"missing" : {
+				"like" : [
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.Rc> =verb:smile= at what remains of your *part*.",
+					"<spice.eros.Rc> =verb:linger= on the exotic details of your body."
+				],
+				"dislike" : [
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.Rc> =verb:gape= at what's left of your *part*.",
+					"<spice.eros.Rc> =verb:gawk= rudely at your riven body."
+				],
+				"flirt" : [
+					"<spice.eros.react.body.flirt.!random>",
+					"Personally, I find the *part* extremely overrated.",
+					"Who needs ubernostrum?  I like you the way you are.",
+					"Nothing you're missing will be missed."
+				],
+				"insult" : [
+					"<spice.eros.react.body.insult.!random>",
+					"Look at you!  You're falling apart.",
+					"I've seem ruins in better repair than you.",
+					"You look like you've been left half-finished."
+				]
+			},
+			"none" : {
+				"like" : [
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.react.body.like.!random>",
+					"<spice.eros.Rc> cheerfully =verb:note= your lack of *part*.",
+					"<spice.eros.Rc> =verb:linger= on the exotic details of your body."
+				],
+				"dislike" : [
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.react.body.dislike.!random>",
+					"<spice.eros.Rc> =verb:look= for your *part* and finds none.",
+					"<spice.eros.Rc> =verb:look= disapprovingly over your geometry."
+				],
+				"flirt" : [
+					"<spice.eros.react.body.flirt.!random>",
+					"I like something a little different in my life.",
+					"I look forward to learning about your body.",
+					"Personally, I find the *part* extremely overrated."
+				],
+				"insult" : [
+					"<spice.eros.react.body.insult.!random>",
+					"You look like you've been left half-finished.",
+					"You're not my type.  No, you're really not my type.",
+					"Have you ever considered shapeshifting?"
+				]
+			}
+		},
+		//"_failureredirect" : "spice.eros.react.part.any",
+
+
+		// Copy this to write new parts
+		"unknown" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+
+		// Face or sensor array
+		"Face" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:take= in the little details of your *part*.",
+					"<spice.eros.Rc> =verb:meet= your gaze and holds it."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>",
+					"<spice.eros.Rc> =verb:seem= to avert =pronouns.possessive= gaze from your *part*.",
+					"<spice.eros.Rc> =verb:avoid= your gaze."
+				],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
+					"I haven't been able to get your *part* out my mind.",
+					"Your *part* must have been <spice.professions.!random.forged> by the gods themselves!"
+				],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>",
+					"That is truly a *part* only a mother could love.",
+					"You would do well to feed your *part* to a madpole."
+				]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Body" : {
+			"have" : {
+				"like" : [
+					"<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:glance= at your chest and quickly looks away.",
+					"<spice.eros.Rc> =verb:are= matching your breaths."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : [
+					"<spice.eros.react.part.any.missing.like.!random>",
+					"<spice.eros.Rc> =verb:puzzle= over how your body remains alive."
+				],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like" : [
+					"<spice.eros.react.part.any.none.like.!random>",
+					"<spice.eros.Rc> =verb:admire= your strange body.",
+					"<spice.eros.Rc> =verb:listen= to the sounds you make as you move."
+				],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			}
+		},
+		"Head" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Back" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to look past you, but not quite past you.",
+					"<spice.eros.Rc> =verb:keep= glancing at something behind you but you can't figure out what."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
+					"<spice.eros.Rc> =verb:give= you a look that says: \"there's no turning back now.\""],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+					"<spice.eros.Rc> =verb:give= you a look that says: \"there's no turning back now.\""
+				],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Arm" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:eye= your shoulder.",
+					"You stretch your arms and <spice.eros.rc> =verb:are= briefly speechless."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+					"<spice.eros.Rc> =verb:admire= your strange body."
+				],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Hands" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Hand" : {
+			// Redirect children to "Hands".
+			"_failureredirect" : "spice.eros.react.part.Hands"
+		},
+		"Feet" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"You take a small step, and <spice.eros.rc> =verb:follow= your feet.",
+					"<spice.eros.Rc> =verb:bend= down suddenly, and breathes deeply.",
+					"<spice.eros.Rc> =verb:flance= at the ground.",
+					"<spice.eros.Rc> =verb:keep= looking at the ground."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to enjoy the sound you make while stumping around."
+				],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+					"<spice.eros.Rc> =verb:perk= up at the sound of your movement.",
+					"<spice.eros.Rc> =verb:admire= your mode of locomotion."
+				],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+		"Foot" : {
+			// Redirect children to "Hands".
+			"_failureredirect" : "spice.eros.react.part.Feet"
+		},
+
+		"Floating Nearby" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:seem= to admire your self-control."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>",
+					"Have you ever thought about beekeeping?"
+				],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		},
+
+		// I think only robots have a treads preference?
+		"Tread" : {
+			"have" : {
+				"like"    : ["<spice.eros.react.part.any.have.like.!random>",
+					"<spice.eros.Rc> =verb:cast= a sultry look at your motors.",
+					"<spice.eros.Rc> =verb:follow= the angles of your treads."
+				],
+				"dislike" : ["<spice.eros.react.part.any.have.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.have.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.have.insult.!random>"]
+			},
+			"missing" : {
+				"like"    : ["<spice.eros.react.part.any.missing.like.!random>"],
+				"dislike" : ["<spice.eros.react.part.any.missing.dislike.!random>"],
+				"flirt"   : ["<spice.eros.react.part.any.missing.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.missing.insult.!random>"]
+			},
+			"none" : {
+				"like"    : ["<spice.eros.react.part.any.none.like.!random>",
+					"<spice.eros.Rc> =verb:look= approvingly at your propulsion system.",
+					"<spice.eros.Rc> =verb:admire= your mode of locomotion."
+				],
+				"dislike" : ["<spice.eros.react.part.any.none.dislike.!random>",
+					"<spice.eros.Rc> grimly =verb:study= your inferior ambulatory systems."
+				],
+				"flirt"   : ["<spice.eros.react.part.any.none.flirt.!random>"],
+				"insult"  : ["<spice.eros.react.part.any.none.insult.!random>"]
+			}
+		}
+	}
+}
+
+}}}
