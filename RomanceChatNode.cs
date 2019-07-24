@@ -84,7 +84,7 @@ namespace XRL.World
             // Generate a reaction
             string spiceKey = "<spice.eros.react." + assess.reactPath +
                 ((assess.amount > 0f) ? ".like" : ".dislike") + ".!random>";
-            string reaction = acegiak_RomanceText.ExpandString(spiceKey);
+            string reaction = acegiak_RomanceText.ExpandString(spiceKey, assess.reactVars);
 
             // Apply some formatting and prepend
             if (reaction != null && reaction.Count() > 0)

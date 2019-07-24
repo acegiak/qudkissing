@@ -66,7 +66,10 @@ namespace XRL.World.Parts
 
             float result = Amount * (has?1:-1);
             string explain = ((result>0)?"is attracted to":"is &rnot attracted to")+" your "+((has)?"":"&rlack of ")+BodyPart;
-            return new acegiak_KissingPreferenceResult(result,explain,reactPath);
+            var vars = new Dictionary<string, string>();
+            vars["*part*"] = BodyPart.ToLower();
+            vars["*Part*"] = BodyPart;
+            return new acegiak_KissingPreferenceResult(result,explain,reactPath,vars);
         }
 
     }

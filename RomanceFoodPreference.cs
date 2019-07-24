@@ -122,7 +122,8 @@ namespace XRL.World.Parts
                     if(sample.GetPart<PreparedCookingIngredient>() != null){
                         practice_name = "cooking";
                         string ingredient_type = "ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type;
-                        practice_result = GameObjectFactory.Factory.CreateSampleObject(ingredient_type).GetTag("Description");
+                        practice_result = GameObjectFactory.Factory.CreateSampleObject(ingredient_type).GetTag("Description")
+                            + " effects";
                         //if (practice_result != null) practice_result = ingredient_type + ": " + practice_result.ToString();
                     }else
                     if(sample.GetPart<PreservableItem>() != null){
