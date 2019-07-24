@@ -190,31 +190,6 @@ namespace XRL.World.Parts
                         acegiak_RomanceText.ExpandString(
                         storyTag, entity, vars));
                 }
-                /*while(this.tales.Count < 5){
-                    List<string> Stories = null;
-                    if(amount>0){
-                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Item"));
-                        item.MakeUnderstood();
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about  ==example==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once,  ==example== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+".",
-
-                            "Once, I had a dream about a ==examplebad==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once,  ==examplebad== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+"."
-                        });
-                    }else{
-                        GameObject item = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
-                        item.MakeUnderstood();
-                        Stories = new List<string>(new string[] {
-                            "Once, I had a dream about  ==example==. When I woke up "+Romancable.storyoptions("goodthinghappen","I was drenched in sweat")+"!",
-                            "Once,  ==example== <attacked|tried to kill me> me with "+Romancable.storyoptions("badweapon",item.a+item.ShortDisplayName)+".",
-
-                            "Once, I had a dream about a ==examplebad==. When I woke "+Romancable.storyoptions("goodthinghappen","I saw a rainbow")+"!",
-                            "Once,  ==examplebad== <gave me|showed me|told me about> "+Romancable.storyoptions("goodobject",item.a+item.ShortDisplayName)+"."
-                        });
-                    }
-                    this.tales.Add(Stories[Stat.Rnd2.Next(0,Stories.Count-1)].Replace("==example==",randomGood()).Replace("==examplebad==",randomBad()));
-                }*/
                 return tales[Stat.Rnd2.Next(tales.Count)];
             }
 

@@ -1,0 +1,328 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	"weapon" : 
+	{
+		"name" : {
+			// Should pluralize with -s suffix
+			"Cudgel" : ["cudgel", "mace"],
+			"ShortBlades" : ["short blade", "dagger"],
+			"LongBlades" : ["long blade", "sword"],
+			"Axe" : ["axe", "greataxe"],
+			"Whip" : ["whip"],
+			"Chain" : ["chain"],
+			"Pistol" : ["pistol", "small gun", "sidearm"],
+			"HeavyWeapons" : ["heavy weapon", "big gun", "destructive weapon"],
+			"Rifle" : ["rifle", "bow", "long-range gun"],
+			"unknown" : ["*type* weapon"],
+			"_staticfailureredirect" : "spice.eros.opinion.weapon.name.unknown.!random"
+		},
+		"factoid" : {
+			"Cudgel" : ["Did you know that heavy weapons like maces and clubs can sometimes stun people when they hit?"],
+			"ShortBlades" : ["Are you familiar with short blades like daggers and knives? I hear that they make wounds that bleed profusely."],
+			"LongBlades" : ["I hear long blades are very versatile. Talented swordsmen can use them for defence as well offence."],
+			"Axe" : ["Axes are very dangerous. No only can they crack armour but they can also cleave off whole limbs!"],
+			"Whip" : ["I hear whips are usually used to keep dogs in line?"],
+			"Chain" : ["I hear some people just beat their enemies with chains?"],
+			"HeavyWeapons" : ["I heard heavy ranged weapons often fire explosives!"],
+			"Rifle" : ["I hear bows and rifles are very good for shooting folks at long range."],
+			"Pistol" : ["Did you know some folks weild a pistol in each hand?"],
+			"unknown" : ["Did you know it takes extensive training to master *type*?"],
+			"_staticfailureredirect" : "spice.eros.opinion.weapon.factoid.unknown.!random"
+		},
+		"aMaster" : {
+			// Should pluralize with -s suffix
+			"Cudgel" : ["a cudgel-master", "a skullcrusher", "a greybeard", "a greybeard", "a priest of all suns", "a child of the hearth"],
+			"ShortBlades" : ["a knife-fighter", "a thief", "an arconaut", "an arconaut", "a eunuch", "a child of the wheel"],
+			"LongBlades" : ["a swordmaster", "a fencer", "a warden", "a warden", "a praetorian"],
+			"Axe" : ["an axe-master", "a lumberjack", "a marauder", "a marauder", "a horticulturist", "a priest of all moons", "a child of the wheel"],
+			"Whip" : ["a houndmaster", "a dominatrix", "an animal trainer"],
+			"Chain" : ["a dungeon-master", "a chain-fighter"],
+			"Pistol" : ["a mysterious stranger", "a gunslinger", "a gunslinger", "a eunuch"],
+			"HeavyWeapons" : ["a demolitions expert", "a wild-eyed tinker", "a child of the hearth", "a child of the deep"],
+			"Rifle" : ["a sniper", "a hunter", "a warden", "a warden", "a horiculturist", "a praetorian"],
+			"unknown" : ["*type*-master", "*type*-fighter"],
+			"_staticfailureredirect" : "spice.eros.opinion.weapon.aMaster.unknown.!random"
+		},
+		"verb" : {
+			// Should be rather violent words
+			"Cudgel" : ["bashing", "clobbering", "crushing"],
+			"ShortBlades" : ["stabbing", "piercing", "hobbling", "shanking"],
+			"LongBlades" : ["slashing", "impaling", "chopping"],
+			"Axe" : ["cleaving", "chopping", "dismembering"],
+			"Whip" : ["whipping", "flaying", "flogging"],
+			"Chain" : ["chain-beating", "chaining up"],
+			"Pistol" : ["shooting", "peppering", "gunfighting"],
+			"HeavyWeapons" : ["exploding", "laying waste to", "obliterating", "incinerating"],
+			"Rifle" : ["sniping", "sharpshooting", "picking off"],
+			"unknown" : ["attacking"],
+			"_staticfailureredirect" : "spice.eros.opinion.weapon.verb.unknown.!random"
+		},
+
+		"like" : {
+			"story" : [
+				"<spice.eros.opinion.something.like.story.!random>",
+				"I really love <spice.eros.opinion.weapon.verb.*type*.!random> my enemies.",
+				"I think I could probably make *a_sample*.",
+				"I think <spice.eros.opinion.weapon.name.*type*.!random>s are kind of neat.",
+				"You look like the kind of person that might carry <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+				"My friend used to carry <spice.eros.opinion.weapon.name.*type*.!random.article>."
+			],
+			"goodThingHappen" : ["I saw *a_sample*"],
+			"badThingHappen" : ["I saw *a_sample* get destroyed"],
+			"aGoodPerson" : ["a <spice.eros.opinion.weapon.name.*type*.!random>-smith", "<spice.eros.opinion.weapon.aMaster.*type*.!random>"],
+			"aGoodObject" : ["*a_sample*"],
+			"aGoodWeapon" : ["*a_sample*"]
+		},
+		"dislike" : {
+			"story" : [
+				"<spice.eros.opinion.something.dislike.story.!random>",
+				"I worry about people attacking me with <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+				"Once, <entity.aBadPerson[random]> attacked me with <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+				"I just don't feel safe around <spice.eros.opinion.weapon.name.*type*.!random>s.",
+				"You look like the kind of person that might carry <spice.eros.opinion.weapon.name.*type*.!random.article>.",
+				"My greatest enemy used to carry <spice.eros.opinion.weapon.name.*type*.!random.article>."
+			],
+			"goodThingHappen" : [
+				"I saw *a_sample* get destroyed"
+			],
+			"badThingHappen" : [
+				"I was attacked with *a_sample*"
+			],
+			"aBadPerson" : ["a <spice.eros.opinion.weapon.name.*type*.!random>-smith", "<spice.eros.opinion.weapon.aMaster.*type*.!random>"],
+			"aBadObject" : ["*a_sample*"],
+			"aBadWeapon" : ["*a_sample*"]
+		},
+
+		"qa" : {
+			"postal" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1"],
+
+				"contemplate" : [
+					"contemplate",
+					"think about",
+					"fantasize about",
+					"ponder",
+					"dream about"
+				],
+
+				"question" : [
+					"Do you ever <^.contemplate.!random> just <spice.eros.opinion.weapon.verb.*type*.!random> people?",
+					"Would you <^.contemplate.!random> <spice.eros.opinion.weapon.verb.*type*.!random> a stranger?"
+				],
+				"like" : {
+					"a" : [
+						"&cOh yes, quite often.",
+						"&cAbsolutely, if I'm in the frame of mind.",
+						"&cI essentially do that for a living.",
+						"&cOn bad days."
+					],
+					"agree" : [
+						"Oh good. I thought I was the only one.",
+						"Thanks for letting me vent.",
+						"Ha ha. Glad I got that off my chest. Ha."
+					],
+					"disagree" : [
+						"Really? That is troubling.",
+						"Well, you had better do it far away from me.",
+						"That's horrible!"
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rNo, that sounds bad.",
+						"&rWhat? No!",
+						"&rNo, only in self-defense."
+					],
+					"agree" : [
+						"It's awful just to think about, isn't it? How scary!",
+						"Then you have good moral sensibilities.",
+						"You're better than most."
+					],
+					"disagree" : [
+						"Oh, I guess that's bad. Sorry.",
+						"Just... Forget I said anything.",
+						"Everybody thinks about it, you know.",
+						"We'll see how far that thinking gets you in Qud."
+					]
+				}
+			},
+
+			"factoid" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|skeptic,response,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|skeptic,response,-1"],
+
+				"question" : [
+					"<spice.eros.opinion.weapon.factoid.*type*.!random>",
+					"<spice.eros.opinion.weapon.factoid.*type*.!random>"
+				],
+				"like" : {
+					"good" : ["good", "great", "glorious", "wonderful", "fantastic", "magnificent"],
+
+					"a" : [
+						"&cI have seen as much.  It is <^.good.!random>.",
+						"&cIndeed, they are <^.good.!random> weapons.",
+						"&cThat is useful knowledge in the right hands.",
+						"&cI get excited just thinking about it."
+					],
+					"agree" : [
+						"So fascinating!",
+						"It makes me feel like practicing!",
+						"Thanks, I've been studying."
+					],
+					"disagree" : [
+						"Oh, how scary.",
+						"Really? I think it's rather violent.",
+						"I must disagree."
+					]
+				},
+				"dislike" : {
+					"bad" : ["bad", "awful", "piteous", "terrible", "nightmarish", "horrific"],
+
+					"a" : [
+						"&rI have seen as much.  It is <^.bad.!random>.",
+						"&rIndeed, they are <^.bad.!random> weapons.",
+						"&rThat is, unfortunately, true.",
+						"&rI shudder to think about it."
+					],
+					"agree" : [
+						"Yes it seems quite dangerous.",
+						"Indeed, who would stoop to such violence?",
+						"There are wicked things out there."
+					],
+					"disagree" : [
+						"Oh? I think it sounds very impressive.",
+						"I must disagree.",
+						"That's a rather cowardly attitude, isn't it?"
+					]
+				},
+				"skeptic" : {
+					"a" : [
+						"&yI'm not sure that is true.",
+						"&yI find that hard to believe."
+					],
+					"response" : [
+						"Oh, isn't it? How odd.",
+						"I have that on good authority!",
+						"I know what I'm talking about.",
+						"Why would I misinform you?"
+					]
+				}
+			},
+
+			"seen" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|no,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|no,agree,+1"],
+
+				"question" : [
+					"Have you ever seen *a_sample*?"
+				],
+				"like" : {
+					"a" : [
+						"&cOh yes, I have seen *a_sample*. It was great."
+					],
+					"agree" : [
+						"Wow, how excellent!"
+					],
+					"disagree" : [
+						"Oh, I don't think I would agree.",
+						"Oh, I guess we have different tastes."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rI have but I didn't like it."
+					],
+					"agree" : [
+						"I agree, I saw one once and didn't like it."
+					],
+					"disagree" : [
+						"Oh, I guess we have different tastes.",
+						"Really? That's a shame."
+					]
+				},
+				"no" : {
+					"a" : [
+						"&yNo, I've not seen such a thing.",
+						"&yI have not.",
+						"&yI'm afraid I haven't."
+					],
+					"agree" : [
+						"Oh, that's disappointing.",
+						"Perhaps someday you will.",
+						"Well, you're missing out."
+					],
+					"disagree" : [
+						"That's probably for the best.",
+						"You are not missing much.",
+						"Keep it that way.",
+						"Frankly, I'm jealous."
+					]
+				}
+			},
+
+			"show_me" : {
+				"item_types" : "MeleeWeapon,^MeleeWeapon,MissileWeapon,^BaseMissileWeapon",
+				"show_prompt" : "show,approve,+2,neutral,0,disapprove,-1",
+				"gen_good" : ["S|question_good|<^.item_types>|<^.show_prompt>|none,disapprove,-1"],
+				"gen_bad"  : ["S|question_bad|<^.item_types>|<^.show_prompt>|none,approve,1"],
+
+				"interesting" : [ "interesting", "fearsome", "exotic"],
+				"peculiar" : ["interesting", "strange", "exotic"],
+				"weapons" : ["weapons", "armaments", "combat gear"],
+
+				"question_good" : ["Do you have any <^.interesting.!random> <^.weapons.!random>?"],
+				"question_bad" : ["Do you have any <^.peculiar.!random> <^.weapons.!random>?"],
+				
+				"show" : {
+					"a" : [
+						"I have this *sample*.",
+						"I have *a_sample*.",
+						"How about this *sample*?",
+						"This *sample* serves me well.",
+						"*A_sample*; look, don't touch."
+					],
+
+					"approve" : [
+						"Wow, that's very interesting!",
+						"That's a nice piece of gear.",
+						"You must feel safe carrying one of those!",
+						"Nice, very nice."
+					],
+					"disapprove" : [
+						"Hmm, that seems dangerous.",
+						"Watch where you're pointing that.",
+						"Please, put that away.",
+						"Don't tell me you use that."
+					],
+					"neutral" : [
+						"Oh, is that all?",
+						"That's not very interesting.",
+						"I suppose it gets the job done."
+					]
+				},
+
+				"none" : {
+					"a" : [
+						"&rNot really, no.",
+						"&rI prefer to avoid them.",
+						"&rNothing worth mentioning."
+					],
+
+					"approve" : [
+						"That's sensible. You probably don't need any.",
+						"Well, no sense weighing yourself down."
+					],
+					"disapprove" : [
+						"That's a pity.",
+						"Ah, I had my hopes up."
+					]
+				}
+			}
+		}
+	}
+}}}}

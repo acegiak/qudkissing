@@ -470,12 +470,12 @@ namespace XRL.World.Parts
 		{
 			"goodThingHappen",
 			"badThingHappen",
-			"goodObject",
-			"badObject",
-			"goodPerson",
-			"badPerson",
-			"goodWeapon",
-			"badWeapon",
+			"aGoodObject",
+			"aBadObject",
+			"aGoodPerson",
+			"aBadPerson",
+			"aGoodWeapon",
+			"aBadWeapon",
 			"goodArmor",
 			"badArmor"
 		};

@@ -143,20 +143,6 @@ namespace XRL.World.Parts
             return acegiak_RomanceText.ExpandString(
                 "<spice.eros.opinion.sultan." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
                 vars);
-
-            /*if(key == "goodobject" && this.amount > 0){
-                return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
-            }
-            if(key == "goodweapon" && this.amount > 0){
-                return "a "+GetSpice(this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("elements", "salt", Stat.Rnd2),"nouns");
-            }
-            if(key == "goodthinghappen" && this.amount > 0){
-                return "I saw a vision of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
-            }
-            if(key == "badthinghappen" && this.amount > 0){
-                return "someone besmirched the name of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
-            }
-            return null;*/
         }
 
 

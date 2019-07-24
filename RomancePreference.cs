@@ -93,44 +93,7 @@ namespace XRL.World.Parts
                 vars["*The_samples*"] = "The " + samples;
             }
         }
-
         
-        public Dictionary<string, bool> FilterParse(string filterText)
-        {
-            var filter = new Dictionary<string, bool>();
-            {
-                int include_count = 0;
-                foreach(var str in filterText.Split(';'))
-                {
-                    if (str.First() == '-') filter.Add(str.Substring(1), false);
-                    else {++include_count;  filter.Add(str             , true);}
-                }
-                if (include_count == 0)
-                    acegiak_RomanceText.Log("ERROR: Q&A no includes in item filter: " + filterText);
-            }
-            return filter;
-        }
-        public static List<GameObject> FilterObjectList(
-            List<GameObject>         list,
-            Dictionary<string, bool> filter)
-        {
-            // Iterate through parts of all items (faster)
-            var results = new List<GameObject>();
-            foreach(GameObject item in list)
-            {
-                bool include_item = false;
-                foreach(var part in item.PartsList)
-                {
-                    if (filter.ContainsKey(part.Name))
-                    {
-                        if (filter[part.Name]) include_item = true;
-                        else                 { include_item = false; break; }
-                    }
-                }
-                if (include_item) results.Add(item);
-            }
-            return results;
-        }
         public acegiak_RomanceChatNode Build_QA_Node(
             acegiak_RomanceChatNode node,
             string qa_path,
@@ -144,7 +107,7 @@ namespace XRL.World.Parts
 
             acegiak_RomanceText.Log("Q&A Script: " + code);
 
-            string[] parts = code.Split('$');
+            string[] parts = code.Split('|');
             if (parts.Count() < 1) acegiak_RomanceText.Log("ERROR: Q&A blank: " + code);
 
             string bodytext;
@@ -171,14 +134,14 @@ namespace XRL.World.Parts
                 bodytext = qa_text.Get(parts[1]);
 
                 // 2: Item types to include and exclude
-                var item_types = FilterParse(parts[2]);
+                var item_filter = new acegiak_ItemFilter(parts[2]);
 
                 // 3: Paths for show prompt and reactions
                 string   choice_show;
                 string[] react_text  = new string[3];
                 int[]    react_value = new int   [3];
                 {
-                    string[] subparts = parts[3].Split(';');
+                    string[] subparts = parts[3].Split(',');
 
                     if (subparts.Count() != 7)
                         acegiak_RomanceText.Log("ERROR: Q&A need 7 params in show section: " + parts[3]);
@@ -202,14 +165,15 @@ namespace XRL.World.Parts
                         showables.Add(item.Equipped);
                     }
                 }
-                showables = FilterObjectList(showables, item_types);
 
-                // Sort the items into buckets assessed quality.
+                // Filter and sort the items into buckets assessed quality.
                 var itemsGood = new List<GameObject>();
                 var itemsNeut = new List<GameObject>();
                 var itemsBad  = new List<GameObject>();
                 foreach(GameObject item in showables)
                 {
+                    if (!item_filter.Passes(item)) continue;
+
                     var amount = Romancable.assessGift(item,XRLCore.Core.Game.Player.Body).amount;
                     int kind = 1;
                     if      (amount > 0f) itemsGood.Add(item);
@@ -283,6 +247,78 @@ namespace XRL.World.Parts
             return node;
         }
 
+        class acegiak_ItemFilter
+        {
+            Dictionary<string, bool> part_types;
+            Dictionary<string, bool> blueprints;
+
+            public acegiak_ItemFilter(string filterCode)
+            {
+                part_types = new Dictionary<string, bool>();
+                blueprints = new Dictionary<string, bool>();
+                foreach(var str in filterCode.Split(','))
+                {
+                    switch (str.First())
+                    {
+                    default:  part_types.Add(str,              true);  break;
+                    case '+': part_types.Add(str.Substring(1), true);  break;
+                    case '-': part_types.Add(str.Substring(1), false); break;
+                    case '^': blueprints.Add(str.Substring(1), true);  break;
+                    case '~': blueprints.Add(str.Substring(1), false); break;
+                    }
+                }
+                if (part_types.Count() == 0) part_types = null;
+                if (blueprints.Count() == 0) blueprints = null;
+            }
+
+            public bool Passes(GameObject item)
+            {
+                acegiak_RomanceText.Log("Testing item: " + item.DisplayNameOnlyDirectAndStripped);
+                // Part-type test
+                if (part_types != null)
+                {
+                    bool pass = false;
+                    foreach(var part in item.PartsList) // Faster to loop through parts
+                    {
+                        if (part_types.ContainsKey(part.Name))
+                        {
+                            acegiak_RomanceText.Log("  Part " + part.Name);
+                            if (part_types[part.Name]) pass = true;
+                            else                       return false;
+                        }
+                    }
+                    if (!pass) {acegiak_RomanceText.Log("  Fails part types."); return false;}
+                }
+                // Blueprint inheritance test
+                if (blueprints != null)
+                {
+                    bool pass = false;
+                    for (string blueprint = item.Blueprint;
+                        !string.IsNullOrEmpty(blueprint);
+                        blueprint = GameObjectFactory.Factory.Blueprints[blueprint].Inherits)
+                    {
+                        acegiak_RomanceText.Log("  ...is a " + blueprint);
+                        if (blueprints.ContainsKey(blueprint))
+                        {
+                            if (blueprints[blueprint]) pass = true;
+                            else                       return false;
+                        }
+                    }
+                    if (!pass) {acegiak_RomanceText.Log("  Fails blueprints."); return false;}
+                }
+                acegiak_RomanceText.Log("  Passes.");
+                return true;
+            }
+
+            public List<GameObject> Filter(List<GameObject> list)
+            {
+                var results = new List<GameObject>();
+                foreach(GameObject item in list)
+                    if (Passes(item)) results.Add(item);
+                return results;
+            }
+        }
+
         private class QA_Node_Helper
         {
             string                     qa_base;
@@ -316,7 +352,7 @@ namespace XRL.World.Parts
 
             public void MakeChoiceFromCode(acegiak_RomanceChatNode node, string code)
             {
-                string[] subparts = code.Split(';');
+                string[] subparts = code.Split(',');
                 if (subparts.Count() != 3)
                 {
                     acegiak_RomanceText.Log("ERROR: Q&A choice needs 3 param: `" + code);

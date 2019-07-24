@@ -1,0 +1,291 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	"food" :
+	{
+		"like" : {
+			"tasty" : [
+				"delicious",
+				"amazing",
+				"wonderful",
+				"phenomenal"
+			],
+
+			"story" : [
+				"Once, I had a dream about eating *a_sample*. It was <^.tasty.!random>.",
+				"Once, I ate so much *sample* I made myself sick."
+			],
+			"goodThingHappen" : [
+				"I ate *a_sample*"
+			],
+			"badThingHappen" : [
+				"I ran out of *sample*"
+			],
+			"aGoodObject" : ["*a_sample*"]
+		},
+		"dislike" : {
+			"gross" : [
+				"disgusting",
+				"horrible",
+				"awful",
+				"nauseating"
+			],
+
+			"story" : [
+				"Once, I had a dream about eating *a_sample*. It was <^.gross.!random>.",
+				"I think I might be allergic to *the_sample*."
+			],
+			"badThingHappen" : ["I ate *a_sample*"],
+			"aBadObject" : ["*a_sample*"]
+		},
+
+		"qa" : {
+			//"gen_good" : ["<^.tasted.gen_good>", "<^.practice_cooking.gen_good>"],
+			//"gen_bad" : ["<^.tasted.gen_bad>", "<^.practice_cooking.gen_bad>"],
+
+			"tasted" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|no,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|no,agree,+1"],
+
+				"question" : [
+					"Have you ever eaten *a_sample*?",
+					"Ever tried cooking with *sample*?",
+					"Have you tasted *a_sample*?"
+				],
+				"like" : {
+					"a" : [
+						"&cOh yes, it was delicious.",
+						"&cYes, and I would again!",
+						"&cI would like to have some now."
+					],
+					"agree" : [
+						"Wow, how excellent!"
+					],
+					"disagree" : [
+						"Oh, I guess we have different tastes.",
+						"Oh, I don't think I would agree."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rI have but it was disgusting.",
+						"&rOh, it was awful!",
+						"&rI regret it to this day."
+					],
+					"agree" : [
+						"I agree, I ate one once and didn't like it."
+					],
+					"disagree" : [
+						"Oh, I guess we have different tastes.",
+						"Oh, I don't think I would agree."
+					]
+				},
+				"no" : {
+					"a" : [
+						"&yNo, I've not seen such a thing.",
+						"&yI have not.",
+						"&yI'm afraid I haven't."
+					],
+					"agree" : [
+						"Oh, that's disappointing.",
+						"Perhaps someday you will.",
+						"You should expand your horizons."
+					],
+					"disagree" : [
+						"That's probably for the best.",
+						"You are not missing much.",
+						"Keep it that way.",
+						"Frankly, I'm jealous."
+					]
+				}
+			},
+			"practice_base" : {
+				"like" : {
+					"a" : [
+						"&cYes, it's amazing.",
+						"&cIndeed, it's wonderful.",
+						"&cI think it's quite nice."
+					],
+					"agree" : [
+						"How fascinating!",
+						"I'm hungry just thinking about it!",
+						"Oh, I'll have to give it a try!"
+					],
+					"disagree" : [
+						"It sounds horrible!",
+						"It's not for me.",
+						"Oh, we must have different tastes."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rThat is, unfortunately, true.",
+						"&rYes, it's awful.",
+						"&rIndeed, it's despicable.",
+						"&rHow bizarre!"
+					],
+					"agree" : [
+						"Yes it seems quite unsettling.",
+						"It's total madness!",
+						"Some things I will never understand..."
+					],
+					"disagree" : [
+						"Oh? I think it sounds wonderful.",
+						"Really? Personally I'd love to try it."
+					]
+				},
+				"skeptic" : {
+					"a" : [
+						"&yI'm not sure that is true.",
+						"&yI find that hard to believe."
+					],
+					"response" : [
+						"Oh, isn't it? How odd.",
+						"I have that on good authority!",
+						"I know what I'm talking about.",
+						"Why would I misinform you?"
+					]
+				}
+			},
+			"practice_cooking" : {
+				// inherit responses from somePractice
+				"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|skeptic,response,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|skeptic,response,-1"],
+
+				"cooking" : [
+					// I'm hungry ok
+					"cooking", "broiling", "baking",
+					"frying", "heating", "charring",
+					"brewing", "infusing", "fermenting",
+					"stomping", "pressing", "hand-rolling"
+				],
+				"a_meal" : [
+					"a meal", "food", "a residue",
+					"a powder", "cakes", "a stew"
+				],
+				"bestows_meal_effect" : [
+					"bestows *sampleResult* on whoever eats it",
+					"imbues one with *sampleResult*",
+					"invigorates the diner with *sampleResult*",
+					"as a side effect, causes *sampleResult*"
+				],
+
+				"question" : [
+					"Did you know that <^.cooking.!random> *a_sample* can sometimes make <^.a_meal.!random> that <^.bestows_meal_effect.!random>?"
+				]
+			},
+			"practice_preserving" : {
+				// inherit responses from practice_base
+				"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|skeptic,response,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|skeptic,response,-1"],
+
+				"preserved" : [
+					"preserved", "cooked", "made",
+					"aged", "salted", "distilled",
+					"enhanced", "reduced", "transformed"
+				],
+				"question" : [
+					"I've heard that *sample* can be <^.preserved.!random> into *sampleResult*."
+				]
+			},
+			"practice_eating" : {
+				// inherit responses from practice_base
+				"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|skeptic,response,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|skeptic,response,-1"],
+
+				"question" : [
+					"I've heard that some people eat *sample* as a *sampleResult*."
+				]
+			},
+			"practice_default" : {
+				// inherit responses from practice_base
+				"_failureredirect" : "spice.eros.opinion.food.qa.practice_base",
+
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|skeptic,response,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|skeptic,response,-1"],
+
+				"question" : [
+					"I heard that some foods can be preserved over a campfire."
+				]
+			},
+
+			"show_me" : {
+				"item_types" : "Food,PreparedCookingIngredient,PreservableItem,-Salve_Tonic_Applicator",
+				"show_prompt" : "show,approve,+2,neutral,0,disapprove,-1",
+				"gen_good" : ["S|question_good|<^.item_types>|<^.show_prompt>|none,disapprove,-1"],
+				"gen_bad"  : ["S|question_bad|<^.item_types>|<^.show_prompt>|none,approve,0"],
+
+				"interesting" : [
+					"interesting",
+					"tasty",
+					"exotic"
+				],
+				"peculiar" : [
+					"peculiar",
+					"strange",
+					"exotic"
+				],
+
+				"question_good" : [
+					"Do you have any <^.interesting.!random> food?"
+				],
+				"question_bad" : [
+					"Do you have any <^.peculiar.!random> food?"
+				],
+				
+				"show" : {
+					"a" : [
+						"I have this *sample*.",
+						"I have *a_sample*.",
+						"How about this *sample*?",
+						"*A_sample*, maybe?",
+						"Smell this *the_sample*!"
+					],
+
+					"approve" : [
+						"Wow, that looks delicious!",
+						"How wonderful!",
+						"Oh, I'm quite fond of those!",
+						"Marvellous!"
+					],
+					"disapprove" : [
+						"Oh, that's disgusting!",
+						"Please, put that away.",
+						"You have questionable tastes.",
+						"Don't tell me you eat that stuff."
+					],
+					"neutral" : [
+						"Oh, is that all?",
+						"That's not very interesting.",
+						"You should try something new."
+					]
+				},
+
+				"none" : {
+					"a" : [
+						"&rNot really, no.",
+						"&rJust the necessities.",
+						"&rNothing worth mentioning."
+					],
+
+					"approve" : [
+						"I'm sure you find enough to get by."
+					],
+					"disapprove" : [
+						"That's a pity.",
+						"Ah, I had my hopes up."
+					]
+				}
+			}
+		}
+	}
+}}}}

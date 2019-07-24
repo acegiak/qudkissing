@@ -121,10 +121,9 @@ namespace XRL.World.Parts
                     sample.MakeUnderstood();
                     if(sample.GetPart<PreparedCookingIngredient>() != null){
                         practice_name = "cooking";
-                        practice_result = GameObjectFactory.Factory.CreateSampleObject("ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type).GetTag("Description");
-                        if (practice_result != null) practice_result = practice_result.ToString();
-                        if (practice_result == null || practice_result.Count() == 0)
-                            practice_result = "&RERROR:" + sample.GetPart<PreparedCookingIngredient>().type + "&y";
+                        string ingredient_type = "ProceduralCookingIngredient_"+sample.GetPart<PreparedCookingIngredient>().type;
+                        practice_result = GameObjectFactory.Factory.CreateSampleObject(ingredient_type).GetTag("Description");
+                        //if (practice_result != null) practice_result = ingredient_type + ": " + practice_result.ToString();
                     }else
                     if(sample.GetPart<PreservableItem>() != null){
                         practice_name = "preserving";
@@ -137,7 +136,7 @@ namespace XRL.World.Parts
                 }
 
                 if (practice_result == null || practice_result.Count() == 0)
-                    practice_result = "a full belly";
+                    practice_result = "sweet sustenance";
                 vars["*sampleResult*"] = practice_result;
 
                 return Build_QA_Node(node, "food.qa.practice_"+practice_name, (amount > 0) ? "gen_good" : "gen_bad", vars);

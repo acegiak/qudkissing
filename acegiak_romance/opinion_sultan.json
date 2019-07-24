@@ -1,0 +1,103 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	"sultan" :
+	{
+		"like" : {
+			"story" : [
+				"Once, I had a dream about *sultanLong*.  The next day, <entity.goodThingHappen[random]>!",
+				"I think often about the accomplishments of *sultanLong*."
+			],
+
+			"goodThingHappen" : [
+				"I saw a vision of *sultanLong*"
+			],
+			"badThingHappen" : [
+				"Someone besmirched the name of *sultanLong*"
+			],
+			"aGoodObject" : ["a *sultanObject*"]
+		},
+		"dislike" : {
+			"resent" : [
+				"hate",
+				"don't like",
+				"hate thinking about",
+				"resent"
+			],
+
+			"story" : [
+				"Once, I had a dream about *sultan*.  The next day, <entity.badThingHappen[random]>!",
+				"I just <^.resent.!random> *sultan*."
+			],
+			"badThingHappen" : [
+				"I had a frightening vision of *sultan*"
+			],
+			"aBadObject"  : ["a *sultanObject*"]
+		},
+
+		"qa" : {
+			"heard" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|no,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|no,agree,+1"],
+
+				"question" : [
+					"Have you heard of *sultanLong*?",
+					"Do you know the tales of *sultanLong*?",
+					"Do you ever think about *sultanLong*?"
+				],
+				"like" : {
+					"a" : [
+						"&cI have! An admirable hero.",
+						"&cA truly great leader.",
+						"&cI think of <entity.objectPronoun> often."
+					],
+					"agree" : [
+						"Wasn't <entity.subjectPronoun> amazing?",
+						"Sometimes I think Qud needs another leader like that.",
+						"To think such a person could have lived!"
+					],
+					"disagree" : [
+						"Oh, I think I disagree.",
+						"You do know *sultan* killed a lot of people, right?",
+						"Only a fool believes that."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rI am familiar with the tales of this villain.",
+						"&rMay <entity.subjectPronoun> stay dead.",
+						"&rUnfortunately, yes."
+					],
+					"agree" : [
+						"Wasn't <entity.subjectPronoun> horrible?",
+						"Why anyone venerates <entity.objectPronoun> I will never understand.",
+						"Sometimes I have nightmares about <entity.objectPronoun>."
+					],
+					"disagree" : [
+						"That's very judgmental.",
+						"I'd like to see you do better.",
+						"What a thing to say!"
+					]
+				},
+				"no" : {
+					"a" : [
+						"&yI've not heard of this *sultan*."
+					],
+					"agree" : [
+						"Well <entity.subjectPronoun> was a terror.",
+						"It was a dark chapter in Qud's history.",
+						"Maybe it's better that way."
+					],
+					"disagree" : [
+						"Well <entity.subjectPronoun> was a hero.",
+						"Gracious, you should educate yourself!",
+						"Gracious, you should educate yourself!"
+					]
+				}
+			}
+		}
+	}
+}}}}

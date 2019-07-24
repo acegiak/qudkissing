@@ -35,9 +35,9 @@ namespace HistoryKit
                 Data = Regex.Replace(Data, "//.*$", "", RegexOptions.Multiline);
 
 
-                JSONClass spice = (JSON.Parse(Data) as JSONClass)["spice"] as JSONClass;
+                JSONClass patch = (JSON.Parse(Data) as JSONClass)["spice"] as JSONClass;
 
-                foreach (KeyValuePair<string, JSONNode> child in spice.ChildNodes)
+                foreach (KeyValuePair<string, JSONNode> child in patch.ChildNodes)
                 {
                     // Resolve relative links in the loaded ruleset
                     List<string> parents = new List<string>();
@@ -50,20 +50,24 @@ namespace HistoryKit
                     if (HistoricSpice.roots.ContainsKey(child.Key))
                     {
                         // Merge with an existing root..?
-                        UnityEngine.Debug.Log("   ...Ignoring already-existing root '" + child.Key
-                            + "'... JSON merge is not supported.");
+                        //UnityEngine.Debug.Log("   ...Ignoring already-existing root '" + child.Key
+                        //    + "'... JSON merge is not supported.");
+                        Logger.gameLog.Info("| ...Merge root '" + child.Key + "'.");
+                        int errors = MergeJSON(child.Key, HistoricSpice.roots[child.Key], child.Value);
+                        if (errors != 0)
+                            Logger.gameLog.Info("| ...Merged, but with " + errors.ToString() + " errors.");
                     }
                     else
                     {
                         // Simply add the new root
-                        UnityEngine.Debug.Log("   ...Add root '" + child.Key + "'.");
+                        Logger.gameLog.Info("| ...Add root '" + child.Key + "'.");
                         HistoricSpice.roots.Add(child.Key, child.Value);
                         HistoricSpice.root.Add(child.Key, child.Value);
 
                         foreach (KeyValuePair<string, JSONNode> grandchild in
                             (HistoricSpice.roots[child.Key] as JSONClass).ChildNodes)
                         {
-                            UnityEngine.Debug.Log("      ...Grandchild: " + grandchild.Key);
+                            Logger.gameLog.Info("| | ...Grandchild: " + grandchild.Key);
                         }
                     }
                 }
@@ -80,7 +84,47 @@ namespace HistoryKit
             }
         }
 
-        // Verbatim copy of the method from HistoricSpice
+        // Merge patch JSON class into target class.
+        private static int MergeJSON(string name, JSONNode target, JSONNode patch)
+        {
+            var targetObject = target as JSONClass;
+            var patchObject = patch as JSONClass;
+            if (targetObject == null)
+            {
+                Logger.gameLog.Info("| | ...Can't merge into non-object " + name);
+                return 1;
+            }
+            if (patchObject == null)
+            {
+                Logger.gameLog.Info("| | ...Can't merge non-object into object " + name);
+                return 1;
+            }
+
+            int errorCount = 0;
+            foreach (JSONNode child in patch.Childs)
+            {
+                var targetChild = target[child.Key];
+                if (targetChild == null)
+                {
+                    // Copy child into target
+                    target.Add(child.Key, child);
+                    //targetChild = child.Value;
+                    //Logger.gameLog.Info("| | Insert value " + name + "." + child.Key);
+                }
+                else
+                {
+                    // Merge child object into target member object
+                    Logger.gameLog.Info("| | Merge sub-object " + name + "." + child.Key);
+                    errorCount += MergeJSON(name + "." + child.Key, targetChild, patch[child.Key]);
+                }
+            }
+            //Logger.gameLog.Info("| | Children of " + name + " are now:");
+            //foreach (JSONNode child in target.Childs)
+            //    Logger.gameLog.Info("| | | " + child.Key + " ... " + target[child.Key].Key);
+            return errorCount;
+        }
+
+        // Verbatim copy of the method from HistoricSpice as of July 2019
         private static void ResolveRelativeLinks(List<string> parents, JSONNode current)
         {
             foreach (JSONNode node in current.Childs)

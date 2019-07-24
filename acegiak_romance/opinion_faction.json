@@ -1,0 +1,111 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	// Faction preferences reflect positive or negative prejudice.
+	"faction" :
+	{
+		"like" : {
+			"sharedWithMe" : [
+				"gave me",
+				"showed me",
+				"told me about",
+				"let me borrow",
+				"let me use",
+				"let me hold",
+				"let me touch"
+			],
+
+			"story" : [
+				"<spice.eros.opinion.something.like.story.!random>",
+				"Once, *a_sample* <^.sharedWithMe.!random> <entity.aGoodObject[random]>.",
+				"I think *type* are neat."
+			],
+			"goodThingHappen" : [
+				"I met *a_sample*"
+			],
+			"badThingHappen" : [
+				"I saw *a_sample* suffer a terrible misfortune"
+			],
+			"aGoodPerson" : ["*a_sample*"]
+		},
+		"dislike" : {
+			"menacedMeWith" : [
+				"attacked me with",
+				"threatened me with",
+				"assaulted me with",
+				"hurt my friend with",
+				"tried to kill me with"
+			],
+			"disdain" : [
+				"hate",
+				"can't stand",
+				"won't tolerate",
+				"can't be around"
+			],
+
+			"story" : [
+				"<spice.eros.opinion.something.dislike.story.!random>",
+				"Once, *a_sample* <^.menacedMeWith.!random> <entity.aBadWeapon[random]>.",
+				"I just <^.disdain.!random> *type*."
+			],
+			"goodThingHappen" : [
+				"I saw *a_sample* suffer a terrible misfortune"
+			],
+			"badThingHappen" : [
+				"I met *a_sample*"
+			],
+			"aBadPerson"  : ["*a_sample*"]
+		},
+
+		"qa" : {
+			"them" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1"],
+
+				"question" : [
+					"What do you think of *type*?",
+					"How do you feel about *type*?",
+					"What is your opinion of *type*?"
+				],
+				"like" : {
+					"a" : [
+						"&cI am quite fond of them.",
+						"&cI find them admirable.",
+						"&c*type* are close to my heart."
+					],
+					"agree" : [
+						"They are lovely, aren't they?",
+						"If only everyone thought like you.",
+						"You are a good judge of character."
+					],
+					"disagree" : [
+						// Not gonna lie, sib is kinda racist
+						"Oh, You must keep awful company.",
+						"Well, I could care less about them.",
+						"Don't turn your back on one."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rLoathsome creatures, one and all.",
+						"&rThey are wretched.",
+						"&rI can't stand them."
+					],
+					"agree" : [
+						"Aren't they horrible?",
+						"You can say that again!",
+						"You are a good judge of character."
+					],
+					"disagree" : [
+						"That's very judgemental.",
+						"Perhaps you should open your mind.",
+						"What terrible prejudice!"
+					]
+				}
+			}
+		}
+	}
+}}}}

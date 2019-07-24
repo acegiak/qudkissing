@@ -1,0 +1,184 @@
+// Romance asset.  Comments are supported in this file if loaded with SpicePatcher.
+
+{ "spice" : { "eros" : {
+
+"opinion" :
+{
+	"armor" :
+	{
+		"name" : {
+			// Should pluralize with -s suffix
+			"Body" : ["vestment", "chain mail"],
+			"Head" : ["hat", "helmet"],
+			"Back" : ["cloak"],
+			"Floating Nearby" : ["floating artifact", "glowsphere"],
+			"Tread" : ["tread decoration"],
+			"Hands" : ["glove"],
+			"Feet" : ["boot", "shoe"],
+			"Arm" : ["armlet", "bracer", "bracelet"],
+			"Face" : ["mask", "veil"],
+			"?Root" : ["pot", "vase"],
+			"unknown" : ["*type*-covering"],
+			"_staticfailureredirect" : "spice.eros.opinion.armor.name.unknown.!random"
+		},
+		"smith" : {
+			// Should pluralize with -s suffix
+			"Body" : ["armorer", "clothier"],
+			"Head" : ["armorer", "hatter", "tanner"],
+			"Back" : ["haberdasher", "clothier"],
+			"Floating Nearby" : ["engineer", "arconaut"],
+			"Tread" : ["roboticist", "cyborg"],
+			"Hands" : ["glover", "tanner"],
+			"Feet" : ["cobbler", "tanner"],
+			"Arm" : ["jeweler", "silversmith"],
+			"Face" : ["carver", "sculptor"],
+			"?Root" : ["potter", "sculptor"],
+			"unknown" : ["*type*-maker"],
+			"_staticfailureredirect" : "spice.eros.opinion.armor.smith.unknown.!random"
+		},
+
+		"like" : {
+			"story" : [
+				"<spice.eros.opinion.something.like.story.!random>",
+				"I think I could probably make *a_sample*.",
+				"I think <spice.eros.opinion.armor.name.*type*.!random>s are kind of neat.",
+				"You look like the kind of person that appreciates a good <spice.eros.opinion.armor.name.*type*.!random>.",
+				"My best friend used to wear a fine <spice.eros.opinion.armor.name.*type*.!random>."
+			],
+			"goodThingHappen" : [
+				"I saw *a_sample*"
+			],
+			"badThingHappen" : [
+				"I lost my precious *sample*"
+			],
+			"aGoodPerson"  : ["<spice.eros.opinion.armor.smith.*type*.!random>", "<spice.eros.opinion.armor.name.*type*.!random>-merchant"],
+			"aGoodObject" : ["*a_sample*"],
+			"goodArmor" : ["*sample*"]
+		},
+		"dislike" : {
+			"story" : [
+				"<spice.eros.opinion.something.dislike.story.!random>",
+				"I just don't like the look of <spice.eros.opinion.armor.name.*type*.!random>s.",
+				"You look like the kind of person that wears a lot of <spice.eros.opinion.armor.name.*type*.!random>s.",
+				"My greatest enemy used to wear <spice.eros.opinion.armor.name.*type*.!random.article>."
+			],
+			"badThingHappen" : [
+				"I had to wear *a_sample*"
+			],
+			"aBadPerson" : ["<spice.eros.opinion.armor.smith.*type*.!random>", "a <spice.eros.opinion.armor.name.*type*.!random>-merchant"],
+			"aBadObject" : ["*a_sample*"],
+			"badArmor"   : ["*sample*"]
+		},
+
+		"qa" : {
+			"seen" : {
+				"gen_good" : ["Q|question|like,agree,+1|dislike,disagree,-1|no,disagree,-1"],
+				"gen_bad"  : ["Q|question|like,disagree,-1|dislike,agree,+1|no,agree,+1"],
+
+				"question" : [
+					"Have you ever seen *a_sample*?"
+				],
+				"like" : {
+					"a" : [
+						"&cOh yes, I have seen *a_sample*. It was great."
+					],
+					"agree" : [
+						"Wow, how excellent!"
+					],
+					"disagree" : [
+						"Oh, I don't think I would agree.",
+						"Oh, I guess we have different tastes."
+					]
+				},
+				"dislike" : {
+					"a" : [
+						"&rI have but I didn't like it."
+					],
+					"agree" : [
+						"I agree, I saw one once and didn't like it."
+					],
+					"disagree" : [
+						"Oh, I guess we have different tastes.",
+						"Really? That's a shame."
+					]
+				},
+				"no" : {
+					"a" : [
+						"&yNo, I've not seen such a thing.",
+						"&yI have not.",
+						"&yI'm afraid I haven't."
+					],
+					"agree" : [
+						"Oh, that's disappointing.",
+						"Perhaps someday you will.",
+						"Well, you're missing out."
+					],
+					"disagree" : [
+						"That's probably for the best.",
+						"You are not missing much.",
+						"Keep it that way.",
+						"Frankly, I'm jealous."
+					]
+				}
+			},
+
+			"show_me" : {
+				"item_types" : "Armor",
+				"show_prompt" : "show,approve,+2,neutral,0,disapprove,-1",
+				"gen_good" : ["S|question_good|<^.item_types>|<^.show_prompt>|none,disapprove,-1"],
+				"gen_bad"  : ["S|question_bad|<^.item_types>|<^.show_prompt>|none,approve,1"],
+
+				"interesting" : [ "interesting", "tasteful", "exotic"],
+				"peculiar" : ["interesting", "strange", "exotic"],
+				"armor" : ["armor", "clothing", "vestments", "outerwear"],
+
+				"question_good" : ["Do you have any <^.interesting.!random> <^.armor.!random>?"],
+				"question_bad" : ["Do you have any <^.peculiar.!random> <^.armor.!random>?"],
+				
+				"show" : {
+					"a" : [
+						"I have this *sample*.",
+						"I have *a_sample*.",
+						"How about this *sample*?",
+						"*A_sample*, maybe?",
+						"Feel this *sample*."
+					],
+
+					"approve" : [
+						"Wow, that's very interesting!",
+						"That's a nice piece of gear.",
+						"I think it suits you!"
+					],
+					"disapprove" : [
+						"Oh, that's quite ugly.",
+						"Please, put that away.",
+						"You have questionable tastes.",
+						"Don't tell me you wear that."
+					],
+					"neutral" : [
+						"Oh, is that all?",
+						"That's not very interesting.",
+						"I suppose it gets the job done."
+					]
+				},
+
+				"none" : {
+					"a" : [
+						"&rNot really, no.",
+						"&rI just try to be careful.",
+						"&rNothing worth mentioning."
+					],
+
+					"approve" : [
+						"That's sensible. You probably don't need any.",
+						"Well, no sense weighing yourself down."
+					],
+					"disapprove" : [
+						"That's a pity.",
+						"Ah, I had my hopes up."
+					]
+				}
+			}
+		}
+	}
+}}}}
