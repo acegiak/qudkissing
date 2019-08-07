@@ -17,11 +17,21 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
+        public override acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             string explain = ((Amount>0)?"is generally amorous":"is &rnot very amorous");
             string reactPath = "amorous";
             return new acegiak_KissingPreferenceResult(Amount,explain,reactPath);
         }
 
+
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(Amount);
+        }
+
+        public override void Load(SerializationReader Reader){
+            base.Load(Reader);
+            this.Amount = Reader.ReadSingle();
+        }
     }
 }

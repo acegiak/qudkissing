@@ -24,7 +24,7 @@ namespace XRL.World.Parts
             this.Needs =  random.Next(-3,5);
         }
 
-        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
+        public override acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             //             IPart.AddPlayerMessage("They "+(Amount>0?"like ":"dislike ")+this.Stat+" over "+this.Needs.ToString());
 
             // IPart.AddPlayerMessage("Your "+Stat+(GO.StatMod(Stat)>=Needs?" meets ":" does not meet ")+this.Needs.ToString());
@@ -37,5 +37,18 @@ namespace XRL.World.Parts
             return new acegiak_KissingPreferenceResult(result,explain,reactPath);
         }
 
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(Stat);
+            Writer.Write(Amount);
+            Writer.Write(Needs);
+        }
+
+        public override void Load(SerializationReader Reader){
+            base.Load(Reader);
+            this.Stat = Reader.ReadString();
+            this.Amount = Reader.ReadSingle();
+            this.Needs = Reader.ReadInt32();
+        }
     }
 }

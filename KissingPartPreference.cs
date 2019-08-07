@@ -37,7 +37,7 @@ namespace XRL.World.Parts
             this.Amount = amount;
         }
 
-        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
+        public override acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             bool has = false;
             Body part = GO.GetPart<Body>();
 
@@ -70,6 +70,19 @@ namespace XRL.World.Parts
             vars["*part*"] = BodyPart.ToLower();
             vars["*Part*"] = BodyPart;
             return new acegiak_KissingPreferenceResult(result,explain,reactPath,vars);
+        }
+
+
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(this.BodyPart);
+            Writer.Write(Amount);
+        }
+
+        public override void Load(SerializationReader Reader){
+            base.Load(Reader);
+            this.BodyPart = Reader.ReadString();
+            this.Amount = Reader.ReadSingle();
         }
 
     }

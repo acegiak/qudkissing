@@ -17,13 +17,23 @@ namespace XRL.World.Parts
         }
 
 
-        public acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
+        public override acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject GO){
             float modifier = (kissee.pBrain.GetFeeling(GO) -10);
             string reactPath = ((modifier>0) ? "relationship.hi" : "relationship.lo");
             return new acegiak_KissingPreferenceResult(
                 Amount*modifier,
                 (modifier*this.Amount>0?"likes":"doesn't like")+" that you"+(modifier >0?"":" don't")+" know them well.",
                 reactPath);
+        }
+
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(Amount);
+        }
+
+        public override void Load(SerializationReader Reader){
+            base.Load(Reader);
+            this.Amount = Reader.ReadSingle();
         }
 
     }

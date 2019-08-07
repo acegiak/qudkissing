@@ -21,9 +21,25 @@ namespace XRL.World.Parts
         }
     }
 
-	public interface acegiak_KissingPreference
+	public abstract class acegiak_KissingPreference
 	{
-        acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject kisser);
-
+        public abstract acegiak_KissingPreferenceResult attractionAmount(GameObject kissee, GameObject kisser);
+        
+        
+        public virtual void Save(SerializationWriter Writer){
+            Writer.Write(this.GetType().FullName);
+        }
+        public virtual void Load(SerializationReader Reader){
+        }
+        
+        public static void Read(SerializationReader Reader,acegiak_Kissable kissable){
+            string classname = Reader.ReadString();
+            Type type = Type.GetType(classname);
+            acegiak_KissingPreference preference = (acegiak_KissingPreference)Activator.CreateInstance(type,kissable.ParentObject);
+            //preference.setRomancable(romancable);
+            preference.Load(Reader);
+            kissable.preferences.Add(preference);             
+        }
     }
+
 }

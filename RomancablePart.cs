@@ -21,13 +21,6 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_Romancable : IPart
 	{
-		//public string useFactionForFeelingFloor;
-
-		public bool kissableIfPositiveFeeling;
-
-		//private bool bOnlyAllowIfLiked = true;
-
-		//private Dictionary<string,int> FavoriteThings = null;
 
 		[NonSerialized]
 		public List<acegiak_RomancePreference> preferences = null;
@@ -39,6 +32,8 @@ namespace XRL.World.Parts
 		public int patience = 10;
 
 		public bool lockout = true;
+		
+		[NonSerialized]
 		public GameObject date = null;
 
 

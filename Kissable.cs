@@ -12,12 +12,8 @@ namespace XRL.World.Parts
 	[Serializable]
 	public class acegiak_Kissable : IPart
 	{
-		//public string useFactionForFeelingFloor;
 
-		public bool kissableIfPositiveFeeling;
-
-		//private bool bOnlyAllowIfLiked = true;
-
+		[NonSerialized]
 		public List<acegiak_KissingPreference> preferences = null;
 
 
@@ -78,7 +74,7 @@ namespace XRL.World.Parts
 				hbeguiled = " could not resist.";
 			}else{
                 
-				if (kissableIfPositiveFeeling && ParentObject.pBrain.GetFeeling(who) < 55)
+				if (ParentObject.pBrain.GetFeeling(who) < 55)
 				{
 					if (who.IsPlayer())
 					{
@@ -257,5 +253,69 @@ namespace XRL.World.Parts
 
 			return base.FireEvent(E);
 		}
+
+
+		// SaveData is called when the game is ready to save this object, so we override it here.
+        public override void SaveData(SerializationWriter Writer)
+        {
+			this.havePreference();
+
+
+			if(Writer == null){
+				throw new Exception("The Writer is null!");
+			}
+			if(preferences == null){
+				throw new Exception("The preferences list is null!");
+			}
+
+
+			this.preferences.RemoveAll(d=>d==null);
+
+            // We have to call base.SaveData to save all normally serialized fields on our class
+            base.SaveData(Writer);
+			
+            // Writing out the number of items in this list lets us know how many items we need to read back in on Load
+            Writer.Write(preferences.Count);
+            foreach (acegiak_KissingPreference preference in preferences)
+            {
+				preference.Save(Writer);
+            }
+
+
+        }
+
+        // Load data is called when loading the save game, we also need to override this
+        public override void LoadData(SerializationReader Reader)
+        {
+            // Load our normal data
+            base.LoadData(Reader);
+
+
+			this.preferences = new List<acegiak_KissingPreference>();
+
+
+			if(Reader == null){
+				throw new Exception("The Reader is null!");
+			}
+			if(preferences == null){
+				throw new Exception("The preferences list is null!");
+			}
+
+			if(this == null){
+				throw new Exception("This is null!");
+			}
+
+
+            // Read the number we wrote earlier telling us how many items there were
+            int arraySize = Reader.ReadInt32();
+            for (int i = 0; i < arraySize; i++)
+            {
+               
+                acegiak_KissingPreference.Read(Reader,this);
+                // Similar to above, if we had a basic type in our list, we would instead use the Reader.Read function specific to our object type.
+            }
+
+        }
+
 	}
 }
