@@ -57,45 +57,78 @@ namespace XRL.World.Parts
 			if(this.preferences == null){
 				// IPart.AddPlayerMessage("Populating Preference");
 				this.preferences = new List<acegiak_RomancePreference>();
-				int count = Stat.Rnd2.Next(3)+3;
-				while(preferences.Count < count){
-					try{
-						switch (Stat.Rnd2.Next(6)){
-						case 0:
-							this.preferences.Add(new acegiak_WeaponPreference(this));
-							break;
-						case 1:
-							this.preferences.Add(new acegiak_FoodPreference(this));
-							break;
-						case 2:
-							this.preferences.Add(new acegiak_FactionInterestPreference(this));
-							break;
-						case 3:
-							this.preferences.Add(new acegiak_SultanInterestPreference(this));
-							break;
-						case 4:
-							this.preferences.Add(new acegiak_ArmorPreference(this));
-							break;
-						case 5:
-							this.preferences.Add(new acegiak_PatriotPreference(this));
-							break;
-						}
-					}catch (Exception ex)
-					{
+				
+				List<acegiak_RomancePreference> possible = new List<acegiak_RomancePreference>();
 
+
+				if(GameObjectFactory.Factory == null || GameObjectFactory.Factory.BlueprintList == null){
+					return;
+				}
+				foreach (GameObjectBlueprint blueprint in GameObjectFactory.Factory.BlueprintList)
+				{
+					if (!blueprint.IsBaseBlueprint() && blueprint.DescendsFrom("RomancePreference"))
+					{
+						//IPart.AddPlayerMessage(blueprint.Name);
+						GameObject sample = GameObjectFactory.Factory.CreateSampleObject(blueprint.Name);
+						if(sample.HasTag("classname") && sample.GetTag("classname") != null && sample.GetTag("classname") != ""){
+							try{
+                    		acegiak_RomancePreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname")),this) as acegiak_RomancePreference;
+							possible.Add(preference);
+							}catch(Exception e){
+								
+							}
+						}
 					}
 				}
-				// IPart.AddPlayerMessage(this.preferences.ToString());
-			}
-			if(this.boons == null){
-				boons = new List<acegiak_RomanceBoon>();
-				boons.Add(new acegiak_GiftBoon(this));
-				boons.Add(new acegiak_MealBoon(this));
-				boons.Add(new acegiak_FollowBoon(this));
-				boons.RemoveAll(b=>!b.BoonPossible(XRLCore.Core.Game.Player.Body));
-				boons.ShuffleInPlace();
+				int count = Stat.Rnd2.Next(5);
+				for(int i = 0; i<count;i++){
+					int w = Stat.Rnd2.Next(possible.Count());
+					preferences.Add(possible[w]);
+				}
+
 
 			}
+
+
+
+			if(this.boons == null){
+				// IPart.AddPlayerMessage("Populating Preference");
+				this.boons = new List<acegiak_RomanceBoon>();
+				
+				List<acegiak_RomanceBoon> possible = new List<acegiak_RomanceBoon>();
+
+
+				if(GameObjectFactory.Factory == null || GameObjectFactory.Factory.BlueprintList == null){
+					return;
+				}
+				foreach (GameObjectBlueprint blueprint in GameObjectFactory.Factory.BlueprintList)
+				{
+					if (!blueprint.IsBaseBlueprint() && blueprint.DescendsFrom("RomanceBoon"))
+					{
+						//IPart.AddPlayerMessage(blueprint.Name);
+						GameObject sample = GameObjectFactory.Factory.CreateSampleObject(blueprint.Name);
+						if(sample.HasTag("classname") && sample.GetTag("classname") != null && sample.GetTag("classname") != ""){
+                    		acegiak_RomanceBoon preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname")), this) as acegiak_RomanceBoon;
+							possible.Add(preference);
+						}
+					}
+				}
+				int count = Stat.Rnd2.Next(2);
+				for(int i = 0; i<count;i++){
+					int w = Stat.Rnd2.Next(possible.Count());
+					boons.Add(possible[w]);
+				}
+
+
+
+				
+				// IPart.AddPlayerMessage(this.preferences.ToString());
+			}
+
+
+
+
+
 			touch();
 
 		}
