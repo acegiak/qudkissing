@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
 using XRL.World.Parts.Effects;
+using XRL.Rules;
 
 namespace XRL.World.Parts
 {
@@ -142,23 +143,28 @@ namespace XRL.World.Parts
 		public void havePreference(){
 			if(preferences == null){
 				preferences = new List<acegiak_KissingPreference>();
-				Random random = new Random();
-				int count = random.Next(5);
-				for(int i = 0; i<count;i++){
-					switch (random.Next(4)){
-					case 0:
-						preferences.Add(new acegiak_PartPreference(ParentObject));
-						break;
-					case 1:
-						preferences.Add(new acegiak_AmorousPreference(ParentObject));
-						break;
-					case 2:
-						preferences.Add(new acegiak_StatPreference(ParentObject));
-						break;
-					case 3:
-						preferences.Add(new acegiak_RelationshipPreference(ParentObject));
-						break;
+
+				List<acegiak_KissingPreference> possible = new List<acegiak_KissingPreference>();
+
+				if(GameObjectFactory.Factory == null || GameObjectFactory.Factory.BlueprintList == null){
+					return;
+				}
+				foreach (GameObjectBlueprint blueprint in GameObjectFactory.Factory.BlueprintList)
+				{
+					if (!blueprint.IsBaseBlueprint() && blueprint.DescendsFrom("KissingPreference"))
+					{
+						//IPart.AddPlayerMessage(blueprint.Name);
+						GameObject sample = GameObjectFactory.Factory.CreateSampleObject(blueprint.Name);
+						if(sample.HasTag("classname") && sample.GetTag("classname") != null && sample.GetTag("classname") != ""){
+                    		acegiak_KissingPreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname"))) as acegiak_KissingPreference;
+							possible.Add(preference);
+						}
 					}
+				}
+				int count = Stat.Rnd2.Next(5);
+				for(int i = 0; i<count;i++){
+					int w = Stat.Rnd2.Next(possible.Count());
+					preferences.Add(possible[w]);
 				}
 			}
 		}

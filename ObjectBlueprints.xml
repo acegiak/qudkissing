@@ -5,4 +5,80 @@
             <part Name="acegiak_Romancable" />
     </object>
 
+
+
+
+
+    <object Name="KissingPreference" Inherits="DataBucket">
+        <tag Name="BaseObject" Value="*noinherit" />
+    </object>
+
+    <object Name="KissingStatPreference" Inherits="KissingPreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_StatPreference"/>
+    </object>
+
+    <object Name="KissingAmorousPreference" Inherits="KissingPreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_AmorousPreference"/>
+    </object>
+
+    <object Name="KissingPartPreference" Inherits="KissingPreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_PartPreference"/>
+    </object>
+
+    <object Name="KissingRelationshipPreference" Inherits="KissingPreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_RelationshipPreference"/>
+    </object>
+
+
+
+
+
+    <object Name="RomancePreference" Inherits="DataBucket">
+        <tag Name="BaseObject" Value="*noinherit" />
+    </object>
+
+    <object Name="RomanceWeaponPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_WeaponPreference"/>
+    </object>
+
+    <object Name="RomanceArmorPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_ArmorPreference"/>
+    </object>
+
+    <object Name="RomanceFoodPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_FoodPreference"/>
+    </object>
+
+    <object Name="RomanceFactionPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_FactionInterestPreference"/>
+    </object>
+
+    <object Name="RomancePatriotPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_PatriotPreference"/>
+    </object>
+
+    <object Name="RomanceSultanPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_SultanInterestPreference"/>
+    </object>
+
+
+
+
+
+    <object Name="RomanceBoon" Inherits="DataBucket">
+        <tag Name="BaseObject" Value="*noinherit" />
+    </object>
+
+    <object Name="RomanceGiftBoon" Inherits="RomanceBoon">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_GiftBoon"/>
+    </object>
+
+    <object Name="RomanceMealBoon" Inherits="RomanceBoon">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_MealBoon"/>
+    </object>
+
+    <object Name="RomanceFollowBoon" Inherits="RomanceBoon">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_FollowBoon"/>
+    </object>
+
 </objects>
