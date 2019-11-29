@@ -80,7 +80,7 @@ namespace XRL.World.Parts
 						}
 					}
 				}
-				int count = Stat.Rnd2.Next(5);
+				int count = Stat.Rnd2.Next(3)+2;
 				for(int i = 0; i<count;i++){
 					int w = Stat.Rnd2.Next(possible.Count());
 					preferences.Add(possible[w]);
@@ -217,7 +217,7 @@ namespace XRL.World.Parts
 			acegiak_RomancePreferenceResult ret = new acegiak_RomancePreferenceResult(0,"");
 
 			foreach(acegiak_RomancePreference preferece in preferences){
-				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(GO,who);
+				acegiak_RomancePreferenceResult result = preferece.GiftRecieve(who,GO);
 
 				if(result != null){
 					if(GO.GetPart<Commerce>() != null && GO.GetPart<Commerce>().Value >1){
@@ -226,8 +226,10 @@ namespace XRL.World.Parts
 					ret.amount += result.amount;
 					ret.explanation = ret.explanation +"\n"+result.explanation;
 					//IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&Y "+result.explanation);
+					
 				}
 			}
+			//Log("GIFT ASSESS:"+GO.DisplayNameOnly+":"+ret.amount.ToString()+"\n"+ret.explanation);
             return ret;
         }
 
@@ -318,7 +320,7 @@ namespace XRL.World.Parts
 				int c = 0;
 				int whichquestion = 0;
 				do{
-					whichquestion = Stat.Rnd2.Next(0,preferences.Count-1);
+					whichquestion = Stat.Rnd2.Next(0,preferences.Count);
 					c++;
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;

@@ -25,11 +25,11 @@ namespace XRL.World.Parts
         public acegiak_ArmorPreference(acegiak_Romancable romancable){
             GameObject sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Armor"));
             sample.MakeUnderstood();
-            this.wantedType =  sample.GetPart<Armor>().WornOn;
+            this.wantedType =  GetSkill(sample);
             this.ExampleName = sample.ShortDisplayName;
             Romancable = romancable;
 
-            amount = (float)((Stat.Rnd2.NextDouble()*2)-0.9);
+            amount = (float)((Stat.Rnd2.NextDouble()*2f)-0.9f);
             //IPart.AddPlayerMessage("They "+(amount>0?"like":"dislike")+" "+this.wantedType);
 
         }
@@ -53,6 +53,7 @@ namespace XRL.World.Parts
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
             float retamount = 0;
             string retexplain = "";
+            //IPart.AddPlayerMessage("checked armor part:"+gift.DisplayNameOnly+" "+GetSkill(gift)+"/"+wantedType+"("+amount.ToString()+")");
             if(GetSkill(gift) == wantedType){
                 return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.pRender.DisplayName+"&Y.");
             }
