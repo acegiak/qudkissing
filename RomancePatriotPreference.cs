@@ -39,7 +39,7 @@ namespace XRL.World.Parts
                     if(item.Value > high && villages.Select(v=>v.GetCurrentSnapshot()).Where(v=>item.Key.Contains(v.Name)).Count()>0){
                         village = villages.Select(v=>v.GetCurrentSnapshot()).Where(v=>item.Key.Contains(v.Name)).FirstOrDefault();
                         high = item.Value;
-                        faction = Factions.FactionList[item.Key];
+                        faction = Factions.get(item.Key);
                     }
                 }
 			}
@@ -228,7 +228,7 @@ namespace XRL.World.Parts
         public override void Load(SerializationReader Reader){
             this.village = HistoricEntity.Load(Reader, XRLCore.Core.Game.sultanHistory).GetCurrentSnapshot();
             this.amount = Reader.ReadSingle();
-            this.faction = Factions.FactionList[Reader.ReadString()];
+            this.faction = Factions.get(Reader.ReadString());
 
             int countTales = Reader.ReadInt32();
             this.historytales = new List<JournalVillageNote>();

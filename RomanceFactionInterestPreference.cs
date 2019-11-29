@@ -36,8 +36,8 @@ namespace XRL.World.Parts
         }
 
         string factionName(){
-            if(Factions.FactionList.ContainsKey(this.interestedFaction)){
-                return Factions.FactionList[this.interestedFaction].getFormattedName();
+            if(Factions.get(this.interestedFaction)!= null){
+                return Factions.get(this.interestedFaction).getFormattedName();
             }
             return "?"+this.interestedFaction;
         }

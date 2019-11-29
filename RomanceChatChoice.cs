@@ -52,10 +52,10 @@ namespace XRL.World
                     Speaker.pBrain.AdjustFeeling(XRLCore.Core.Game.Player.Body,(int)Math.Floor(this.OpinionAmount));
                 }
                 if(this.OpinionAmount >= 1){
-                    Speaker.GetPart<acegiak_Romancable>().patience += 1;
+                    Speaker.GetPart<acegiak_Romancable>().patience += 0;
                 }
                 if(this.OpinionAmount <= -1){
-                    Speaker.GetPart<acegiak_Romancable>().patience -= 1;
+                    Speaker.GetPart<acegiak_Romancable>().patience -= 2;
                 }
                 if(choiceAction != null){
                     choiceAction.Invoke();

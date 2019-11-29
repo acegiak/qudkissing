@@ -131,7 +131,7 @@ namespace XRL.World.Parts
 				{
 					KissBuff(who);
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y " + ParentObject.GetPropertyOrTag("KissResponse", "&Mkisses you back") + "."+beguiled);
-					JournalAPI.AddAccomplishment("&y You kissed "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" and "+ParentObject.it+hbeguiled, "general", null, -1L);
+					JournalAPI.AddAccomplishment("&y You kissed "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" and "+ParentObject.it+hbeguiled, "general", null);
 				}
 			}
 			ParentObject.Heartspray();
@@ -156,7 +156,7 @@ namespace XRL.World.Parts
 						//IPart.AddPlayerMessage(blueprint.Name);
 						GameObject sample = GameObjectFactory.Factory.CreateSampleObject(blueprint.Name);
 						if(sample.HasTag("classname") && sample.GetTag("classname") != null && sample.GetTag("classname") != ""){
-                    		acegiak_KissingPreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname"))) as acegiak_KissingPreference;
+                    		acegiak_KissingPreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname")),ParentObject) as acegiak_KissingPreference;
 							possible.Add(preference);
 						}
 					}

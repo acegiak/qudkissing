@@ -205,11 +205,11 @@ namespace XRL.World.Parts
                     if (total == 0) break;
 
                     int index = (Stat.Rnd2.Next() % total);
-                    if      (index < good)
+                    if      (index < good && ! options.ContainsKey(itemsGood[index]))
                         {options.Add(itemsGood[index], 0);        itemsGood.RemoveAt(index);}
-                    else if (index < notbad)
+                    else if (index < notbad && ! options.ContainsKey(itemsNeut[index-good]))
                         {options.Add(itemsNeut[index-good], 1);   itemsNeut.RemoveAt(index-good);}
-                    else
+                    else if(! options.ContainsKey(itemsBad [index-notbad]))
                         {options.Add(itemsBad [index-notbad], 2); itemsBad .RemoveAt(index-notbad);}
                 }
 

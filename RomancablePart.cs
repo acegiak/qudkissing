@@ -318,7 +318,7 @@ namespace XRL.World.Parts
 				int c = 0;
 				int whichquestion = 0;
 				do{
-					whichquestion = Stat.Rnd2.Next(0,preferences.Count);
+					whichquestion = Stat.Rnd2.Next(0,preferences.Count-1);
 					c++;
 				}while(whichquestion == lastQuestion && c<5);
 				lastQuestion = whichquestion;
@@ -418,7 +418,7 @@ namespace XRL.World.Parts
 						if(speaker.GetPart<acegiak_Romancable>().lastseen == 0){
 							newPatience = 0;
 						}
-						if(newPatience>10){newPatience = 10;}
+						if(newPatience>5){newPatience = 10;}
 						speaker.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
 						speaker.GetPart<acegiak_Romancable>().patience = speaker.GetPart<acegiak_Romancable>().patience+newPatience;
 					}
@@ -600,7 +600,7 @@ namespace XRL.World.Parts
 			}else{
 				this.patience -= 1;
 			}
-			JournalAPI.AddAccomplishment("&y You took "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" on a date to "+DateObject.the+DateObject.DisplayNameOnlyDirect+" and "+ParentObject.it+(value>0?" was&G":" was &rnot")+" impressed&y.", "general", null, -1L);
+			JournalAPI.AddAccomplishment("&y You took "+ParentObject.a + ParentObject.DisplayNameOnlyDirect +" on a date to "+DateObject.the+DateObject.DisplayNameOnlyDirect+" and "+ParentObject.it+(value>0?" was&G":" was &rnot")+" impressed&y.", "general", null);
 
 		}
         public void touch()
