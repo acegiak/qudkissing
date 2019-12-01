@@ -1,0 +1,218 @@
+using System;
+using System.Collections.Generic;
+using XRL.Core;
+using XRL.UI;
+using XRL.Rules;
+using XRL.World;
+using XRL.World.Encounters;
+using Qud.API;
+using System.Linq;
+using HistoryKit;
+
+namespace XRL.World.Parts
+{
+	[Serializable]
+	public class acegiak_FactionReputationPreference : acegiak_RomancePreference
+	{
+        string interestedFaction = "Birds";
+        float amount = 0;
+        string story = "";
+        
+        List<string> tales = new List<string>();
+
+
+
+        public acegiak_FactionReputationPreference(acegiak_Romancable romancable){
+            Romancable = romancable;
+            amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
+            FriendorFoe ff = null;
+            if(romancable.ParentObject.GetPart<GivesRep>() != null && romancable.ParentObject.GetPart<GivesRep>().relatedFactions.Count > 0){
+                ff = romancable.ParentObject.GetPart<GivesRep>().relatedFactions.ElementAt(Stat.Rnd2.Next(0, romancable.ParentObject.GetPart<GivesRep>().relatedFactions.Count));
+                interestedFaction = ff.faction;
+
+                FactionInfo ifExists2 = Factions.getIfExists(ff.faction);
+				if (ifExists2 != null && ifExists2.bVisible)
+				{
+					if (ff.status == "friend")
+					{
+						amount = (float)(Stat.Rnd2.NextDouble()*2);
+					}
+					else if (ff.status == "dislike")
+					{
+						amount = (float)(Stat.Rnd2.NextDouble()*-1);
+					}
+					else if (ff.status == "hate")
+					{
+						amount = (float)(Stat.Rnd2.NextDouble()*-1)-1f;
+					}
+					// stringBuilder.Append(" by &C").Append(FactionInfo.getFormattedName(ff.faction)).Append("&y for ")
+					// 	.Append(ff.reason)
+					// 	.Append(".\n");
+
+                    story = "I "+ff.reason.Replace("ing ", "ed ").Replace("them",FactionInfo.getFormattedName(ff.faction));
+                    if(story.Contains("their")){
+                        story = story.Replace("their","the")+" of "+FactionInfo.getFormattedName(ff.faction);
+                    }
+                    double d = Stat.Rnd2.NextDouble();
+                    double dd = Stat.Rnd2.NextDouble();
+                    double ddd = Stat.Rnd2.NextDouble();
+                    if(d < 0.25f){
+                        story = "once, "+story;
+                    }else if(d<0.5f){
+                        story = "a long time ago "+story;
+                    }
+                    if(dd < 0.25f){
+                        story = "Have you heard? "+story;
+                    }else if(dd<0.5f){
+                        story = "Did you know? "+story;
+                    }
+                    if(d < 0.5f){
+                        story = story +"!";
+                    }else{
+                        story = story +".";
+                    }
+				}
+            
+			}else{
+                throw(new Exception("No related factions"));
+            }
+
+        }
+
+        string factionName(){
+            if(Factions.get(this.interestedFaction)!= null){
+                return Factions.get(this.interestedFaction).getFormattedName();
+            }
+            return "?"+this.interestedFaction;
+        }
+
+
+        public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
+            float retamount = 0;
+            string retexplain = "";
+            if(gift.GetPart<ModFeathered>() != null && this.interestedFaction == "Birds"){
+                retamount += this.amount;
+                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the feathers on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".\n";
+            }
+            if(gift.GetPart<ModScaled>() != null && this.interestedFaction == "Unshelled Reptiles"){
+                retamount += this.amount;
+                retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("think")+" the scales on "+gift.the+gift.ShortDisplayName+(this.amount > 0?"are excellent":"are horrible")+".\n";
+            }
+            if(gift.GetPart<AddsRep>() != null && gift.GetPart<AddsRep>().Faction == this.interestedFaction){
+                retamount += this.amount;
+            }
+            GameObjectBlueprint bp = gift.GetBlueprint();
+            if(bp.InheritsFrom("Jerky")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Preservable","Result") == bp.Name);
+                if(g != null){
+                    bp = g.GetBlueprint();
+                }
+            }
+
+            if(bp.InheritsFrom("Raw Meat")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Butcherable","OnSuccess") == bp.Name);
+                if(g != null){
+                    bp = g.GetBlueprint();
+                }
+            }
+
+            if(bp.InheritsFrom("Corpse")){
+                GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
+                b.GetPartParameter("Corpse","CorpseBlueprint") == bp.Name);
+                if(g != null){
+                    if(this.interestedFaction == g.pBrain.GetPrimaryFaction()){
+                        retamount += amount*-1;
+                        retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("is")+(this.amount > 0?"upset by the remains of":"pleased by the remains of")+g.a+g.DisplayNameOnly+".\n";
+                    }
+                }
+            }
+            if(retamount != 0 || retexplain != ""){
+                return new acegiak_RomancePreferenceResult(retamount,retexplain);
+            }
+            // if(getType(gift) == wantedType){
+            //     return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.ShortDisplayName+"&Y.");
+            // }
+            return null;
+        }
+
+        public GameObject exampleCreature() {
+            GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
+            return GO;
+        }
+
+        public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
+            string bodytext = "whoah";
+
+            float g = (float)Stat.Rnd2.NextDouble();
+
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+
+            if(g<1){
+                //SetSampleObject(vars, exampleObject());
+                return Build_QA_Node(node, "faction.qa.them", (amount > 0) ? "gen_good" : "gen_bad", vars);
+
+                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+factionName()+"?";
+                node.AddChoice("likethem","I am quite fond of them.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
+                node.AddChoice("dislikethem","<Loathsome creatures, one and all|They are wretched|I can't stand them>.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
+            }
+
+            if(Romancable != null){
+                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
+            }
+            node.Text = node.Text+"\n\n"+bodytext;
+
+            return node;
+        }
+
+
+        public override acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
+            if(DateObject.GetPart<Pettable>() != null){
+                return new acegiak_RomancePreferenceResult(0,Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("pet")+DateObject.the+DateObject.ShortDisplayName+".");
+            }
+            return null;
+        }
+
+        
+
+        public override string GetStory(acegiak_RomanceChatNode node, HistoricEntitySnapshot entity){
+
+            return story;
+
+        }
+        public override string getstoryoption(string key){
+            GameObject GO = EncountersAPI.GetACreatureFromFaction(this.interestedFaction);
+            if (GO == null) return null;
+
+            var vars = new Dictionary<string, string>();
+            vars["*type*"]   = factionName();
+            SetSampleObject(vars, GO);
+            return acegiak_RomanceText.ExpandString(
+                "<spice.eros.opinion.faction." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
+                vars);
+        }
+        public override void Save(SerializationWriter Writer){
+            base.Save(Writer);
+            Writer.Write(interestedFaction);
+            Writer.Write(amount);
+            Writer.Write(tales.Count);
+            foreach(string tale in tales){
+                Writer.Write(tale);
+            }
+        }
+
+        public override void Load(SerializationReader Reader){
+            this.interestedFaction = Reader.ReadString();
+            this.amount = Reader.ReadSingle();
+            int countTales = Reader.ReadInt32();
+            this.tales = new List<string>();
+            for(int i = 0; i < countTales; i++){
+                this.tales.Add(Reader.ReadString());
+            }
+        }
+        
+
+    }
+}

@@ -53,6 +53,10 @@
         <tag Name="classname" Value="XRL.World.Parts.acegiak_FactionInterestPreference"/>
     </object>
 
+    <object Name="RomanceReputationPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_FactionReputationPreference"/>
+    </object>
+
     <object Name="RomancePatriotPreference" Inherits="RomancePreference">
         <tag Name="classname" Value="XRL.World.Parts.acegiak_PatriotPreference"/>
     </object>
