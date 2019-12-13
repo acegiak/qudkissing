@@ -72,10 +72,10 @@ namespace XRL.World.Parts
 						GameObject sample = GameObjectFactory.Factory.CreateSampleObject(blueprint.Name);
 						if(sample.HasTag("classname") && sample.GetTag("classname") != null && sample.GetTag("classname") != ""){
 							try{
-                    		acegiak_RomancePreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname")),this) as acegiak_RomancePreference;
-							possible.Add(preference);
+                    			acegiak_RomancePreference preference = Activator.CreateInstance(Type.GetType(sample.GetTag("classname")),this) as acegiak_RomancePreference;
+								possible.Add(preference);
 							}catch(Exception e){
-								
+								LogWarning(e.ToString());
 							}
 						}
 					}

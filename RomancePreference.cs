@@ -44,10 +44,14 @@ namespace XRL.World.Parts
         public static void Read(SerializationReader Reader, acegiak_Romancable romancable){
             string classname = Reader.ReadString();
             Type type = Type.GetType(classname);
-            acegiak_RomancePreference preference = (acegiak_RomancePreference)Activator.CreateInstance(type,romancable);
-            preference.setRomancable(romancable);
-            preference.Load(Reader);
-            romancable.preferences.Add(preference);             
+            try{
+                acegiak_RomancePreference preference = (acegiak_RomancePreference)Activator.CreateInstance(type,romancable);
+                preference.setRomancable(romancable);
+                preference.Load(Reader);
+                romancable.preferences.Add(preference);             
+            }catch(Exception e){
+                romancable.LogWarning(e.ToString());
+            }
         }
 
         // Utility
