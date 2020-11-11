@@ -1,8 +1,9 @@
 using XRL.UI;
 using XRL.Rules;
 using System.Collections.Generic;
+using XRL.World.Parts;
 
-namespace XRL.World.Parts.Effects
+namespace XRL.World.Effects
 {
 	public class acegiak_EffectGay : BasicCookingEffect
 	{

@@ -64,6 +64,10 @@
     <object Name="RomanceSultanPreference" Inherits="RomancePreference">
         <tag Name="classname" Value="XRL.World.Parts.acegiak_SultanInterestPreference"/>
     </object>
+<!-- 
+    <object Name="RomanceWeightPreference" Inherits="RomancePreference">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_WeightPreference"/>
+    </object> -->
 
 
 

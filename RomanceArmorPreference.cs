@@ -170,6 +170,7 @@ namespace XRL.World.Parts
                 "<spice.eros.opinion.armor." + ((amount > 0) ? "like." : "dislike.") + key + ".!random>",
                 null, null, vars);
         }
+
         public override void Save(SerializationWriter Writer){
             base.Save(Writer);
             Writer.Write(wantedType);

@@ -19,7 +19,7 @@ namespace HistoryKit
         {
             if (loadedPatches.ContainsKey(filename)) return true;
             
-            HistoricSpice.Init();
+            HistoricSpice.CheckInit();
 
             Logger.gameLog.Info("Loading spice patch: " + filename);
 

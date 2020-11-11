@@ -15,7 +15,7 @@ namespace XRL.World.Parts
 	public class acegiak_PatriotPreference : acegiak_RomancePreference
 	{
         HistoricEntitySnapshot village = null;
-        FactionInfo faction = null;
+        Faction faction = null;
         float amount = 0;
 
 
@@ -194,9 +194,9 @@ namespace XRL.World.Parts
             }
 
             JournalVillageNote e = historytales[Stat.Rnd2.Next(historytales.Count)];
-            node.OnLeaveNode = delegate{
-                JournalAPI.RevealVillageNote(e);
-			};
+            	node.OnLeaveNode = delegate{
+					e.Reveal();
+				};
 
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetDisplayText()+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 

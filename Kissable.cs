@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Qud.API;
-using XRL.World.Parts.Effects;
+using XRL.World.Effects;
 using XRL.Rules;
 
 namespace XRL.World.Parts
@@ -120,7 +120,7 @@ namespace XRL.World.Parts
             
 			string verb = "kiss";
 			GameObject parentObject = ParentObject;
-			IPart.XDidYToZ(who, verb, parentObject, null, null, true);
+			IPart.XDidYToZ(who, verb, parentObject);
 			if (who.IsPlayer())
 			{
 				if (ParentObject.HasPropertyOrTag("SpecialKissResponse"))
@@ -169,8 +169,7 @@ namespace XRL.World.Parts
 			}
 		}
 
-
-        public bool isAttractedTo(GameObject kisser){
+		public float attractionAmount(GameObject kisser){
 			havePreference();
 			float sum = 0; 
 			IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + "&c examines you.");
@@ -182,8 +181,13 @@ namespace XRL.World.Parts
 					IPart.AddPlayerMessage("" + ParentObject.the + ParentObject.DisplayNameOnly + " "+output.explanation+".");
 				}
 				many.Add(output.explanation);
-
 			}
+			return sum;
+		}
+
+
+        public bool isAttractedTo(GameObject kisser){
+			float sum = attractionAmount(kisser);
             if(sum > 0){
                 return true;
             }

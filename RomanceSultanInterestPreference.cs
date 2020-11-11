@@ -149,7 +149,7 @@ namespace XRL.World.Parts
 
         public static string GetSpice(string input,string lookfor)
 		{
-			HistoricSpice.Init();
+			HistoricSpice.CheckInit();
 			input = input.ToLower();
 			lookfor = lookfor.ToLower();
             return HistoricSpice.root["elements"][input][lookfor][Stat.Rnd2.Next(HistoricSpice.root["elements"][input][lookfor].Count)];

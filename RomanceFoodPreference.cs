@@ -7,7 +7,7 @@ using XRL.Rules;
 using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
-using XRL.World.Parts.Effects;
+using XRL.World.Effects;
 using System.Text.RegularExpressions;
 using HistoryKit;
 
