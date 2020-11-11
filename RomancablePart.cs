@@ -277,7 +277,7 @@ namespace XRL.World.Parts
 					}
 				}
 			}
-			IPart.AddPlayerMessage(GO.Blueprint+" is NOT FAVOURABLE");
+			//IPart.AddPlayerMessage(GO.Blueprint+" is NOT FAVOURABLE");
 
 			return false;
 		}
