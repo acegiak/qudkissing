@@ -26,18 +26,31 @@ namespace XRL.World
             if(!peekOnly){
                 if (action == "*Kiss")
                 {
-                    Speaker.FireEvent(Event.New("InvCommandKiss", "Owner", XRLCore.Core.Game.Player.Body));
+					InventoryActionEvent e = new InventoryActionEvent();
+					e.Actor = XRLCore.Core.Game.Player.Body;
+					e.Command = "Kiss";
+					e.ActuateOn(Speaker);
+					// Speaker.FireEvent((Event)e,null);
+                    // Speaker.FireEvent(Event.New("InvCommandKiss", "Owner", XRLCore.Core.Game.Player.Body));
                     return null;
                 }
                 if (action == "*Gift")
                 {
-                    Speaker.FireEvent(Event.New("InvCommandGift", "Owner", XRLCore.Core.Game.Player.Body));
-                    return null;
+
+					InventoryActionEvent e = new InventoryActionEvent();
+					e.Actor = XRLCore.Core.Game.Player.Body;
+					e.Command = "Gift";
+					e.ActuateOn(Speaker);
+					return null;
                 }
                 if (action == "*Date")
                 {
-                    XRLCore.Core.Game.Player.Body.FireEvent(Event.New("InvCommandArrangeDate", "Object", Speaker));
-                    return null;
+
+					InventoryActionEvent e = new InventoryActionEvent();
+					e.Actor = XRLCore.Core.Game.Player.Body;
+					e.Command = "Date";
+					e.ActuateOn(Speaker);
+					return null;
                 }
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 10 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) >= 10){
                     this.ResponseText = this.ResponseText+"\n\n *"+Speaker.ShortDisplayName+" smiles.*";

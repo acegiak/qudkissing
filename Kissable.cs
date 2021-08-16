@@ -37,13 +37,49 @@ namespace XRL.World.Parts
 			return true;
 		}
 
-		public override void Register(GameObject Object)
+		// 	public override bool FireEvent(Event E){
+        //     if (E.ID == "GetInventoryActions")
+		// 	{
+		// 		if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
+		// 			E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss");
+		// 		}
+		// 	}
+		// 	if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner")))
+		// 	{
+		// 		if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
+		// 			E.RequestInterfaceExit();
+		// 		}
+		// 	}
+
+		// 	return base.FireEvent(E);
+		// }
+		public override bool WantEvent(int ID, int cascade)
 		{
-			Object.RegisterPartEvent(this, "GetInventoryActions");
-			Object.RegisterPartEvent(this, "InvCommandKiss");
-			base.Register(Object);
+			if (!base.WantEvent(ID, cascade) && ID != GetInventoryActionsEvent.ID)
+			{
+				return ID == InventoryActionEvent.ID;
+			}
+			return true;
+		}
+		public override bool HandleEvent(GetInventoryActionsEvent E)
+		{
+			if(ParentObject.pBrain.GetFeeling(E.Actor) > 0){
+
+				E.AddAction("Kiss", "kiss", "Kiss", null, 'k',  false, 10);
+			
+			}
+			return base.HandleEvent(E);
 		}
 
+
+		public override bool HandleEvent(InventoryActionEvent E)
+		{
+			if (E.Command == "Kiss" && ParentObject.pBrain.GetFeeling(E.Actor) > 0 && Kiss(E.Actor))
+			{
+				E.RequestInterfaceExit();
+			}			return base.HandleEvent(E);
+
+		}
 		public void KissBuff(GameObject who){
 			if(!who.HasEffect("acegiak_EffectGay")){
 				who.ApplyEffect(new acegiak_EffectGay());
@@ -247,22 +283,7 @@ namespace XRL.World.Parts
 		// }
 
 
-		public override bool FireEvent(Event E){
-            if (E.ID == "GetInventoryActions")
-			{
-				if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
-					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss", 10);
-				}
-			}
-			if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner")))
-			{
-				if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
-					E.RequestInterfaceExit();
-				}
-			}
-
-			return base.FireEvent(E);
-		}
+	
 
 
 		// SaveData is called when the game is ready to save this object, so we override it here.

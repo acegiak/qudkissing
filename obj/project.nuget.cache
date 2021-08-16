@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "lRXhsAIQ4mhHXkdVp+jo28pHa7r8jRKFYZHR4LG/u10buXwRaH0K3qi19CLpZee0weAP/hgUboD6hSTGig4U3g==",
+  "success": true,
+  "projectFilePath": "/home/acegiak/git/qudkissing/Mods.csproj",
+  "expectedPackageFiles": [
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
