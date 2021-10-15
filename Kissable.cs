@@ -17,16 +17,6 @@ namespace XRL.World.Parts
 		[NonSerialized]
 		public List<acegiak_KissingPreference> preferences = null;
 
-
-
-		public acegiak_Kissable()
-		{
-			base.Name = "acegiak_Kissable";
-			//DisplayName = "Kissable";
-			
-		}
-
-
 		public override bool SameAs(IPart p)
 		{
 			return false;
@@ -251,7 +241,7 @@ namespace XRL.World.Parts
             if (E.ID == "GetInventoryActions")
 			{
 				if(ParentObject.pBrain.GetFeeling(E.GetGameObjectParameter("Owner")) > 0){
-					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss", 10);
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Kiss", 'k',  false, "&Wk&yiss", "InvCommandKiss", null, 10);
 				}
 			}
 			if (E.ID == "InvCommandKiss" && Kiss(E.GetGameObjectParameter("Owner")))

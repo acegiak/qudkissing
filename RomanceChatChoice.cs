@@ -21,7 +21,7 @@ namespace XRL.World
         public string action = null;
 
 
-		public override ConversationNode Goto(GameObject Speaker, bool peekOnly = false)
+		public override ConversationNode Goto(GameObject Speaker, bool peekOnly = false, Conversation conversation = null)
 		{
             if(!peekOnly){
                 if (action == "*Kiss")
@@ -61,7 +61,7 @@ namespace XRL.World
                     choiceAction.Invoke();
                 }
             }
-            ConversationNode goingto = base.Goto(Speaker,peekOnly);
+            ConversationNode goingto = base.Goto(Speaker, peekOnly, conversation);
 			if(goingto != null && goingto is acegiak_RomanceChatNode){
                 goingto.Text = this.ResponseText;
             }

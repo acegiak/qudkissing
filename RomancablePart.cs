@@ -1,5 +1,6 @@
 using System;
 using XRL.Core;
+using XRL.Names;
 using XRL.UI;
 using XRL.Rules;
 using XRL.World.AI.GoalHandlers;
@@ -46,14 +47,6 @@ namespace XRL.World.Parts
 
 		public int? lastQuestion = null;
 		public string namegenerated = null;
-
-
-
-		public acegiak_Romancable()
-		{
-			base.Name = "acegiak_Romancable";
-			
-		}
 
 		public void havePreference(){
 			if(ParentObject.IsPlayer()){
@@ -171,7 +164,7 @@ namespace XRL.World.Parts
 		{
 			Object.RegisterPartEvent(this, "GetInventoryActions");
 			Object.RegisterPartEvent(this, "InvCommandGift");
-			Object.RegisterPartEvent(this, "PlayerBeginConversation");
+			Object.RegisterPartEvent(this, "BeginConversation");
 			Object.RegisterPartEvent(this, "ShowConversationChoices");
 			Object.RegisterPartEvent(this, "VisitConversationNode");
 			Object.RegisterPartEvent(this, "OwnerGetInventoryActions");
@@ -472,7 +465,7 @@ namespace XRL.World.Parts
 			if(!ParentObject.HasProperName
 			&& namegenerated == null
 			&& ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>7){
-				namegenerated = HeroMaker.MakeHeroName(ParentObject, new string[0], new string[0], bIncludeTitle: false);
+				namegenerated = NameMaker.MakeName(ParentObject);
 				ParentObject.SetIntProperty("ProperNoun", 1);
 				ParentObject.SetIntProperty("Renamed", 1);
 				node.Text = "["+ParentObject.The+ParentObject.pRender.DisplayName+" tells you "+ParentObject.its+" name: "+namegenerated+"]\n\n"+node.Text;
@@ -493,23 +486,23 @@ namespace XRL.World.Parts
 
 
 		public override bool FireEvent(Event E){
-            if (E.ID == "GetInventoryActions")
+			if (E.ID == "GetInventoryActions")
 			{
 				if(
 					//ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>5 && 
 					!ParentObject.IsPlayer()){
-					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Gift", 'G',  false, "&Wg&yift", "InvCommandGift", 10);
+					E.GetParameter<EventParameterGetInventoryActions>("Actions").AddAction("Gift", 'G',  false, "&Wg&yift", "InvCommandGift", null, 10);
 				}
 			}
 			if (E.ID == "InvCommandGift" && Gift(E.GetGameObjectParameter("Owner"), FromDialog: true))
 			{
 				E.RequestInterfaceExit();
 			}
-			if (E.ID == "PlayerBeginConversation")
+			if (E.ID == "BeginConversation")
 			{
 				if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
-					HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Speaker"));
-					GameObject speaker = E.GetParameter<GameObject>("Speaker");
+					HandleBeginConversation(E.GetParameter<Conversation>("Conversation"),E.GetParameter<GameObject>("Actor"));
+					GameObject speaker = E.GetParameter<GameObject>("Actor");
 					if(speaker.GetPart<acegiak_Romancable>() != null){
 							
 						float patienceRate = 200f; //DEFAULT: 1200
