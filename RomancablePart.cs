@@ -195,24 +195,28 @@ namespace XRL.World.Parts
 		public override bool HandleEvent(BeginConversationEvent E){
 			
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
-				HandleBeginConversation(E.Conversation,E.Actor);
-				GameObject speaker = E.Actor;
-				if(speaker.GetPart<acegiak_Romancable>() != null){
+				//GameObject speaker = E.Actor;
+				//IPart.AddPlayerMessage("Speaker is"+speaker.DisplayName);
+				if(ParentObject.GetPart<acegiak_Romancable>() != null){
 						
 					float patienceRate = 200f; //DEFAULT: 1200
-					long ticks = XRLCore.Core.Game.TimeTicks - speaker.GetPart<acegiak_Romancable>().lastseen;
-					int newPatience = (int)Math.Floor((float)(ticks)/patienceRate);
+					long ticks = XRLCore.Core.Game.TimeTicks - ParentObject.GetPart<acegiak_Romancable>().lastseen;
+					int newPatience = (int)Math.Floor(((float)(ticks))/patienceRate);
 					//IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
-					if(speaker.GetPart<acegiak_Romancable>().lastseen == 0){
+					if(ParentObject.GetPart<acegiak_Romancable>().lastseen == 0){
+						//IPart.AddPlayerMessage("Setting intitial start patience.");
 						newPatience = 0;
 					}
 					if(newPatience>5){newPatience = 10;}
-					speaker.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
-					speaker.GetPart<acegiak_Romancable>().patience = speaker.GetPart<acegiak_Romancable>().patience+newPatience;
+					ParentObject.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
+					ParentObject.GetPart<acegiak_Romancable>().patience = ParentObject.GetPart<acegiak_Romancable>().patience+newPatience;
 					//IPart.AddPlayerMessage("Ticks passed:"+(ticks).ToString());
 					//IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
+					//IPart.AddPlayerMessage("patience earned:"+(ParentObject.GetPart<acegiak_Romancable>().patience).ToString());
 
 				}
+				HandleBeginConversation(E.Conversation,E.Actor);
+
 			}
 			return base.HandleEvent(E); 
 		}

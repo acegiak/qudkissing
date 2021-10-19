@@ -21,7 +21,7 @@ namespace XRL.World
         public string action = null;
 
 
-		public override ConversationNode Goto(GameObject Speaker, bool peekOnly = false)
+		public override ConversationNode Goto(GameObject Speaker, bool peekOnly = false, Conversation conversation = null)
 		{
             if(!peekOnly){
                 if (action == "*Kiss")
