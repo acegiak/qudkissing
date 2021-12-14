@@ -61,8 +61,10 @@ namespace XRL.World
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) >= 5 && Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) < 5){
                     this.ResponseText = this.ResponseText+"\n\n *"+Speaker.ShortDisplayName+" frowns.*";
                 }
+				this.OpinionAmount = this.OpinionAmount*2f;
                 if(Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) + (int)Math.Floor(this.OpinionAmount) > 0){
                     Speaker.pBrain.AdjustFeeling(XRLCore.Core.Game.Player.Body,(int)Math.Floor(this.OpinionAmount));
+					Speaker.GetPart<acegiak_Romancable>().storedFeeling = Speaker.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body);
                 }
                 if(this.OpinionAmount >= 1){
                     Speaker.GetPart<acegiak_Romancable>().patience += 0;

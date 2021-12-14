@@ -46,7 +46,7 @@ namespace XRL.World.Parts.Skill
 					}
 
 
-					//if(!target.MakeSave("Wisdom",20,ParentObject,null,"Hesitation")){
+					if(!target.MakeSave("Willpower",20,ParentObject,null,"Hesitation")){
 
 
 							
@@ -57,7 +57,7 @@ namespace XRL.World.Parts.Skill
 		
 							return false;
 						
-					//}
+					}
 				}
 			}
             return false;

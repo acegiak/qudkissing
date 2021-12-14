@@ -48,6 +48,8 @@ namespace XRL.World.Parts
 		public int? lastQuestion = null;
 		public string namegenerated = null;
 
+		public int? storedFeeling = null;
+
 
 
 		public acegiak_Romancable()
@@ -66,6 +68,9 @@ namespace XRL.World.Parts
 			if(this.preferences == null || this.boons == null){
             	Loading.SetLoadingStatus("Compiling preferences...");
 				loading = true;
+			}
+			if(!ParentObject.pBrain.HasPersonalFeeling(XRLCore.Core.Game.Player.Body) && storedFeeling != null){
+				ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,storedFeeling.Value);
 			}
 			if(this.preferences == null){
 				//IPart.AddPlayerMessage("Populating Preference for "+ParentObject.DisplayNameOnly);
@@ -98,7 +103,7 @@ namespace XRL.World.Parts
 				//IPart.AddPlayerMessage("possible prefs checked.");
 
 
-				int count = Stat.Rnd2.Next(3)+3;
+				int count = Stat.Rnd2.Next(3)+4;
 				//IPart.AddPlayerMessage("choosing "+count.ToString()+" out of "+possible.Count().ToString()+" prefs");
 
 				for(int i = 0; i<count;i++){
@@ -193,29 +198,35 @@ namespace XRL.World.Parts
 		}
 
 		public override bool HandleEvent(BeginConversationEvent E){
-			
-			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
-				//GameObject speaker = E.Actor;
+			havePreference();
+			//IPart.AddPlayerMessage("They("+ParentObject.DisplayNameOnly+") are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString()+" personal?"+ParentObject.pBrain.HasPersonalFeeling(XRLCore.Core.Game.Player.Body).ToString());
+
+			if(!E.SpeakingWith.IsPlayer() && E.Actor.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body)>0){
+				GameObject speaker = E.SpeakingWith;
+				
 				//IPart.AddPlayerMessage("Speaker is"+speaker.DisplayName);
-				if(ParentObject.GetPart<acegiak_Romancable>() != null){
+				if(E.SpeakingWith.GetPart<acegiak_Romancable>() != null){
 						
 					float patienceRate = 200f; //DEFAULT: 1200
-					long ticks = XRLCore.Core.Game.TimeTicks - ParentObject.GetPart<acegiak_Romancable>().lastseen;
+					long ticks = XRLCore.Core.Game.TimeTicks - E.SpeakingWith.GetPart<acegiak_Romancable>().lastseen;
 					int newPatience = (int)Math.Floor(((float)(ticks))/patienceRate);
 					//IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
-					if(ParentObject.GetPart<acegiak_Romancable>().lastseen == 0){
+					if(E.SpeakingWith.GetPart<acegiak_Romancable>().lastseen <= 0){
 						//IPart.AddPlayerMessage("Setting intitial start patience.");
-						newPatience = 0;
+						newPatience = 5;
 					}
 					if(newPatience>5){newPatience = 10;}
-					ParentObject.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
-					ParentObject.GetPart<acegiak_Romancable>().patience = ParentObject.GetPart<acegiak_Romancable>().patience+newPatience;
+					if(newPatience < 0){
+						newPatience = 0;
+					}
+					E.SpeakingWith.GetPart<acegiak_Romancable>().lastseen = (int)XRLCore.Core.Game.TimeTicks;
+					E.SpeakingWith.GetPart<acegiak_Romancable>().patience = (int)Mathf.Min(10f,Mathf.Max(0f,E.SpeakingWith.GetPart<acegiak_Romancable>().patience+newPatience));
 					//IPart.AddPlayerMessage("Ticks passed:"+(ticks).ToString());
 					//IPart.AddPlayerMessage("patience earned:"+(newPatience).ToString());
-					//IPart.AddPlayerMessage("patience earned:"+(ParentObject.GetPart<acegiak_Romancable>().patience).ToString());
+					//IPart.AddPlayerMessage("result patience:"+(E.SpeakingWith.GetPart<acegiak_Romancable>().patience).ToString());
 
 				}
-				HandleBeginConversation(E.Conversation,E.Actor);
+				HandleBeginConversation(E.Conversation,E.SpeakingWith);
 
 			}
 			return base.HandleEvent(E); 
@@ -356,6 +367,7 @@ namespace XRL.World.Parts
 			}
 			
             ParentObject.pBrain.AdjustFeeling(who,result);
+			storedFeeling = ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body);
 			if (who.IsPlayer())
 			{
 				Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + (message));
@@ -454,7 +466,7 @@ namespace XRL.World.Parts
 					ConversationChoice romanticEnquiry = new ConversationChoice();
 					romanticEnquiry.ParentNode = conversation.NodesByID[StartID];
 					romanticEnquiry.ID = "acegiak_romance_askaboutme";
-					romanticEnquiry.Text = "Let's chat.";
+					romanticEnquiry.Text = "[Flirt]";
 					romanticEnquiry.GotoID = "acegiak_romance_aboutme";
 					romanticEnquiry.Ordinal = 800;
 					
@@ -474,7 +486,7 @@ namespace XRL.World.Parts
 			havePreference();
 			this.lockout = false;
 			node.Choices.Clear();
-			//IPart.AddPlayerMessage("They are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString());
+			//IPart.AddPlayerMessage("They("+ParentObject.DisplayNameOnly+") are:"+ParentObject.pBrain.GetOpinion(XRLCore.Core.Game.Player.Body)+": "+ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body).ToString()+" patience:"+patience.ToString()+" personal?"+ParentObject.pBrain.HasPersonalFeeling(XRLCore.Core.Game.Player.Body).ToString());
 			
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 && patience > 0){
 					ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
@@ -807,6 +819,7 @@ namespace XRL.World.Parts
 
 			Popup.Show(output);
             ParentObject.pBrain.AdjustFeeling(Date,(int)(value*10));
+			this.storedFeeling = ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body);
 			Date.GetPart<acegiak_Romancable>().date = null;
 			if(value <1){
 				this.patience -= 2;
@@ -853,6 +866,11 @@ namespace XRL.World.Parts
             // We have to call base.SaveData to save all normally serialized fields on our class
             base.SaveData(Writer);
 			Writer.Write(annoyed?1:0);
+			Writer.Write(storedFeeling==null?0:1);
+			if(storedFeeling != null){
+				Writer.Write(storedFeeling.Value);
+			}
+			Writer.Write(patience);
             // Writing out the number of items in this list lets us know how many items we need to read back in on Load
             Writer.Write(preferences.Count);
             foreach (acegiak_RomancePreference preference in preferences)
@@ -893,8 +911,12 @@ namespace XRL.World.Parts
 
 
 			annoyed = Reader.ReadInt32()>0;
-
-
+			if(Reader.ReadInt32()>0){
+				storedFeeling = Reader.ReadInt32();
+			}else{
+				storedFeeling = null;
+			}
+			patience = Reader.ReadInt32();
             // Read the number we wrote earlier telling us how many items there were
             int arraySize = Reader.ReadInt32();
             for (int i = 0; i < arraySize; i++)
