@@ -41,21 +41,30 @@ namespace XRL.World.Parts.Skill
 			{
 				foreach (GameObject target in C.GetObjectsInCell()){
 
-					if (target.IsInvalid()){
-						return false;
+					if (target.IsInvalid() || target.GetPart<Brain>() == null || !target.GetPart<Brain>().IsHostileTowards(ParentObject)){
+						continue;
 					}
 
-
-					if(!target.MakeSave("Willpower",20,ParentObject,null,"Hesitation")){
+					int check = 18;
+					acegiak_Kissable kissable = target.GetPart<acegiak_Kissable>();
+					if(kissable != null){
+						check += ((int)(kissable.attractionAmount(ParentObject)*3f));
+					}
+					if(!target.MakeSave("Willpower",check,ParentObject,null,"Hesitation")){
 
 
 							
 							target.ApplyEffect(new acegiak_EffectHesitation());
-
 							CooldownMyActivatedAbility(ActivatedAbilityID, 50);
+							acegiak_Romancable romancable = target.GetPart<acegiak_Romancable>();
+							if(romancable != null){
+								romancable.patience = 10;
+							}
+
+            				IPart.AddPlayerMessage(target.DisplayName+" hesitates.");
+							target.ParticleText("?");
 							return true;
 		
-							return false;
 						
 					}
 				}
