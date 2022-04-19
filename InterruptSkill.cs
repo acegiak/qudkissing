@@ -92,7 +92,7 @@ namespace XRL.World.Parts.Skill
 				{
 					return true;
 				}
-				Cell cell = PickDestinationCell(80, AllowVis.OnlyVisible, Locked: true, IgnoreSolid: false, IgnoreLOS: true, RequireCombat: true, PickTarget.PickStyle.EmptyCell, null, Snap: true);
+				Cell cell = PickDestinationCell(80, AllowVis.OnlyVisible, Locked: true, IgnoreSolid: false, IgnoreLOS: true, RequireCombat: true, Style: PickTarget.PickStyle.EmptyCell, Label: null, Snap: true);
 				if (cell == null)
 				{
 					return true;
