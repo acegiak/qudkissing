@@ -7,7 +7,7 @@
 		<LangVersion>7</LangVersion>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-		<QudLibPath>/home/acegiak/.local/share/Steam/steamapps/common/Caves of Qud/CoQ_Data/Managed/</QudLibPath>
+		<QudLibPath>C:/Program Files (x86)/Steam/steamapps/common/Caves of Qud/CoQ_Data/Managed</QudLibPath>
 	</PropertyGroup>
 	<ItemGroup>
 		<Reference Include="$(QudLibPath)/0Harmony.dll" />
@@ -25,7 +25,6 @@
 		<Reference Include="$(QudLibPath)/Mono.WebBrowser.dll" />
 		<Reference Include="$(QudLibPath)/mscorlib.dll" />
 		<Reference Include="$(QudLibPath)/NAudio.dll" />
-		<Reference Include="$(QudLibPath)/netstandard.dll" />
 		<Reference Include="$(QudLibPath)/Newtonsoft.Json.dll" />
 		<Reference Include="$(QudLibPath)/NLog.dll" />
 		<Reference Include="$(QudLibPath)/Novell.Directory.Ldap.dll" />
@@ -33,7 +32,9 @@
 		<Reference Include="$(QudLibPath)/NVorbis.dll" />
 		<Reference Include="$(QudLibPath)/PlayFab.dll" />
 		<Reference Include="$(QudLibPath)/Rewired_Core.dll" />
-		<Reference Include="$(QudLibPath)/Rewired_Linux.dll" />
+		<Reference Condition="$([MSBuild]::IsOSPlatform('Windows'))" Include="$(QudLibPath)/Rewired_Windows.dll" />
+		<Reference Condition="$([MSBuild]::IsOSPlatform('Linux'))" Include="$(QudLibPath)/Rewired_Linux.dll" />
+		<Reference Condition="$([MSBuild]::IsOSPlatform('Linux'))" Include="$(QudLibPath)/Rewired_OSX.dll" />
 		<Reference Include="$(QudLibPath)/RoslynCSharp.Compiler.dll" />
 		<Reference Include="$(QudLibPath)/RoslynCSharp.dll" />
 		<Reference Include="$(QudLibPath)/RoslynCSharp.Examples.dll" />
