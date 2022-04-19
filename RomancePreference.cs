@@ -179,7 +179,6 @@ namespace XRL.World.Parts
                     if (!item_filter.Passes(item)) continue;
 
                     var amount = Romancable.assessGift(item,XRLCore.Core.Game.Player.Body).amount;
-                    int kind = 1;
                     if      (amount > 0f) itemsGood.Add(item);
                     else if (amount < 0f) itemsBad .Add(item);
                     else                  itemsNeut.Add(item);

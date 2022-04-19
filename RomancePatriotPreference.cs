@@ -136,8 +136,6 @@ namespace XRL.World.Parts
 
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
-            string bodytext = "whoah";
-
             float g = (float)Stat.Rnd2.NextDouble();
 
             var vars = new Dictionary<string, string>();
@@ -149,22 +147,9 @@ namespace XRL.World.Parts
                 /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomGood()+"?";
                 node.AddChoice("likethem","I approve.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
                 node.AddChoice("dislikethem","It is terrible.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
-            }else
-            if(g<1){
-                vars["*profaneThing*"] = randomBad();
-                return Build_QA_Node(node, "patriot.qa.profaneThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
-
-                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+randomBad()+"?";
-                node.AddChoice("likethem","I approve.",amount>0?"Such blasphemy!":"They aren't so bad, are they?.",amount>0?1:-1);
-                node.AddChoice("dislikethem","It is terrible.",amount>0?"Isn't it horrid?":"Then you are a fool.",amount>0?-1:1);*/
             }
-
-            if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
-            }
-            node.Text = node.Text+"\n\n"+bodytext;
-
-            return node;
+            vars["*profaneThing*"] = randomBad();
+            return Build_QA_Node(node, "patriot.qa.profaneThing", (amount > 0) ? "gen_good" : "gen_bad", vars);
         }
 
 

@@ -74,8 +74,6 @@ namespace XRL.World.Parts
         }
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
-            float retamount = 0;
-            string retexplain = "";
             if(GetSkill(gift) == wantedType){
                 return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.pRender.DisplayName+"&Y.");
             }
