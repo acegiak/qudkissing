@@ -88,8 +88,6 @@ namespace XRL.World.Parts
 
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
-            float retamount = 0;
-            string retexplain = "";
             if(getType(gift) == wantedType){
                 return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.DisplayNameOnly+"&Y.");
             }
@@ -99,8 +97,6 @@ namespace XRL.World.Parts
 
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
-            string bodytext = "whoah";
-
             float g = (float)Stat.Rnd2.NextDouble();
 
             var vars = new Dictionary<string, string>();
@@ -141,16 +137,8 @@ namespace XRL.World.Parts
                 vars["*sampleResult*"] = practice_result;
 
                 return Build_QA_Node(node, "food.qa.practice_"+practice_name, (amount > 0) ? "gen_good" : "gen_bad", vars);
-            }else{
-                return Build_QA_Node(node, "food.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
             }
-
-            if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
-            }
-            node.Text = node.Text+"\n\n"+bodytext;
-
-            return node;
+            return Build_QA_Node(node, "food.qa.show_me", (amount > 0) ? "gen_good" : "gen_bad", vars);
         }
 
 

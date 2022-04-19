@@ -39,7 +39,6 @@ namespace XRL.World.Parts
 
         public override bool BoonPossible(GameObject talker){
             return Romancable.ParentObject.GetPart<Inventory>() != null;
-            return true;
         }
 
         public override bool BoonReady(GameObject player){

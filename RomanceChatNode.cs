@@ -20,7 +20,6 @@ namespace XRL.World
 
         float Amount = 0;
         string Title = "huh?";
-        string Back = "ok.";
 
         public acegiak_RomanceChatNode(){}
 

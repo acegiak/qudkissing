@@ -1,1 +1,7 @@
-qudkissingworkspace.code-workspace
+# Ignore files built by dotnet build
+bin/**
+obj/**
+# Ignore (symlinked) dll files
+*.dll
+# Ignore project and workspace files
+*.code-workspace

@@ -55,10 +55,6 @@ namespace XRL.World.Parts
 
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
-            float retamount = 0;
-            string retexplain = "";
-
-
             string sultancult = this.faveSultan.GetCurrentSnapshot().GetProperty("cultName");
             if(gift.GetPart<AddsRep>() != null && gift.GetPart<AddsRep>().Faction == sultancult){
                 return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+"depiction of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+"&Y.");
@@ -70,30 +66,12 @@ namespace XRL.World.Parts
         }
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
-            string bodytext = "whoah";
-
-            float g = (float)Stat.Rnd2.NextDouble();
-
             var vars = new Dictionary<string, string>();
             vars["*sultan*"]   = this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan");
             vars["*sultanLong*"] = vars["*sultan*"] + ", "
                 + this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2);
 
-            if(g<1){
-                return Build_QA_Node(node, "sultan.qa.heard", (amount > 0) ? "gen_good" : "gen_bad", vars, this.faveSultan.GetCurrentSnapshot());
-
-                /*bodytext = "Have you heard of "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","a sultan")+", "+this.faveSultan.GetCurrentSnapshot().GetRandomElementFromListProperty("cognomen", "the ancient sultan", Stat.Rnd2)+"?";
-                node.AddChoice("likethem","I have! An admirable hero.",amount>0?"Wasn't "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" amazing?":"Oh, I think I disagree.",amount>0?1:-1);
-                node.AddChoice("dislikethem","I am familiar with the tales of this villain.",amount>0?"That's very judgemental.":"Wasn't "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" horrible?",amount>0?-1:1);
-                node.AddChoice("dontknow","I've not heard of this "+this.faveSultan.GetCurrentSnapshot().GetProperty("name","sultan")+".",amount>0?"Well, "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a hero.":"Well "+this.faveSultan.GetCurrentSnapshot().GetProperty("subjectPronoun","sultan")+" was a terror.",amount>0?-1:1);*/
-            }
-
-            if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
-            }
-            node.Text = node.Text+"\n\n"+bodytext;
-
-            return node;
+            return Build_QA_Node(node, "sultan.qa.heard", (amount > 0) ? "gen_good" : "gen_bad", vars, this.faveSultan.GetCurrentSnapshot());
         }
 
 

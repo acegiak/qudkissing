@@ -7,18 +7,10 @@ using XRL.World.AI.GoalHandlers;
 using XRL.World.Effects;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using Qud.API;
 using System.Text.RegularExpressions;
-using XRL.World.AI.GoalHandlers;
-using Qud.API;
 using HistoryKit;
-using SimpleJSON;
-using System.ComponentModel;
 using UnityEngine;
-using ConsoleLib.Console;
-using XRL.World.ZoneBuilders;
-using System.Linq;
 
 
 namespace XRL.World.Parts
@@ -410,7 +402,6 @@ namespace XRL.World.Parts
 
         public acegiak_RomancePreferenceResult assessGift(GameObject GO,GameObject who){
 			havePreference();
-            float value = 0;
 
 			acegiak_RomancePreferenceResult ret = new acegiak_RomancePreferenceResult(0,"");
 

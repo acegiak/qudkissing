@@ -99,28 +99,10 @@ namespace XRL.World.Parts
         }
 
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
-            string bodytext = "whoah";
-
-            float g = (float)Stat.Rnd2.NextDouble();
-
             var vars = new Dictionary<string, string>();
             vars["*type*"]   = factionName();
 
-            if(g<1){
-                //SetSampleObject(vars, exampleObject());
-                return Build_QA_Node(node, "faction.qa.them", (amount > 0) ? "gen_good" : "gen_bad", vars);
-
-                /*bodytext = "<What do you think of|How do you feel about|What is your opinion of> "+factionName()+"?";
-                node.AddChoice("likethem","I am quite fond of them.",amount>0?"They are lovely, aren't they?":"Oh, You must keep awful company.",amount>0?1:-1);
-                node.AddChoice("dislikethem","<Loathsome creatures, one and all|They are wretched|I can't stand them>.",amount>0?"That's very judgemental":"Aren't they horrible?",amount>0?-1:1);*/
-            }
-
-            if(Romancable != null){
-                node.Text = node.Text+"\n\n"+Romancable.GetStory(node);
-            }
-            node.Text = node.Text+"\n\n"+bodytext;
-
-            return node;
+            return Build_QA_Node(node, "faction.qa.them", (amount > 0) ? "gen_good" : "gen_bad", vars);
         }
 
 
