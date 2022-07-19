@@ -111,7 +111,7 @@ namespace XRL.World.Parts
 				hbeguiled = " could not resist.";
 			}else{
                 
-				if (ParentObject.pBrain.GetFeeling(who) < 55)
+				if (ParentObject.pBrain.GetFeeling(who) < 20)
 				{
 					if (who.IsPlayer())
 					{
@@ -171,6 +171,9 @@ namespace XRL.World.Parts
 				}
 			}
 			ParentObject.Heartspray();
+			if(ParentObject.pBrain.GetFeeling(who) < 50){
+					ParentObject.pBrain.AdjustFeeling(who,10);
+			}
 			who.UseEnergy(1000, "Kissing");
 			ParentObject.FireEvent(Event.New("ObjectKissed", "Object", ParentObject, "Kisser", who));
 			return true;

@@ -58,7 +58,9 @@ namespace XRL.World.Conversations.Parts
             		Guid myuuid = Guid.NewGuid();
 					choice.ID = myuuid.ToString();
 				}
-				choice.Target = "DoFlirt";
+				if(choice.Target != "End"){
+					choice.Target = "DoFlirt";
+				}
 				if(choice is acegiak_RomanceChatNode){
 					ConversationText s = new ConversationText();
 				}

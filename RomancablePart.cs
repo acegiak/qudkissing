@@ -468,8 +468,26 @@ namespace XRL.World.Parts
 				
 		}
 
+		public void calculatePatience(){
+						
+			float patienceRate = 200f; //DEFAULT: 1200
+			long ticks = XRLCore.Core.Game.TimeTicks - lastseen;
+			int newPatience = (int)Math.Floor(((float)(ticks))/patienceRate);
+			if(lastseen <= 0){
+				newPatience = 5;
+			}
+			if(newPatience>5){newPatience = 10;}
+			if(newPatience < 0){
+				newPatience = 0;
+			}
+			lastseen = (int)XRLCore.Core.Game.TimeTicks;
+			patience = (int)Mathf.Min(10f,Mathf.Max(0f,patience+newPatience));
+				
+		}
+
 		public acegiak_RomanceChatNode BuildNode(){
 			havePreference();
+			calculatePatience();
 			this.lockout = false;
 			acegiak_RomanceChatNode node = new acegiak_RomanceChatNode();
 			node.Choices.Clear();

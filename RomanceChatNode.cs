@@ -56,12 +56,15 @@ namespace XRL.World
         public void InsertMyReaction(
             GameObject me, GameObject them)
         {
+
+			Text = "==verbalopinion=="+Text;
+			
             // Must be kissable
             var kissable = me.GetPart<acegiak_Kissable>();
             if (kissable == null)
             {
                 Text = "  &R(this character is not kissable)&y\n\n" + Text;
-                return;
+                
             }
 
             // Find a random applicable kissing-preference
@@ -86,7 +89,6 @@ namespace XRL.World
             }
 
 
-			Text = "==verbalopinion==\n\n"+Text;
 
             // Generate a reaction
             string spiceKey = "<spice.eros.react." + assess.reactPath +

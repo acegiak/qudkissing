@@ -59,10 +59,10 @@ namespace XRL.World.Parts
         }
 
         string GetSkill(GameObject GO){
-            if(GO.GetPart<Armor>() != null){
+            if(GO.GetPart<Armor>() != null && GO.GetPart<Armor>().WornOn != null){
                 return GO.GetPart<Armor>().WornOn;
             }
-            return null;
+            return "Body";
         }
 
 
