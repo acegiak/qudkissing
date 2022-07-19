@@ -11,15 +11,19 @@ using XRL.World;
 using XRL.Rules;
 using HistoryKit;
 using ConsoleLib.Console;
+using XRL.World.Conversations;
 
 namespace XRL.World
 {
 	[Serializable]
-	public class acegiak_RomanceChatNode : ConversationNode
+	public class acegiak_RomanceChatNode
 	{
-
-        float Amount = 0;
-        string Title = "huh?";
+		public List<Choice> Choices = new List<Choice>();
+        public float Amount = 0;
+        public string Title = "huh?";
+		public string Text = "";
+		public string ID = "";
+		public float OpinionAmount = 0f;
 
         public acegiak_RomanceChatNode(){}
 
@@ -36,12 +40,13 @@ namespace XRL.World
                 choice.Text = title;
                 choice.ResponseText = response;
                 choice.OpinionAmount = opinionchange;
-                choice.GotoID = "acegiak_romance_aboutme";
+                choice.Target = "acegiak_romance_aboutme";
+				choice.Parent = The.Conversation.GetStart();
+
 
                 if(id == "End"){
-                    choice.GotoID = "End";
+                    choice.Target = "End";
                 }
-                choice.ParentNode = this;
                 if(action != null){
                     choice.choiceAction = action;
                 }
@@ -80,6 +85,9 @@ namespace XRL.World
                 return;
             }
 
+
+			Text = "==verbalopinion==\n\n"+Text;
+
             // Generate a reaction
             string spiceKey = "<spice.eros.react." + assess.reactPath +
                 ((assess.amount > 0f) ? ".like" : ".dislike") + ".!random>";
@@ -107,7 +115,7 @@ namespace XRL.World
                 //acegiak_RomanceText.ExpandString(
                 //Text, entity, vars)
                 + "&k"; // Black out village text, mrah
-            foreach(ConversationChoice choice in Choices){
+            foreach(Choice choice in Choices){
                 choice.Text = FilterRandom(choice.Text);
                 //choice.Text = acegiak_RomanceText.ExpandString(
                 //    choice.Text, entity, vars);

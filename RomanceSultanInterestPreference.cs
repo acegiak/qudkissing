@@ -103,9 +103,10 @@ namespace XRL.World.Parts
             }
 
             HistoricEvent e = tales[Stat.Rnd2.Next(tales.Count)];
-            node.OnLeaveNode = delegate{
-                SultanShrine.RevealBasedOnHistoricalEvent(e);
-			};
+			// TODO: bring this back
+            // node.OnLeaveNode = delegate{
+            //     SultanShrine.RevealBasedOnHistoricalEvent(e);
+			// };
 
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetEventProperty("gospel")+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 

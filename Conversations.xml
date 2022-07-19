@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<conversations>
+  <!-- Inherited by all conversations by default, unless another base or empty string is specified in Inherits="" -->
+  <conversation ID="BaseConversation">
+  
+    <choice ID="StartFlirt" Target="DoFlirt" Ordinal="980">
+      <text>You look nice.</text>
+	  <part Name="Tag">{{g|[flirt]}}</part>
+
+    </choice>
+	
+    <node ID="DoFlirt">
+		<text>flirtyflirty! woohoo!</text>
+		<choice Target="Start">
+			<text>Let's discuss something else.</text>
+		</choice>
+
+      <part Name="Flirt" />
+	</node>
+  </conversation>
+</conversations>
