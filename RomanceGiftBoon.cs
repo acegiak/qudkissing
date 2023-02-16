@@ -38,7 +38,10 @@ namespace XRL.World.Parts
         }
 
         public override bool BoonPossible(GameObject talker){
-            return Romancable.ParentObject.GetPart<Inventory>() != null;
+			if(Reward() != null){
+				return true;
+			}
+            return false;
         }
 
         public override bool BoonReady(GameObject player){
@@ -55,8 +58,8 @@ namespace XRL.World.Parts
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "I hope you don't mind, but I got you a gift. It's "+Reward().a+Reward().DisplayNameOnly+".";
 
-            node.AddChoice("acceptgift","Thankyou! [Accept "+Reward().the+Reward().DisplayNameOnly+"].","You're very welcome.",-30,delegate(){Reward().ForceUnequipAndRemove();XRLCore.Core.Game.Player.Body.GetPart<Inventory>().AddObject(Reward()); Popup.ShowBlock("You receive " + Reward().a + Reward().DisplayNameOnly + "!");this.reward = null;});
-            node.AddChoice("rejectgift","I couldn't possibly accept such a gift.","Oh I'm sorry. That makes sense.",-30);
+            node.AddChoice("acceptgift","Thankyou! [Accept "+Reward().the+Reward().DisplayNameOnly+"].","You're very welcome.",-5,delegate(){Reward().ForceUnequipAndRemove();XRLCore.Core.Game.Player.Body.GetPart<Inventory>().AddObject(Reward()); Popup.ShowBlock("You receive " + Reward().a + Reward().DisplayNameOnly + "!");this.reward = null;});
+            node.AddChoice("rejectgift","I couldn't possibly accept such a gift.","Oh I'm sorry. That makes sense.",-5);
             return node;
         }
     }

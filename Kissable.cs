@@ -7,6 +7,9 @@ using System.Reflection;
 using Qud.API;
 using XRL.World.Effects;
 using XRL.Rules;
+using XRL.World.Parts;
+using XRL.World.Anatomy;
+
 
 namespace XRL.World.Parts
 {
@@ -21,8 +24,6 @@ namespace XRL.World.Parts
 
 		public acegiak_Kissable()
 		{
-			base.Name = "acegiak_Kissable";
-			//DisplayName = "Kissable";
 			
 		}
 
@@ -245,11 +246,11 @@ namespace XRL.World.Parts
 			return bpart != null;
         }
 
-		private bool partHasPart(XRL.World.BodyPart part, string partname){
+		private bool partHasPart(BodyPart part, string partname){
 			if(part.Type == partname){
 				return true;
 			}
-			foreach(XRL.World.BodyPart subpart in part.Parts){
+			foreach(BodyPart subpart in part.Parts){
 				if(subpart != part && partHasPart(subpart,partname)){
 					return true;
 				}

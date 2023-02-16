@@ -498,7 +498,7 @@ namespace XRL.World.Parts
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 && patience > 0){
 					ParentObject.pBrain.SetFeeling(XRLCore.Core.Game.Player.Body,1);
 			}
-
+			List<acegiak_RomanceBoon> readyboons = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).ToList();
 			if(ParentObject.pBrain.GetFeeling(XRLCore.Core.Game.Player.Body) < 1 || patience <= 0){
 					List<string> Stories = new List<string>(new string[] {
                         "Sorry, I have other things to do.",
@@ -513,7 +513,7 @@ namespace XRL.World.Parts
 					returntostart.Text = "Ok.";
 					returntostart.Target = "End";
 					node.Choices.Add(returntostart);
-			}else if(boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).Count() > 0){
+			}else if(Stat.Rnd2.Next(0,readyboons.Count+preferences.Count)<readyboons.Count){
 				acegiak_RomanceBoon boon = boons.Where(b=>b.BoonReady(XRLCore.Core.Game.Player.Body)).OrderBy(o => Stat.Rnd2.NextDouble()).FirstOrDefault();
 				try
 				{

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using XRL.Core;
 using XRL.UI;
 using System.Linq;
+using XRL.World.Anatomy;
+
 
 namespace XRL.World.Parts
 {

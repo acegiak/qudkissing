@@ -8,6 +8,7 @@ using XRL.World.Encounters;
 using Qud.API;
 using System.Linq;
 using HistoryKit;
+using XRL.World.Anatomy;
 
 namespace XRL.World.Parts
 {

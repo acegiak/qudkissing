@@ -34,18 +34,19 @@ namespace XRL.World.Parts
                     }
 
                     List<GameObject> foods = Romancable.preferences
-                        .Where(b=>b is acegiak_FoodPreference).Select(b=>(acegiak_FoodPreference)b)
+                        .Where(b=>b is acegiak_FoodPreference && ((acegiak_FoodPreference)b).amount > 0).Select(b=>(acegiak_FoodPreference)b)
                         .OrderBy(o=>Stat.Rnd2.NextDouble())
                         .Select(b=>b.exampleObject())
                         .ToList();
+					
+					IPart.AddPlayerMessage("food options: "+foods.Select(c=>c.DisplayNameOnly).Aggregate((a,b)=>a+", "+b));
+
                     
                     if(foods.Count() <= 0){
-                        //IPart.AddPlayerMessage("no example object");
                         return null;
                     }
-                    List<GameObject> GList = new List<GameObject>();
                     
-                    reward = CookingRecipe.FromIngredients(GList);
+                    reward = CookingRecipe.FromIngredients(foods,null,Romancable.ParentObject.DisplayNameOnly.Split(',')[0]);
             }
             return reward;
         }
@@ -54,7 +55,13 @@ namespace XRL.World.Parts
         }
 
         public override bool BoonPossible(GameObject talker){
-            return Romancable != null;
+			if (Romancable == null){
+				return false;
+			}
+			 if(Reward() == null){
+                return false;
+            }
+			return false;
         }
 
         public override bool BoonReady(GameObject player){
@@ -67,13 +74,13 @@ namespace XRL.World.Parts
         public override acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node){
             node.Text = "Are you hungry? I'd like to make you "+Reward().GetDisplayName()+".";
 
-            node.AddChoice("End","Thankyou! [Eat "+Reward().GetDisplayName()+"].","You're very welcome.",-30,delegate(){
+            node.AddChoice("End","Thankyou! [Eat "+Reward().GetDisplayName()+"].","You're very welcome.",-5,delegate(){
 				IPart.PlayUISound("Human_Eating");
                 Reward().ApplyEffectsTo(XRLCore.Core.Game.Player.Body);
                 Popup.ShowBlock("You eat "+this.Romancable.ParentObject.the+this.Romancable.ParentObject.DisplayNameOnly+"'s " + Reward().GetDisplayName() + "!");
                 this.reward = null;
             });
-            node.AddChoice("rejectgift","No thankyou.","Oh I'm sorry. That makes sense.",-30);
+            node.AddChoice("rejectgift","No thankyou.","Oh I'm sorry. That makes sense.",-5);
             return node;
         }
     }

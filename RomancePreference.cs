@@ -8,6 +8,7 @@ using XRL.World;
 using HistoryKit;
 using XRL.Language;
 using SimpleJSON;
+using XRL.World.Anatomy;
 
 namespace XRL.World.Parts
 {

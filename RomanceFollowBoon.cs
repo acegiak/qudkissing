@@ -42,7 +42,7 @@ namespace XRL.World.Parts
                     this.Romancable.ParentObject.GetPart<Brain>().IsLedBy(XRLCore.Core.Game.Player.Body);
                     this.Romancable.ParentObject.GetPart<Brain>().Goals.Clear();
                     Popup.Show(this.Romancable.ParentObject.The+this.Romancable.ParentObject.DisplayNameOnly+" joins your party!");});
-            node.AddChoice("rejectgift","I'm sorry but you cannot join me.","Oh I'm sorry. That makes sense.",-30);
+            node.AddChoice("rejectgift","I'm sorry but you cannot join me.","Oh I'm sorry. That makes sense.",-5);
             return node;
         }
 
