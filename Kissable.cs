@@ -112,15 +112,15 @@ namespace XRL.World.Parts
 				hbeguiled = " could not resist.";
 			}else{
                 
-				if (ParentObject.pBrain.GetFeeling(who) < 20)
+				if (ParentObject.Brain.GetFeeling(who) < 20)
 				{
 					if (who.IsPlayer())
 					{
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&y" + ParentObject.GetVerb("shy") + " away from you.");
 					}
-					ParentObject.pBrain.AdjustFeeling(who,-5);
+					ParentObject.Brain.AdjustFeeling(who,-5);
 
-					if(ParentObject.pBrain.GetFeeling(who) < 0){
+					if(ParentObject.Brain.GetFeeling(who) < 0){
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
 					}
 					return true;
@@ -130,9 +130,9 @@ namespace XRL.World.Parts
 					{
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y isn't attracted to you.");
 					}
-					ParentObject.pBrain.AdjustFeeling(who,-10);
+					ParentObject.Brain.AdjustFeeling(who,-10);
 
-					if(ParentObject.pBrain.GetFeeling(who) < 0){
+					if(ParentObject.Brain.GetFeeling(who) < 0){
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
 					}
 					return true;
@@ -143,10 +143,10 @@ namespace XRL.World.Parts
 			if(ParentObject.GetPart<acegiak_Romancable>() != null){
 
 				if(ParentObject.GetPart<acegiak_Romancable>().patience<=0){
-					ParentObject.pBrain.AdjustFeeling(who,-5);
+					ParentObject.Brain.AdjustFeeling(who,-5);
 					Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y doesn't want to kiss you right now.");
 
-					if(ParentObject.pBrain.GetFeeling(who) < 0){
+					if(ParentObject.Brain.GetFeeling(who) < 0){
 						Popup.Show(ParentObject.The + ParentObject.DisplayNameOnlyDirect + "&Y is upset by your advances!");
 					}
 				}
@@ -172,8 +172,8 @@ namespace XRL.World.Parts
 				}
 			}
 			ParentObject.Heartspray();
-			if(ParentObject.pBrain.GetFeeling(who) < 50){
-					ParentObject.pBrain.AdjustFeeling(who,10);
+			if(ParentObject.Brain.GetFeeling(who) < 50){
+					ParentObject.Brain.AdjustFeeling(who,10);
 			}
 			who.UseEnergy(1000, "Kissing");
 			ParentObject.FireEvent(Event.New("ObjectKissed", "Object", ParentObject, "Kisser", who));

@@ -39,7 +39,7 @@ namespace XRL.World.Parts
                         .Select(b=>b.exampleObject())
                         .ToList();
 					
-					IPart.AddPlayerMessage("food options: "+foods.Select(c=>c.DisplayNameOnly).Aggregate((a,b)=>a+", "+b));
+					// IPart.AddPlayerMessage("food options: "+foods.Select(c=>c.DisplayNameOnly).Aggregate(string.Empty,(a,b)=>a+", "+b));
 
                     
                     if(foods.Count() <= 0){

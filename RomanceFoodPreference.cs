@@ -30,7 +30,7 @@ namespace XRL.World.Parts
         public acegiak_FoodPreference(acegiak_Romancable romancable){
             GameObject sample = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.HasPart("PreparedCookingIngredient"));
             if(sample == null){
-                sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Food"));
+                sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendantOf("Food"));
             }
             
             sample.MakeUnderstood();
@@ -53,7 +53,7 @@ namespace XRL.World.Parts
             if(sample.GetPart<PreparedCookingIngredient>() != null){
                 return normalisename(sample.GetPart<PreparedCookingIngredient>().type);
             }else if(sample.GetPart<PreservableItem>() != null){
-                GameObject newsample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf(sample.GetPart<PreservableItem>().Result));
+                GameObject newsample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendantOf(sample.GetPart<PreservableItem>().Result));
                 if(newsample != null && sample.GetPart<PreparedCookingIngredient>() != null){
                     return normalisename(newsample.GetPart<PreparedCookingIngredient>().type);
                 }
@@ -70,8 +70,8 @@ namespace XRL.World.Parts
             
             sample = EncountersAPI.GetAnObject(
                 (GameObjectBlueprint b) => 
-                normalisename(b.GetPartParameter("PreparedCookingIngredient","type")) == this.wantedType 
-                || normalisename(b.GetPartParameter("Food","Satiation")) == this.wantedType 
+                normalisename(b.GetPartParameter<string>("PreparedCookingIngredient","type","")) == this.wantedType 
+                || normalisename(b.GetPartParameter<string>("Food","Satiation","")) == this.wantedType 
                 // || b.GetPartParameter("PreservableItem","Result")==null?false:
                 // GameObjectFactory.Factory.CreateSampleObject(b.GetPartParameter("PreservableItem","Result"))==null?false:
                 // GameObjectFactory.Factory.CreateSampleObject(b.GetPartParameter("PreservableItem","Result")).GetPart<PreparedCookingIngredient>()==null?false:

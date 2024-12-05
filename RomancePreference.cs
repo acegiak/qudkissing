@@ -26,6 +26,7 @@ namespace XRL.World.Parts
 	{
         [NonSerialized]
         public acegiak_Romancable Romancable = null;
+
         public abstract acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift);
         public abstract acegiak_RomanceChatNode BuildNode(acegiak_RomanceChatNode node);
 
@@ -190,15 +191,15 @@ namespace XRL.World.Parts
                 var options = new Dictionary<GameObject, int>();
                 if (itemsGood.Count() != 0)
                 {
-                    int index = (Stat.Rnd2.Next() % itemsGood.Count());
+                    //int index = (Stat.Rnd2.Next() % itemsGood.Count());
                     options.Add(itemsGood.RemoveRandomElement(Stat.Rnd2), 0);
-                    itemsGood.RemoveAt(index);
+                    //itemsGood.RemoveAt(index);
                 }
-                if (itemsBad .Count() != 0)
+                if (itemsBad.Count() != 0)
                 {
-                    int index = (Stat.Rnd2.Next() % itemsBad.Count());
-                    options.Add(itemsBad .RemoveRandomElement(Stat.Rnd2), 2);
-                    itemsBad .RemoveAt(index);
+                    //int index = (Stat.Rnd2.Next() % itemsBad.Count());
+                    options.Add(itemsBad.RemoveRandomElement(Stat.Rnd2), 2);
+                    //itemsBad .RemoveAt(index);
                 }
                 while (options.Count() < 5)
                 {

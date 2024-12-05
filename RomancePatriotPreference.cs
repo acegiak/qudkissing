@@ -33,13 +33,13 @@ namespace XRL.World.Parts
             List<HistoricEntity> villages = HistoryAPI.GetVillages();
             // .Name.Contains("villagers")
             int high = 0;
-            foreach (KeyValuePair<string, int> item in  romancable.ParentObject.pBrain.FactionMembership)
+            foreach (KeyValuePair<string, int> item in  romancable.ParentObject.Brain.FactionFeelings)
 			{
                 if(item.Key.Contains("villagers")){
                     if(item.Value > high && villages.Select(v=>v.GetCurrentSnapshot()).Where(v=>item.Key.Contains(v.Name)).Count()>0){
                         village = villages.Select(v=>v.GetCurrentSnapshot()).Where(v=>item.Key.Contains(v.Name)).FirstOrDefault();
                         high = item.Value;
-                        faction = Factions.get(item.Key);
+                        faction = Factions.Get(item.Key);
                     }
                 }
 			}
@@ -62,7 +62,7 @@ namespace XRL.World.Parts
         }
 
         string factionName(){
-            return faction.getFormattedName();
+            return faction.GetFormattedName();
         }
         string townName(){
             return village.Name;
@@ -180,9 +180,9 @@ namespace XRL.World.Parts
 
             JournalVillageNote e = historytales[Stat.Rnd2.Next(historytales.Count)];
 				// TODO: bring back.
-            	// node.OnLeaveNode = delegate{
-				// 	e.Reveal();
-				// };
+            	node.OnLeaveNode = delegate{
+					e.Reveal();
+				};
 
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetDisplayText()+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 

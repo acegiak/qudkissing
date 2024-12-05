@@ -15,15 +15,19 @@ using XRL.World.Conversations;
 
 namespace XRL.World
 {
+
+
 	[Serializable]
-	public class acegiak_RomanceChatNode
+	public class acegiak_RomanceChatNode : Node
 	{
 		public List<Choice> Choices = new List<Choice>();
         public float Amount = 0;
         public string Title = "huh?";
-		public string Text = "";
-		public string ID = "";
 		public float OpinionAmount = 0f;
+
+		public GameObject romancable;
+
+		public Action OnLeaveNode = null;
 
         public acegiak_RomanceChatNode(){}
 
@@ -136,37 +140,41 @@ namespace XRL.World
 
 
 
-        
+		public override bool Enter()
+		{
 
-        // public virtual void Visit(GameObject speaker, GameObject player){
-        //     if(speaker != null && speaker.pBrain != null && player != null){
+			return base.Enter();
+		}
+
+		// public virtual void Visit(GameObject speaker, GameObject player){
+		//     if(speaker != null && speaker.pBrain != null && player != null){
 		// 	    ParentObject.pBrain.AdjustFeeling(player,Amount);                
-        //     }
-        //     base.Visit(speaker,player);
-        // }
+		//     }
+		//     base.Visit(speaker,player);
+		// }
 
-        // public void AttachTo(ConversationNode parentNode){
-        //     parentNode.ParentConversation.NodesById.Remove(this.ID);
-        //     parentNode.ParentConversation.AddNode(this);
+		// public void AttachTo(ConversationNode parentNode){
+		//     parentNode.ParentConversation.NodesById.Remove(this.ID);
+		//     parentNode.ParentConversation.AddNode(this);
 
-        //     ConversationChoice choice = new ConversationChoice();
-        //     choice.ID = this.ID+"_choice";
-        //     choice.GotoID = this.ID;
-        //     choice.Text = this.Title;
+		//     ConversationChoice choice = new ConversationChoice();
+		//     choice.ID = this.ID+"_choice";
+		//     choice.GotoID = this.ID;
+		//     choice.Text = this.Title;
 
-        //     ConversationChoice backchoice = new ConversationChoice();
-        //     backchoice.ID = this.ID+"_return";
-        //     backchoice.GotoID = parentNode.ID;
-        //     backchoice.Text = this.Back;
+		//     ConversationChoice backchoice = new ConversationChoice();
+		//     backchoice.ID = this.ID+"_return";
+		//     backchoice.GotoID = parentNode.ID;
+		//     backchoice.Text = this.Back;
 
-        //     this.ParentNode = parentNode;
-            
-        //     parentNode.Choices.RemoveAll(x => x.ID == choice.ID || choice.GotoID);
-        //     parentNode.Choices.Add(choice);
+		//     this.ParentNode = parentNode;
 
-
-        // }
+		//     parentNode.Choices.RemoveAll(x => x.ID == choice.ID || choice.GotoID);
+		//     parentNode.Choices.Add(choice);
 
 
-    }
+		// }
+
+
+	}
 }

@@ -51,7 +51,7 @@ namespace XRL.World.Parts
         };
 
         public acegiak_WeaponPreference(acegiak_Romancable romancable){
-            GameObject sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("MeleeWeapon"));
+            GameObject sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendantOf("MeleeWeapon"));
             sample.MakeUnderstood();
             this.wantedType =  sample.GetPart<MeleeWeapon>().Skill;
             this.ExampleName = sample.ShortDisplayName;
@@ -65,7 +65,7 @@ namespace XRL.World.Parts
             GameObject sample = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
             (b.InheritsFrom("MeleeWeapon") ||
             b.InheritsFrom("BaseMissileWeapon"))
-            && (b.GetPartParameter("MeleeWeapon","Skill") == this.wantedType || b.GetPartParameter("MissileWeapon","Skill") == this.wantedType));
+            && (b.GetPartParameter<string>("MeleeWeapon","Skill","") == this.wantedType || b.GetPartParameter<string>("MissileWeapon","Skill","") == this.wantedType));
 
             sample.MakeUnderstood();
             return sample;
@@ -77,7 +77,7 @@ namespace XRL.World.Parts
 
         public override acegiak_RomancePreferenceResult GiftRecieve(GameObject from, GameObject gift){
             if(GetSkill(gift) == wantedType){
-                return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.pRender.DisplayName+"&Y.");
+                return new acegiak_RomancePreferenceResult(amount,(amount >= 0 ?"&Glikes&Y the ":"&rdislikes&Y the ")+gift.Render.DisplayName+"&Y.");
             }
             return null;
         }
@@ -120,7 +120,7 @@ namespace XRL.World.Parts
                 bodytext = "How do you like to <slay|attack|fight|combat> your enemies?";
                 foreach(var item in verbs){
                     if((item.Key  == wantedType || Stat.Rnd2.NextDouble() < 0.5)){
-                        GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter("MeleeWeapon","Skill")==item.Key ||b.GetPartParameter("MissileWeapon","Skill")==item.Key );
+                        GameObject GO = EncountersAPI.GetAnObject((GameObjectBlueprint b) => b.GetPartParameter<string>("MeleeWeapon","Skill","")==item.Key ||b.GetPartParameter<string>("MissileWeapon","Skill","")==item.Key );
                         if(item.Key == wantedType || (GO != null && Romancable.assessGift(GO,XRLCore.Core.Game.Player.Body).amount>0)){
                             node.AddChoice(item.Key,"&cI <like|prefer> "+item.Value+" them with a "+presentable[item.Key]+".",amount>0?"Me too!":"That's quite violent, isn't it?",amount>0?1:-1);
                         }else{

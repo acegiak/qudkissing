@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <skills>
 <skill Name="Persuasion"  Load="Merge">
-    <power Name="Interrupt" Cost="100" Attribute="Ego" Minimum="17" Class="acegiak_Interrupt" Snippet="being tactful" Description="You can interrupt combat with a moment of hesitation."></power>
+    <power Name="Interrupt" Cost="100" Attribute="Ego" Minimum="17" Class="acegiak_Interrupt" Snippet="being tactful" Description="You can interrupt combat with a moment of hesitation."  Tile="abilities/interruptability.png" Foreground="w" Detail="y"></power>
 </skill>
 </skills>

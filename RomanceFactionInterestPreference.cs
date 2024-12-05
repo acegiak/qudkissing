@@ -25,9 +25,9 @@ namespace XRL.World.Parts
         public acegiak_FactionInterestPreference(acegiak_Romancable romancable){
             Romancable = romancable;
             amount = (float)(Stat.Rnd2.NextDouble()*2-0.9);
-            if(romancable.ParentObject.pBrain.FactionFeelings.Count > 0){
-                this.interestedFaction = romancable.ParentObject.pBrain.FactionFeelings.ElementAt(Stat.Rnd2.Next(0, romancable.ParentObject.pBrain.FactionFeelings.Count)).Key;
-                this.amount += romancable.ParentObject.pBrain.FactionFeelings[this.interestedFaction];
+            if(romancable.ParentObject.Brain.FactionFeelings.Count > 0){
+                this.interestedFaction = romancable.ParentObject.Brain.FactionFeelings.ElementAt(Stat.Rnd2.Next(0, romancable.ParentObject.Brain.FactionFeelings.Count)).Key;
+                this.amount += romancable.ParentObject.Brain.FactionFeelings[this.interestedFaction];
             }else{
                 this.interestedFaction = Factions.GetRandomFaction().Name;
             }
@@ -60,7 +60,7 @@ namespace XRL.World.Parts
             GameObjectBlueprint bp = gift.GetBlueprint();
             if(bp.InheritsFrom("Jerky")){
                 GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
-                b.GetPartParameter("Preservable","Result") == bp.Name);
+                b.GetPartParameter<string>("Preservable","Result","") == bp.Name);
                 if(g != null){
                     bp = g.GetBlueprint();
                 }
@@ -68,7 +68,7 @@ namespace XRL.World.Parts
 
             if(bp.InheritsFrom("Raw Meat")){
                 GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
-                b.GetPartParameter("Butcherable","OnSuccess") == bp.Name);
+                b.GetPartParameter<string>("Butcherable","OnSuccess","") == bp.Name);
                 if(g != null){
                     bp = g.GetBlueprint();
                 }
@@ -76,9 +76,9 @@ namespace XRL.World.Parts
 
             if(bp.InheritsFrom("Corpse")){
                 GameObject g = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
-                b.GetPartParameter("Corpse","CorpseBlueprint") == bp.Name);
+                b.GetPartParameter<string>("Corpse","CorpseBlueprint","") == bp.Name);
                 if(g != null){
-                    if(this.interestedFaction == g.pBrain.GetPrimaryFaction()){
+                    if(this.interestedFaction == g.Brain.GetPrimaryFaction()){
                         retamount += amount*-1;
                         retexplain += Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("is")+(this.amount > 0?"upset by the remains of":"pleased by the remains of")+g.a+g.DisplayNameOnly+".\n";
                     }

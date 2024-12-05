@@ -89,4 +89,8 @@
         <tag Name="classname" Value="XRL.World.Parts.acegiak_FollowBoon"/>
     </object>
 
+    <object Name="RomanceReputationBoon" Inherits="RomanceBoon">
+        <tag Name="classname" Value="XRL.World.Parts.acegiak_RepuationBoon"/>
+    </object>
+
 </objects>

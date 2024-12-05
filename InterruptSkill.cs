@@ -6,7 +6,9 @@ using XRL.UI;
 using XRL.Language;
 using XRL.World.Effects;
 using XRL.World.AI.GoalHandlers;
-
+using ConsoleLib.Console;
+using XRL.World.AI;
+using XRL.Core;
 
 namespace XRL.World.Parts.Skill
 {
@@ -53,8 +55,14 @@ namespace XRL.World.Parts.Skill
 					if(!target.MakeSave("Willpower",check,ParentObject,null,"Hesitation")){
 
 
-							
-							target.ApplyEffect(new acegiak_EffectHesitation());
+							if (!target.HasIntProperty("Calmed") && !target.IsPlayerControlled())
+							{
+								int feeling = target.Brain.GetFeeling(XRLCore.Core.Game.Player.Body);
+								target.StopFighting(ParentObject);
+								target.AddOpinion<OpinionHesitation>(ParentObject, 10+(feeling*-1));
+								target.SetIntProperty("Calmed", 1);
+								return false;
+							}
 							CooldownMyActivatedAbility(ActivatedAbilityID, 50);
 							acegiak_Romancable romancable = target.GetPart<acegiak_Romancable>();
 							if(romancable != null){
@@ -119,7 +127,7 @@ namespace XRL.World.Parts.Skill
 
 		public override bool AddSkill(GameObject GO)
 		{
-			ActivatedAbilityID = AddMyActivatedAbility("Interrupt", "CommandAcegiakInterrupt", "Skill", null, "\u0014");
+			ActivatedAbilityID = AddMyActivatedAbility("Interrupt", "CommandAcegiakInterrupt", "Skill", null, "\u0014", UITileDefault : Renderable.UITile("abilities/interruptability.png", foregroundColorCode : 'Y', detailColorCode : 'W'));
 			return true;
 		}
 

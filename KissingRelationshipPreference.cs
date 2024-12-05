@@ -22,7 +22,7 @@ namespace XRL.World.Parts
             string reactPath = ((modifier>0) ? "relationship.hi" : "relationship.lo");
             return new acegiak_KissingPreferenceResult(
                 Amount*modifier,
-                (modifier*this.Amount>0?"likes":"doesn't like")+" that you"+(modifier >0?"":" don't")+" know them well.",
+                (modifier*this.Amount>0?"likes":"doesn't like")+" that you"+(modifier >0?"":" don't")+" know them well",
                 reactPath);
         }
 

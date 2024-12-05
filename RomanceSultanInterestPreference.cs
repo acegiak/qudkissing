@@ -38,7 +38,7 @@ namespace XRL.World.Parts
             List<HistoricEvent> list = new List<HistoricEvent>();
             for (int i = 0; i < this.faveSultan.events.Count; i++)
             {
-                if (this.faveSultan.events[i].hasEventProperty("gospel"))
+                if (this.faveSultan.events[i].HasEventProperty("gospel"))
                 {
                     list.Add(this.faveSultan.events[i]);
                 }
@@ -76,7 +76,7 @@ namespace XRL.World.Parts
 
 
         public override acegiak_RomancePreferenceResult DateAssess(GameObject Date, GameObject DateObject){
-            if(DateObject.GetPart<SultanShrine>() != null && DateObject.GetPart<SultanShrine>().sultan == this.faveSultan){
+            if(DateObject.GetPart<SultanShrine>() != null && DateObject.GetPart<SultanShrine>().RevealedEvent.entity == this.faveSultan){
                 return new acegiak_RomancePreferenceResult(amount,Romancable.ParentObject.The+Romancable.ParentObject.ShortDisplayName+Romancable.ParentObject.GetVerb("stare")+" at "+DateObject.the+DateObject.ShortDisplayName+(amount>0?" in awe.":"in disgust."));
             }
             return null;
@@ -104,9 +104,9 @@ namespace XRL.World.Parts
 
             HistoricEvent e = tales[Stat.Rnd2.Next(tales.Count)];
 			// TODO: bring this back
-            // node.OnLeaveNode = delegate{
-            //     SultanShrine.RevealBasedOnHistoricalEvent(e);
-			// };
+            node.OnLeaveNode = delegate{
+                SultanShrine.RevealBasedOnHistoricalEvent(e);
+			};
 
             return "<Did you know|I've heard that|There is a tale that says> "+e.GetEventProperty("gospel")+(amount>0?" <Isn't that interesting?|It's so fascinating!|At least, that's what I heard.>":" <Isn't that terrible?|Isn't that horrible?|At least, that's what I heard.>");
 

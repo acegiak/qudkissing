@@ -24,7 +24,7 @@ namespace XRL.World.Parts
 
 
         public acegiak_ArmorPreference(acegiak_Romancable romancable){
-            GameObject sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendentOf("Armor"));
+            GameObject sample = GameObjectFactory.Factory.CreateSampleObject(EncountersAPI.GetARandomDescendantOf("Armor"));
             sample.MakeUnderstood();
             this.wantedType =  GetSkill(sample);
             this.ExampleName = sample.ShortDisplayName;
@@ -41,7 +41,7 @@ namespace XRL.World.Parts
         public GameObject exampleObject(){
             GameObject sample = EncountersAPI.GetAnObject((GameObjectBlueprint b) =>
             b.InheritsFrom("Armor")
-            && (b.GetPartParameter("Armor","WornOn") == this.wantedType ));
+            && (b.GetPartParameter<string>("Armor","WornOn","") == this.wantedType ));
 
             sample.MakeUnderstood();
             return sample;
