@@ -21,11 +21,6 @@ namespace HistoryKit
         {
 			if (initialized) return;
 
-            ModManager.ForEachFileIn("acegiak_romance", (string filePath, ModInfo modInfo) =>
-            {
-                if (filePath.ToLower().Contains(".json"))
-                    acegiak_HistoricSpicePatcher.Patch(filePath);
-            });
 
 			if (debug)
 			{

@@ -131,7 +131,7 @@ namespace XRL.World.Parts
 			HistoricSpice.CheckInit();
 			input = input.ToLower();
 			lookfor = lookfor.ToLower();
-            return HistoricSpice.root["elements"][input][lookfor][Stat.Rnd2.Next(HistoricSpice.root["elements"][input][lookfor].Count)];
+            return HistoricSpice.root["elements"][input][lookfor][Stat.Rnd2.Next(HistoricSpice.root["elements"][input][lookfor].Count())].ToString();
 		}
 
 
